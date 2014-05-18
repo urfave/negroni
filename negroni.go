@@ -1,7 +1,9 @@
 package negroni
 
 import (
+	"log"
 	"net/http"
+	"os"
 )
 
 type Handler interface {
@@ -63,6 +65,20 @@ func (n *Negroni) Use(handler Handler) {
 
 func (n *Negroni) UseHandler(handler http.Handler) {
 	n.Use(Wrap(handler))
+}
+
+func (n *Negroni) Run() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+
+	host := os.Getenv("HOST")
+
+	l := log.New(os.Stdout, "[negroni] ", 0)
+	l.Printf("listening on %s:%s\n", host, port)
+	l.Fatalln(http.ListenAndServe(host+":"+port, n))
+
 }
 
 func build(i int, handlers []Handler) middleware {
