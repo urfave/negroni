@@ -39,10 +39,17 @@ type Negroni struct {
 }
 
 func New() *Negroni {
-	n := Negroni{
+	return &Negroni{
 		middleware: middleware{HandlerFunc(voidHandler), &middleware{}},
 	}
-	return &n
+}
+
+func Classic() *Negroni {
+	n := New()
+	n.Use(NewRecovery())
+	n.Use(NewLogger())
+	n.Use(NewStatic("public"))
+	return n
 }
 
 func (n *Negroni) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
