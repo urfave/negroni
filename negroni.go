@@ -20,7 +20,10 @@ type middleware struct {
 }
 
 func (h middleware) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	h.handler.ServeHTTP(rw, r, h.next.ServeHTTP)
+	res := rw.(ResponseWriter)
+	if !res.Written() {
+		h.handler.ServeHTTP(rw, r, h.next.ServeHTTP)
+	}
 }
 
 func Wrap(handler http.Handler) Handler {
@@ -31,8 +34,8 @@ func Wrap(handler http.Handler) Handler {
 }
 
 type Negroni struct {
-	middleware
-	handlers []Handler
+	middleware middleware
+	handlers   []Handler
 }
 
 func New() *Negroni {
@@ -40,6 +43,10 @@ func New() *Negroni {
 		middleware: middleware{HandlerFunc(voidHandler), &middleware{}},
 	}
 	return &n
+}
+
+func (n *Negroni) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+	n.middleware.ServeHTTP(NewResponseWriter(rw), r)
 }
 
 func (n *Negroni) Use(handler Handler) {
