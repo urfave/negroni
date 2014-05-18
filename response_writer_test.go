@@ -142,7 +142,6 @@ func Test_ResponseWriter_CloseNotify(t *testing.T) {
 }
 
 func Test_ResponseWriter_Flusher(t *testing.T) {
-
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
 
