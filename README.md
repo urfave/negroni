@@ -72,6 +72,19 @@ n := negroni.New()
 n.Use(negroni.HandlerFunc(MyMiddleware))
 ~~~
 
+You can also map plain ole `http.Handler`'s:
+
+~~~ go
+n := negroni.New()
+
+mux := http.NewServeMux()
+// map your routes
+
+n.UseHandler(mux)
+
+n.Run()
+~~~
+
 ## Live code reload?
 [gin](https://github.com/codegangsta/gin) and [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
 
