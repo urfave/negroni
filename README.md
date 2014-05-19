@@ -25,7 +25,7 @@ func main() {
   
   n := negroni.Classic()
   n.UseHandler(mux)
-  n.Run()
+  n.Run(":3000")
 }
 ~~~
 
@@ -41,8 +41,11 @@ go run server.go
 
 You will now have a Go net/http webserver running on `localhost:3000`.
 
+## Is Negroni a Framework?
+Negroni is **not** a framework. It is a library that is designed to work directly with net/http.
+
 ## Routing?
-Negroni is BYOR (Bring your own Router). The Go community already has a number of great http routers available, Negroni tries to play well with all of them by fully supporting `net/http`. For instance, integrating with [http://github.com/gorilla/mux](Gorilla Mux) looks like so:
+Negroni is BYOR (Bring your own Router). The Go community already has a number of great http routers available, Negroni tries to play well with all of them by fully supporting `net/http`. For instance, integrating with [Gorilla Mux](http://github.com/gorilla/mux) looks like so:
 
 ~~~ go
 router := mux.NewRouter()
@@ -55,7 +58,7 @@ n.Use(Middleware3)
 // router goes last
 n.UseHandler(router)
 
-n.Run()
+n.Run(":3000")
 ~~~
 
 ## `negroni.Classic()`
@@ -103,11 +106,11 @@ mux := http.NewServeMux()
 
 n.UseHandler(mux)
 
-n.Run()
+n.Run(":3000")
 ~~~
 
 ## `Run()`
-Negroni has a convenience function called `Run`. `Run` function looks for the PORT and HOST environment variables and binds the server to those values. Otherwise Negroni will default to localhost:3000. To have more flexibility over port and host, use the http.ListenAndServe function instead.
+Negroni has a convenience function called `Run`. `Run` takes an addr string identical to [http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe).
 
 ~~~ go
 n := negroni.Classic()

@@ -27,5 +27,5 @@ func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.Ha
 	next(rw, r)
 
 	res := rw.(ResponseWriter)
-	l.Logger.Printf("Completed %v %s in %v\n", res.Status(), http.StatusText(res.Status()), time.Since(start))
+	l.Logger.Printf("Completed %v %s in %v", res.Status(), http.StatusText(res.Status()), time.Since(start))
 }

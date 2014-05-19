@@ -88,20 +88,12 @@ func (n *Negroni) UseHandler(handler http.Handler) {
 	n.Use(Wrap(handler))
 }
 
-// Run is a convenience function that runs the negroni stack as a http server. Run looks for the PORT and HOST
-// environment variables for configuration. Otherwise Run will run the server at :3000
-func (n *Negroni) Run() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3000"
-	}
-
-	host := os.Getenv("HOST")
-
+// Run is a convenience function that runs the negroni stack as an HTTP
+// server. The addr string takes the same format as http.ListenAndServe.
+func (n *Negroni) Run(addr string) {
 	l := log.New(os.Stdout, "[negroni] ", 0)
-	l.Printf("listening on %s:%s\n", host, port)
-	l.Fatalln(http.ListenAndServe(host+":"+port, n))
-
+	l.Printf("listening on %s", addr)
+	l.Fatal(http.ListenAndServe(addr, n))
 }
 
 func build(i int, handlers []Handler) middleware {
