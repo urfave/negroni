@@ -25,9 +25,9 @@ func Hello(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 }
 ~~~
 
-Then install the Martini package (**go 1.1** and greater is required):
+Then install the Negroni package (**go 1.1** and greater is required):
 ~~~
-go get github.com/go-martini/martini
+go get github.com/codegangsta/negroni
 ~~~
 
 Then run your server:
@@ -35,42 +35,14 @@ Then run your server:
 go run server.go
 ~~~
 
-You will now have a Martini webserver running on `localhost:3000`.
-
-## Getting Help
-
-Join the [Mailing list](https://groups.google.com/forum/#!forum/martini-go)
-
-Watch the [Demo Video](http://martini.codegangsta.io/#demo)
-
-Ask questions on Stackoverflow using the [martini tag](http://stackoverflow.com/questions/tagged/martini)
-
-GoDoc [documentation](http://godoc.org/github.com/go-martini/martini)
-
-
-## Features
-* Extremely simple to use.
-* Non-intrusive design.
-* Plays nice with other Golang packages.
-* Awesome path matching and routing.
-* Modular design - Easy to add functionality, easy to rip stuff out.
-* Lots of good handlers/middlewares to use.
-* Great 'out of the box' feature set.
-* **Fully compatible with the [http.HandlerFunc](http://godoc.org/net/http#HandlerFunc) interface.**
-
-## More Middleware
-For more middleware and functionality, check out the repositories in the  [martini-contrib](https://github.com/martini-contrib) organization.
+You will now have a Go net/http webserver running on `localhost:3000`.
 
 ## Table of Contents
+* [What is Negroni?]
 * [Classic Martini](#classic-martini)
-  * [Handlers](#handlers)
-  * [Routing](#routing)
-  * [Services](#services)
-  * [Serving Static Files](#serving-static-files)
 * [Middleware Handlers](#middleware-handlers)
-  * [Next()](#next)
-* [Martini Env](#martini-env)
-* [FAQ](#faq)
+
+## What is Negroni?
 
 ## Classic Martini
 To get up and running quickly, [martini.Classic()](http://godoc.org/github.com/go-martini/martini#Classic) provides some reasonable defaults that work well for most web applications:
