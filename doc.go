@@ -3,7 +3,7 @@
 // If you like the idea of Martini, but you think it contains too much magic, then Negroni is a great fit.
 //
 // For a full guide visit http://github.com/codegangsta/negroni
-//  
+//
 //  package main
 //
 //  import (
