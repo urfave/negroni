@@ -46,7 +46,7 @@ func (h *hijackableResponse) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	return nil, nil, nil
 }
 
-func Test_ResponseWriter_WritingString(t *testing.T) {
+func TestResponseWriterWritingString(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
 
@@ -59,7 +59,7 @@ func Test_ResponseWriter_WritingString(t *testing.T) {
 	expect(t, rw.Written(), true)
 }
 
-func Test_ResponseWriter_WritingStrings(t *testing.T) {
+func TestResponseWriterWritingStrings(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
 
@@ -72,7 +72,7 @@ func Test_ResponseWriter_WritingStrings(t *testing.T) {
 	expect(t, rw.Size(), 26)
 }
 
-func Test_ResponseWriter_WritingHeader(t *testing.T) {
+func TestResponseWriterWritingHeader(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
 
@@ -84,7 +84,7 @@ func Test_ResponseWriter_WritingHeader(t *testing.T) {
 	expect(t, rw.Size(), 0)
 }
 
-func Test_ResponseWriter_Before(t *testing.T) {
+func TestResponseWriterBefore(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
 	result := ""
@@ -105,7 +105,7 @@ func Test_ResponseWriter_Before(t *testing.T) {
 	expect(t, result, "barfoo")
 }
 
-func Test_ResponseWriter_Hijack(t *testing.T) {
+func TestResponseWriterHijack(t *testing.T) {
 	hijackable := newHijackableResponse()
 	rw := NewResponseWriter(hijackable)
 	hijacker, ok := rw.(http.Hijacker)
@@ -117,7 +117,7 @@ func Test_ResponseWriter_Hijack(t *testing.T) {
 	expect(t, hijackable.Hijacked, true)
 }
 
-func Test_ResponseWrite_Hijack_NotOK(t *testing.T) {
+func TestResponseWriteHijackNotOK(t *testing.T) {
 	hijackable := new(http.ResponseWriter)
 	rw := NewResponseWriter(*hijackable)
 	hijacker, ok := rw.(http.Hijacker)
@@ -127,7 +127,7 @@ func Test_ResponseWrite_Hijack_NotOK(t *testing.T) {
 	refute(t, err, nil)
 }
 
-func Test_ResponseWriter_CloseNotify(t *testing.T) {
+func TestResponseWriterCloseNotify(t *testing.T) {
 	rec := newCloseNotifyingRecorder()
 	rw := NewResponseWriter(rec)
 	closed := false
@@ -141,7 +141,7 @@ func Test_ResponseWriter_CloseNotify(t *testing.T) {
 	expect(t, closed, true)
 }
 
-func Test_ResponseWriter_Flusher(t *testing.T) {
+func TestResponseWriterFlusher(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
 

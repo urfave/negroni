@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func Test_Recovery(t *testing.T) {
+func TestRecovery(t *testing.T) {
 	buff := bytes.NewBufferString("")
 	recorder := httptest.NewRecorder()
 

@@ -25,7 +25,7 @@ func main() {
   
   n := negroni.Classic()
   n.UseHandler(mux)
-  n.Run()
+  n.Run(":3000")
 }
 ~~~
 
@@ -58,7 +58,7 @@ n.Use(Middleware3)
 // router goes last
 n.UseHandler(router)
 
-n.Run()
+n.Run(":3000")
 ~~~
 
 ## `negroni.Classic()`
@@ -106,11 +106,11 @@ mux := http.NewServeMux()
 
 n.UseHandler(mux)
 
-n.Run()
+n.Run(":3000")
 ~~~
 
 ## `Run()`
-Negroni has a convenience function called `Run`. `Run` function looks for the PORT and HOST environment variables and binds the server to those values. Otherwise Negroni will default to localhost:3000. To have more flexibility over port and host, use the http.ListenAndServe function instead.
+Negroni has a convenience function called `Run`. `Run` takes an addr string identical to [http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe).
 
 ~~~ go
 n := negroni.Classic()

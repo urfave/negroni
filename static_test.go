@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func Test_Static(t *testing.T) {
+func TestStatic(t *testing.T) {
 	response := httptest.NewRecorder()
 	response.Body = new(bytes.Buffer)
 
@@ -26,7 +26,7 @@ func Test_Static(t *testing.T) {
 	}
 }
 
-func Test_Static_Head(t *testing.T) {
+func TestStaticHead(t *testing.T) {
 	response := httptest.NewRecorder()
 	response.Body = new(bytes.Buffer)
 
@@ -45,7 +45,7 @@ func Test_Static_Head(t *testing.T) {
 	}
 }
 
-func Test_Static_As_Post(t *testing.T) {
+func TestStaticAsPost(t *testing.T) {
 	response := httptest.NewRecorder()
 
 	n := New()
@@ -60,7 +60,7 @@ func Test_Static_As_Post(t *testing.T) {
 	expect(t, response.Code, http.StatusNotFound)
 }
 
-func Test_Static_BadDir(t *testing.T) {
+func TestStaticBadDir(t *testing.T) {
 	response := httptest.NewRecorder()
 
 	n := Classic()
@@ -74,7 +74,7 @@ func Test_Static_BadDir(t *testing.T) {
 	refute(t, response.Code, http.StatusOK)
 }
 
-func Test_Static_Options_ServeIndex(t *testing.T) {
+func TestStaticOptionsServeIndex(t *testing.T) {
 	response := httptest.NewRecorder()
 
 	n := New()
@@ -91,7 +91,7 @@ func Test_Static_Options_ServeIndex(t *testing.T) {
 	expect(t, response.Code, http.StatusOK)
 }
 
-func Test_Static_Options_Prefix(t *testing.T) {
+func TestStaticOptionsPrefix(t *testing.T) {
 	response := httptest.NewRecorder()
 
 	n := New()
