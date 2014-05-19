@@ -41,6 +41,9 @@ go run server.go
 
 You will now have a Go net/http webserver running on `localhost:3000`.
 
+## Is Negroni a Framework?
+Negroni is **not** a framework. It is a library that is designed to work directly with net/http.
+
 ## Routing?
 Negroni is BYOR (Bring your own Router). The Go community already has a number of great http routers available, Negroni tries to play well with all of them by fully supporting `net/http`. For instance, integrating with [http://github.com/gorilla/mux](Gorilla Mux) looks like so:
 
