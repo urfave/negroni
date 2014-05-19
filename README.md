@@ -105,7 +105,7 @@ n.Run()
 ~~~
 
 ## `Run()`
-Negroni's `Run` function looks for the PORT and HOST environment variables and uses those. Otherwise Negroni will default to localhost:3000. To have more flexibility over port and host, use the http.ListenAndServe function instead.
+Negroni has a convenience function called `Run`. `Run` function looks for the PORT and HOST environment variables and binds the server to those values. Otherwise Negroni will default to localhost:3000. To have more flexibility over port and host, use the http.ListenAndServe function instead.
 
 ~~~ go
 n := negroni.Classic()
