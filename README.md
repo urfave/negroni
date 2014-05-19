@@ -12,16 +12,18 @@ package main
 import (
   "github.com/codegangsta/negroni"
   "net/http"
+  "fmt"
 )
 
 func main() {
+  mux := http.NewServeMux()
+  mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+    fmt.Fprintf(w, "Welcome to the home page!")
+  })
+  
   n := negroni.Classic()
-  n.Use(negroni.HandlerFunc(Hello))
+  n.UseHandler(mux)
   n.Run()
-}
-
-func Hello(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-  rw.Write([]byte("Hello world"))
 }
 ~~~
 
