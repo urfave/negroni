@@ -1,6 +1,6 @@
 # Negroni [![GoDoc](https://godoc.org/github.com/codegangsta/negroni?status.png)](http://godoc.org/github.com/codegangsta/negroni)
 
-Negroni is a fancy approach to web middleware in Go. It is tiny, non-intrusive, and encourages use of `net/http` Handlers.
+Negroni is a idiomatic approach to web middleware in Go. It is tiny, non-intrusive, and encourages use of `net/http` Handlers.
 
 ## Getting Started
 
