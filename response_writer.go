@@ -21,11 +21,10 @@ type ResponseWriter interface {
 	Size() int
 	// Before allows for a function to be called before the ResponseWriter has been written to. This is
 	// useful for setting headers or any other operations that must happen before a response has been written.
-	Before(BeforeFunc)
+	Before(func(ResponseWriter))
 }
 
-// BeforeFunc is a function that is called before the ResponseWriter has been written to.
-type BeforeFunc func(ResponseWriter)
+type beforeFunc func(ResponseWriter)
 
 // NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
 func NewResponseWriter(rw http.ResponseWriter) ResponseWriter {
@@ -36,7 +35,7 @@ type responseWriter struct {
 	http.ResponseWriter
 	status      int
 	size        int
-	beforeFuncs []BeforeFunc
+	beforeFuncs []beforeFunc
 }
 
 func (rw *responseWriter) WriteHeader(s int) {
@@ -67,7 +66,7 @@ func (rw *responseWriter) Written() bool {
 	return rw.status != 0
 }
 
-func (rw *responseWriter) Before(before BeforeFunc) {
+func (rw *responseWriter) Before(before func(ResponseWriter)) {
 	rw.beforeFuncs = append(rw.beforeFuncs, before)
 }
 
