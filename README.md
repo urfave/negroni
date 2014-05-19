@@ -37,7 +37,24 @@ go run server.go
 
 You will now have a Go net/http webserver running on `localhost:3000`.
 
-## 
+## Handlers
+Negroni provides a bidirectional middleware flow. This is done through the `negroni.Handler` interface:
+
+~~~ go
+type Handler interface {
+  ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)
+}
+~~~
+
+Middleware should call the next `http.HandlerFunc` in the chain to yield to the next middleware handler. This can be used for great good:
+
+~~~ go
+func MyMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+  // do some stuff before
+  next(rw, r)
+  // do some stuff after
+}
+~~~
 
 ## Live code reload?
 [gin](https://github.com/codegangsta/gin) and [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
