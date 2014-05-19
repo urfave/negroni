@@ -22,7 +22,7 @@ func refute(t *testing.T, a interface{}, b interface{}) {
 
 func Test_Negroni_Run(t *testing.T) {
 	// just test that Run doesn't bomb
-	go New().Run()
+	go New().Run(":3000")
 }
 
 func Test_Negroni_ServeHTTP(t *testing.T) {
