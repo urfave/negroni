@@ -1,6 +1,6 @@
 # Negroni [![GoDoc](https://godoc.org/github.com/codegangsta/negroni?status.png)](http://godoc.org/github.com/codegangsta/negroni)
 
-Negroni is a fancy approach to web middleware in Go. It is tiny, nonintrusive, and encourages use of `net/http` Handlers.
+Negroni is a fancy approach to web middleware in Go. It is tiny, non-intrusive, and encourages use of `net/http` Handlers.
 
 ## Getting Started
 
@@ -9,14 +9,19 @@ After installing Go and setting up your [GOPATH](http://golang.org/doc/code.html
 ~~~ go
 package main
 
-import "github.com/go-martini/martini"
+import (
+  "github.com/codegangsta/negroni"
+  "net/http"
+)
 
 func main() {
-  m := martini.Classic()
-  m.Get("/", func() string {
-    return "Hello world!"
-  })
-  m.Run()
+  n := negroni.Classic()
+  n.Use(negroni.HandlerFunc(Hello))
+  n.Run()
+}
+
+func Hello(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+  rw.Write([]byte("Hello world"))
 }
 ~~~
 
