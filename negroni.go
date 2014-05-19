@@ -42,7 +42,7 @@ type Negroni struct {
 
 func New() *Negroni {
 	return &Negroni{
-		middleware: middleware{HandlerFunc(voidHandler), &middleware{}},
+		middleware: middleware{HandlerFunc(notFoundHandler), &middleware{}},
 	}
 }
 
@@ -88,12 +88,12 @@ func build(i int, handlers []Handler) middleware {
 	if i < len(handlers)-1 {
 		next = build(i+1, handlers)
 	} else {
-		next = middleware{HandlerFunc(voidHandler), &middleware{}}
+		next = middleware{HandlerFunc(notFoundHandler), &middleware{}}
 	}
 
 	return middleware{h, &next}
 }
 
-func voidHandler(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	// do nothing
+func notFoundHandler(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	http.NotFound(rw, r)
 }

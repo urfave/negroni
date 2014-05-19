@@ -15,13 +15,13 @@ func Test_Recovery(t *testing.T) {
 	rec := NewRecovery()
 	rec.Logger = log.New(buff, "[negroni] ", 0)
 
-	m := New()
+	n := New()
 	// replace log for testing
-	m.Use(rec)
-	m.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+	n.Use(rec)
+	n.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		panic("here is a panic!")
 	}))
-	m.ServeHTTP(recorder, (*http.Request)(nil))
+	n.ServeHTTP(recorder, (*http.Request)(nil))
 	expect(t, recorder.Code, http.StatusInternalServerError)
 	refute(t, recorder.Body.Len(), 0)
 	refute(t, len(buff.String()), 0)
