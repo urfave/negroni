@@ -39,6 +39,23 @@ go run server.go
 
 You will now have a Go net/http webserver running on `localhost:3000`.
 
+## Routing?
+Negroni is BYOR (Bring your own Router). The Go community already has a number of great http routers available, Negroni tries to play well with all of them by fully supporting `net/http`. For instance, integrating with [http://github.com/gorilla/mux](Gorilla Mux) looks like so:
+
+~~~ go
+router := mux.NewRouter()
+router.HandleFunc("/", HomeHandler)
+
+n := negroni.New()
+n.Use(Middleware1)
+n.Use(Middleware2)
+n.Use(Middleware3)
+// router goes last
+n.UseHandler(router)
+
+n.Run()
+~~~
+
 ## `negroni.Classic()`
 `negroni.Classic()` provides some default middleware that is useful for most applications:
 
