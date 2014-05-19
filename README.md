@@ -99,11 +99,6 @@ log.Fatal(http.ListenAndServe(":8080", n))
 ## Live code reload?
 [gin](https://github.com/codegangsta/gin) and [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
 
-## Contributing
-Martini is meant to be kept tiny and clean. Most contributions should end up in a repository in the [martini-contrib](https://github.com/martini-contrib) organization. If you do have a contribution for the core of Martini feel free to put up a Pull Request.
-
 ## About
 
-Inspired by [express](https://github.com/visionmedia/express) and [sinatra](https://github.com/sinatra/sinatra)
-
-Martini is obsessively designed by none other than the [Code Gangsta](http://codegangsta.io/)
+Negroni is obsessively designed by none other than the [Code Gangsta](http://codegangsta.io/)
