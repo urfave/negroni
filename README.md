@@ -87,6 +87,15 @@ n.UseHandler(mux)
 n.Run()
 ~~~
 
+## `Run()`
+Negroni's `Run` function looks for the PORT and HOST environment variables and uses those. Otherwise Negroni will default to localhost:3000. To have more flexibility over port and host, use the http.ListenAndServe function instead.
+
+~~~ go
+n := negroni.Classic()
+// ...
+log.Fatal(http.ListenAndServe(":8080", n))
+~~~
+
 ## Live code reload?
 [gin](https://github.com/codegangsta/gin) and [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
 
