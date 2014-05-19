@@ -20,6 +20,6 @@
 //
 //    n := negroni.Classic()
 //    n.UseHandler(mux)
-//    n.Run()
+//    n.Run(":3000")
 //  }
 package negroni
