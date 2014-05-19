@@ -73,3 +73,38 @@ func Test_Static_BadDir(t *testing.T) {
 	n.ServeHTTP(response, req)
 	refute(t, response.Code, http.StatusOK)
 }
+
+func Test_Static_Options_ServeIndex(t *testing.T) {
+	response := httptest.NewRecorder()
+
+	n := New()
+	s := NewStatic(".")
+	s.IndexFile = "negroni.go"
+	n.Use(s)
+
+	req, err := http.NewRequest("GET", "http://localhost:3000/", nil)
+	if err != nil {
+		t.Error(err)
+	}
+
+	n.ServeHTTP(response, req)
+	expect(t, response.Code, http.StatusOK)
+}
+
+func Test_Static_Options_Prefix(t *testing.T) {
+	response := httptest.NewRecorder()
+
+	n := New()
+	s := NewStatic(".")
+	s.Prefix = "/public"
+	n.Use(s)
+
+	// Check file content behaviour
+	req, err := http.NewRequest("GET", "http://localhost:3000/public/negroni.go", nil)
+	if err != nil {
+		t.Error(err)
+	}
+
+	n.ServeHTTP(response, req)
+	expect(t, response.Code, http.StatusOK)
+}
