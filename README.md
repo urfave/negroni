@@ -37,6 +37,15 @@ go run server.go
 
 You will now have a Go net/http webserver running on `localhost:3000`.
 
+## `negroni.Classic()`
+`negroni.Classic()` provides some default middleware that is useful for most applications:
+
+* `negroni.Recovery` - Panic Recovery Middleware.
+* `negroni.Logging` - Request/Response Logging Middleware.
+* `negroni.Static` - Static File serving under the "public" directory.
+
+This makes it really easy to get started with some useful features from Negroni.
+
 ## Handlers
 Negroni provides a bidirectional middleware flow. This is done through the `negroni.Handler` interface:
 
@@ -54,6 +63,13 @@ func MyMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc
   next(rw, r)
   // do some stuff after
 }
+~~~
+
+And you can map it to the handler chain with the `Use` function:
+
+~~~ go
+n := negroni.New()
+n.Use(negroni.HandlerFunc(MyMiddleware))
 ~~~
 
 ## Live code reload?
