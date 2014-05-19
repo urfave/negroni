@@ -20,12 +20,12 @@ func refute(t *testing.T, a interface{}, b interface{}) {
 	}
 }
 
-func Test_Negroni_Run(t *testing.T) {
+func TestNegroniRun(t *testing.T) {
 	// just test that Run doesn't bomb
 	go New().Run(":3000")
 }
 
-func Test_Negroni_ServeHTTP(t *testing.T) {
+func TestNegroniServeHTTP(t *testing.T) {
 	result := ""
 	response := httptest.NewRecorder()
 
