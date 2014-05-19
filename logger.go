@@ -9,9 +9,11 @@ import (
 
 // Logger is a middleware handler that logs the request as it goes in and the response as it goes out.
 type Logger struct {
+	// Logger is the log.Logger instance used to log messages with the Logger middleware
 	Logger *log.Logger
 }
 
+// NewLogger returns a new Logger instance
 func NewLogger() *Logger {
 	return &Logger{
 		Logger: log.New(os.Stdout, "[negroni] ", 0),

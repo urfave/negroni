@@ -16,6 +16,7 @@ type Static struct {
 	IndexFile string
 }
 
+// NewStatic returns a new instance of Static
 func NewStatic(directory string) *Static {
 	return &Static{
 		Dir:       http.Dir(directory),
