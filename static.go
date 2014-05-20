@@ -26,31 +26,34 @@ func NewStatic(directory http.FileSystem) *Static {
 }
 
 func (s *Static) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	defer next(rw, r)
-
 	if r.Method != "GET" && r.Method != "HEAD" {
+		next(rw, r)
 		return
 	}
 	file := r.URL.Path
 	// if we have a prefix, filter requests by stripping the prefix
 	if s.Prefix != "" {
 		if !strings.HasPrefix(file, s.Prefix) {
+			next(rw, r)
 			return
 		}
 		file = file[len(s.Prefix):]
 		if file != "" && file[0] != '/' {
+			next(rw, r)
 			return
 		}
 	}
 	f, err := s.Dir.Open(file)
 	if err != nil {
 		// discard the error?
+		next(rw, r)
 		return
 	}
 	defer f.Close()
 
 	fi, err := f.Stat()
 	if err != nil {
+		next(rw, r)
 		return
 	}
 
@@ -65,12 +68,14 @@ func (s *Static) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.Ha
 		file = path.Join(file, s.IndexFile)
 		f, err = s.Dir.Open(file)
 		if err != nil {
+			next(rw, r)
 			return
 		}
 		defer f.Close()
 
 		fi, err = f.Stat()
 		if err != nil || fi.IsDir() {
+			next(rw, r)
 			return
 		}
 	}
