@@ -9,7 +9,7 @@ import (
 // Static is a middleware handler that serves static files in the given directory.
 type Static struct {
 	// Dir is the directory to serve static files from
-	Dir http.Dir
+	Dir http.FileSystem
 	// Prefix is the optional prefix used to serve the static directory content
 	Prefix string
 	// IndexFile defines which file to serve as index if it exists.
