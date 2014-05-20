@@ -82,7 +82,7 @@ type Handler interface {
 }
 ~~~
 
-Middleware should call the next `http.HandlerFunc` in the chain to yield to the next middleware handler. This can be used for great good:
+If a middlware hasn't already written to the ResponseWriter, it should call the next `http.HandlerFunc` in the chain to yield to the next middleware handler. This can be used for great good:
 
 ~~~ go
 func MyMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
