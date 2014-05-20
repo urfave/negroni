@@ -55,7 +55,7 @@ type Negroni struct {
 // New returns a new Negroni instance with no middleware preconfigured.
 func New() *Negroni {
 	return &Negroni{
-		middleware: middleware{HandlerFunc(notFoundHandler), &middleware{}},
+		middleware: middleware{HandlerFunc(voidHandler), &middleware{}},
 	}
 }
 
@@ -103,12 +103,12 @@ func build(i int, handlers []Handler) middleware {
 	if i < len(handlers)-1 {
 		next = build(i+1, handlers)
 	} else {
-		next = middleware{HandlerFunc(notFoundHandler), &middleware{}}
+		next = middleware{HandlerFunc(voidHandler), &middleware{}}
 	}
 
 	return middleware{h, &next}
 }
 
-func notFoundHandler(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	http.NotFound(rw, r)
+func voidHandler(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	// do nothing
 }
