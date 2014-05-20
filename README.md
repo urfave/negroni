@@ -41,6 +41,9 @@ go run server.go
 
 You will now have a Go net/http webserver running on `localhost:3000`.
 
+## Need Help?
+If you have a question or feature request, [go ask the mailing list](https://groups.google.com/forum/#!forum/negroni-users). The GitHub issues for Negroni will be used exclusively for bug reports and pull requests.
+
 ## Is Negroni a Framework?
 Negroni is **not** a framework. It is a library that is designed to work directly with net/http.
 
