@@ -6,10 +6,10 @@ import (
 	"strings"
 )
 
-// Static is a middleware handler that serves static files in the given directory.
+// Static is a middleware handler that serves static files in the given directory/filesystem.
 type Static struct {
 	// Dir is the directory to serve static files from
-	Dir http.Dir
+	Dir http.FileSystem
 	// Prefix is the optional prefix used to serve the static directory content
 	Prefix string
 	// IndexFile defines which file to serve as index if it exists.
@@ -17,15 +17,14 @@ type Static struct {
 }
 
 // NewStatic returns a new instance of Static
-func NewStatic(directory string) *Static {
+func NewStatic(directory http.FileSystem) *Static {
 	return &Static{
-		Dir:       http.Dir(directory),
+		Dir:       directory,
 		Prefix:    "",
 		IndexFile: "index.html",
 	}
 }
 
-// Static returns a middleware handler that serves static files in the given directory.
 func (s *Static) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	defer next(rw, r)
 

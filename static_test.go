@@ -12,7 +12,7 @@ func TestStatic(t *testing.T) {
 	response.Body = new(bytes.Buffer)
 
 	n := New()
-	n.Use(NewStatic("."))
+	n.Use(NewStatic(http.Dir(".")))
 
 	req, err := http.NewRequest("GET", "http://localhost:3000/negroni.go", nil)
 	if err != nil {
@@ -31,7 +31,7 @@ func TestStaticHead(t *testing.T) {
 	response.Body = new(bytes.Buffer)
 
 	n := New()
-	n.Use(NewStatic("."))
+	n.Use(NewStatic(http.Dir(".")))
 	n.UseHandler(http.NotFoundHandler())
 
 	req, err := http.NewRequest("HEAD", "http://localhost:3000/negroni.go", nil)
@@ -50,7 +50,7 @@ func TestStaticAsPost(t *testing.T) {
 	response := httptest.NewRecorder()
 
 	n := New()
-	n.Use(NewStatic("."))
+	n.Use(NewStatic(http.Dir(".")))
 	n.UseHandler(http.NotFoundHandler())
 
 	req, err := http.NewRequest("POST", "http://localhost:3000/negroni.go", nil)
@@ -81,7 +81,7 @@ func TestStaticOptionsServeIndex(t *testing.T) {
 	response := httptest.NewRecorder()
 
 	n := New()
-	s := NewStatic(".")
+	s := NewStatic(http.Dir("."))
 	s.IndexFile = "negroni.go"
 	n.Use(s)
 
@@ -98,7 +98,7 @@ func TestStaticOptionsPrefix(t *testing.T) {
 	response := httptest.NewRecorder()
 
 	n := New()
-	s := NewStatic(".")
+	s := NewStatic(http.Dir("."))
 	s.Prefix = "/public"
 	n.Use(s)
 

@@ -69,7 +69,7 @@ func Classic() *Negroni {
 	n := New()
 	n.Use(NewRecovery())
 	n.Use(NewLogger())
-	n.Use(NewStatic("public"))
+	n.Use(NewStatic(http.Dir("public")))
 	return n
 }
 
