@@ -22,7 +22,7 @@ func main() {
   mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
     fmt.Fprintf(w, "Welcome to the home page!")
   })
-  
+
   n := negroni.Classic()
   n.UseHandler(mux)
   n.Run(":3000")
@@ -112,7 +112,7 @@ n.UseHandler(mux)
 n.Run(":3000")
 ~~~
 
-## `Run()`
+## Run()
 Negroni has a convenience function called `Run`. `Run` takes an addr string identical to [http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe).
 
 ~~~ go
@@ -120,6 +120,10 @@ n := negroni.Classic()
 // ...
 log.Fatal(http.ListenAndServe(":8080", n))
 ~~~
+
+Another option for `Run` is provided by [Graceful](https://github.com/stretchr/graceful). It functions identically to the default `Run` method, but enables graceful shutdown of the server.
+
+
 
 ## Live code reload?
 [gin](https://github.com/codegangsta/gin) and [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
