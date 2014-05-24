@@ -121,6 +121,15 @@ n := negroni.Classic()
 log.Fatal(http.ListenAndServe(":8080", n))
 ~~~
 
+## Third Party Middleware
+
+Here is a current list of Negroni compatible middlware. Feel free to put up a PR linking your middleware if you have built one:
+
+| Middleware | Author | Description |
+| -----------|--------|-------------|
+| [Graceful](https://github.com/stretchr/graceful) | [Tyler Bunnell](https://github.com/tylerb) | Graceful HTTP Shutdown |
+
+
 ## Live code reload?
 [gin](https://github.com/codegangsta/gin) and [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
 
