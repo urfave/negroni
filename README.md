@@ -125,9 +125,11 @@ log.Fatal(http.ListenAndServe(":8080", n))
 
 Here is a current list of Negroni compatible middlware. Feel free to put up a PR linking your middleware if you have built one:
 
+
 | Middleware | Author | Description |
 | -----------|--------|-------------|
 | [Graceful](https://github.com/stretchr/graceful) | [Tyler Bunnell](https://github.com/tylerb) | Graceful HTTP Shutdown |
+| [negroni-secure](https://github.com/unrolled/negroni-secure) | [Cory Jacobsen](https://github.com/unrolled) | Middleware that implements a few quick security wins. |
 
 
 ## Live code reload?
