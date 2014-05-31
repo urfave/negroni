@@ -43,6 +43,16 @@ func Wrap(handler http.Handler) Handler {
 	})
 }
 
+// Compose converts a Handler into a func(http.Handler)http.Handler
+// so it can be called via composing(functions(like(this))).
+func Compose(h Handler) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+			h.ServeHTTP(rw, r, next.ServeHTTP)
+		})
+	}
+}
+
 // Negroni is a stack of Middleware Handlers that can be invoked as an http.Handler.
 // Negroni middleware is evaluated in the order that they are added to the stack using
 // the Use and UseHandler methods.
