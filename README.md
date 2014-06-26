@@ -54,9 +54,8 @@ Negroni is BYOR (Bring your own Router). The Go community already has a number o
 router := mux.NewRouter()
 router.HandleFunc("/", HomeHandler)
 
-n := negroni.New()
-n.Use(Middleware1)
-n.Use(Middleware2)
+n := negroni.New(Middleware1, Middleware2)
+// Or use a middleware with the Use() function
 n.Use(Middleware3)
 // router goes last
 n.UseHandler(router)
