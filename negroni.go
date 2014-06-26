@@ -52,9 +52,10 @@ type Negroni struct {
 }
 
 // New returns a new Negroni instance with no middleware preconfigured.
-func New() *Negroni {
+func New(handlers ...Handler) *Negroni {
 	return &Negroni{
-		middleware: middleware{HandlerFunc(voidHandler), &middleware{}},
+		handlers:   handlers,
+		middleware: build(handlers),
 	}
 }
 
@@ -65,11 +66,7 @@ func New() *Negroni {
 // Logger - Request/Response Logging
 // Static - Static File Serving
 func Classic() *Negroni {
-	n := New()
-	n.Use(NewRecovery())
-	n.Use(NewLogger())
-	n.Use(NewStatic(http.Dir("public")))
-	return n
+	return New(NewRecovery(), NewLogger(), NewStatic(http.Dir("public")))
 }
 
 func (n *Negroni) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -79,7 +76,7 @@ func (n *Negroni) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // Use adds a Handler onto the middleware stack. Handlers are invoked in the order they are added to a Negroni.
 func (n *Negroni) Use(handler Handler) {
 	n.handlers = append(n.handlers, handler)
-	n.middleware = build(0, n.handlers)
+	n.middleware = build(n.handlers)
 }
 
 // UseHandler adds a http.Handler onto the middleware stack. Handlers are invoked in the order they are added to a Negroni.
@@ -95,19 +92,23 @@ func (n *Negroni) Run(addr string) {
 	l.Fatal(http.ListenAndServe(addr, n))
 }
 
-func build(i int, handlers []Handler) middleware {
+func build(handlers []Handler) middleware {
 	var next middleware
 
-	h := handlers[i]
-	if i < len(handlers)-1 {
-		next = build(i+1, handlers)
+	if len(handlers) == 0 {
+		return voidMiddleware()
+	} else if len(handlers) > 1 {
+		next = build(handlers[1:])
 	} else {
-		next = middleware{HandlerFunc(voidHandler), &middleware{}}
+		next = voidMiddleware()
 	}
 
-	return middleware{h, &next}
+	return middleware{handlers[0], &next}
 }
 
-func voidHandler(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	// do nothing
+func voidMiddleware() middleware {
+	return middleware{
+		HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {}),
+		&middleware{},
+	}
 }
