@@ -29,8 +29,8 @@ type middleware struct {
 	next    *middleware
 }
 
-func (h middleware) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	h.handler.ServeHTTP(rw, r, h.next.ServeHTTP)
+func (m middleware) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+	m.handler.ServeHTTP(rw, r, m.next.ServeHTTP)
 }
 
 // Wrap converts a http.Handler into a negroni.Handler so it can be used as a Negroni
