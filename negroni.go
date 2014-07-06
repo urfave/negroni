@@ -24,11 +24,11 @@ type Negroni struct {
 // http.Handler or negroni.Handler and returns a new
 // Negroni.
 func New(handlers ...interface{}) *Negroni {
-	c := &Negroni{emptyMiddleware(), nil}
+	n := &Negroni{emptyMiddleware(), nil}
 	for _, handler := range handlers {
-		c.Use(handler)
+		n.Use(handler)
 	}
-	return c
+	return n
 }
 
 // Classic returns a new Negroni instance with the default middleware already
@@ -43,26 +43,26 @@ func Classic() *Negroni {
 
 // Use registers a handler that implements http.Handler
 // or negroni.Handler.
-func (c *Negroni) Use(handler interface{}) {
+func (n *Negroni) Use(handler interface{}) {
 	switch handler.(type) {
 	case Handler:
-		c.load(handler.(Handler))
+		n.load(handler.(Handler))
 	case http.Handler:
-		c.load(wrap(handler.(http.Handler)))
+		n.load(wrap(handler.(http.Handler)))
 	}
 }
 
 // Run takes a network address and calls http.ListenAndServe.
-func (c *Negroni) Run(addr string) {
+func (n *Negroni) Run(addr string) {
 	l := log.New(os.Stdout, "[negroni] ", 0)
 	l.Printf("listening on %s", addr)
-	l.Fatal(http.ListenAndServe(addr, c))
+	l.Fatal(http.ListenAndServe(addr, n))
 }
 
 // ServeHTTP is implemented by Negroni so it can be called by
 // the net/http package in order to do its own thing.
-func (c *Negroni) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	c.first.mServeHTTP(NewResponseWriter(w), r)
+func (n *Negroni) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	n.first.mServeHTTP(NewResponseWriter(w), r)
 }
 
 // mServeHTTP is recursively called after the current middleware's
@@ -88,21 +88,21 @@ func (fn HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request, next htt
 
 // For a negroni to not be empty, it must have at least one
 // middleware whose next isn't nil
-func (c *Negroni) isEmpty() bool {
-	return c.first == nil || c.last == nil
+func (n *Negroni) isEmpty() bool {
+	return n.first == nil || n.last == nil
 }
 
 // load registers a middleware that implements http.Handler or
 // negroni.Handler to Negroni.
-func (c *Negroni) load(handler Handler) {
+func (n *Negroni) load(handler Handler) {
 	middleware := &middleware{handler, emptyMiddleware()}
-	if c.isEmpty() {
-		c.first = middleware
-		c.last = c.first
+	if n.isEmpty() {
+		n.first = middleware
+		n.last = n.first
 	} else {
-		oldlast := c.last
-		c.last = middleware
-		oldlast.next = c.last
+		oldlast := n.last
+		n.last = middleware
+		oldlast.next = n.last
 	}
 }
 
