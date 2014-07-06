@@ -1,3 +1,5 @@
+// Package negroni is a lightweight library that extends the
+// builtin net/http package to enable the use of middlewares.
 package negroni
 
 import (
@@ -6,57 +8,27 @@ import (
 	"os"
 )
 
-// Handler handler is an interface that objects can implement to be registered to serve as middleware
-// in the Negroni middleware stack.
-// ServeHTTP should yield to the next middleware in the chain by invoking the next http.HandlerFunc
-// passed in.
-//
-// If the Handler writes to the ResponseWriter, the next http.HandlerFunc should not be invoked.
-type Handler interface {
-	ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)
-}
-
-// HandlerFunc is an adapter to allow the use of ordinary functions as Negroni handlers.
-// If f is a function with the appropriate signature, HandlerFunc(f) is a Handler object that calls f.
-type HandlerFunc func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)
-
-func (h HandlerFunc) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	h(rw, r, next)
-}
-
+// Node (linked-list)
 type middleware struct {
 	handler Handler
 	next    *middleware
 }
 
-func (m middleware) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	m.handler.ServeHTTP(rw, r, m.next.ServeHTTP)
-}
-
-// Wrap converts a http.Handler into a negroni.Handler so it can be used as a Negroni
-// middleware. The next http.HandlerFunc is automatically called after the Handler
-// is executed.
-func Wrap(handler http.Handler) Handler {
-	return HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-		handler.ServeHTTP(rw, r)
-		next(rw, r)
-	})
-}
-
-// Negroni is a stack of Middleware Handlers that can be invoked as an http.Handler.
-// Negroni middleware is evaluated in the order that they are added to the stack using
-// the Use and UseHandler methods.
+// Queue (linked-list)
 type Negroni struct {
-	middleware middleware
-	handlers   []Handler
+	first *middleware
+	last  *middleware
 }
 
-// New returns a new Negroni instance with no middleware preconfigured.
-func New(handlers ...Handler) *Negroni {
-	return &Negroni{
-		handlers:   handlers,
-		middleware: build(handlers),
+// New registers optional middlewares that implement
+// http.Handler or negroni.Handler and returns a new
+// Negroni.
+func New(handlers ...interface{}) *Negroni {
+	c := &Negroni{emptyMiddleware(), nil}
+	for _, handler := range handlers {
+		c.Use(handler)
 	}
+	return c
 }
 
 // Classic returns a new Negroni instance with the default middleware already
@@ -69,46 +41,81 @@ func Classic() *Negroni {
 	return New(NewRecovery(), NewLogger(), NewStatic(http.Dir("public")))
 }
 
-func (n *Negroni) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	n.middleware.ServeHTTP(NewResponseWriter(rw), r)
+// Use registers a handler that implements http.Handler
+// or negroni.Handler.
+func (c *Negroni) Use(handler interface{}) {
+	switch handler.(type) {
+	case Handler:
+		c.load(handler.(Handler))
+	case http.Handler:
+		c.load(wrap(handler.(http.Handler)))
+	}
 }
 
-// Use adds a Handler onto the middleware stack. Handlers are invoked in the order they are added to a Negroni.
-func (n *Negroni) Use(handler Handler) {
-	n.handlers = append(n.handlers, handler)
-	n.middleware = build(n.handlers)
-}
-
-// UseHandler adds a http.Handler onto the middleware stack. Handlers are invoked in the order they are added to a Negroni.
-func (n *Negroni) UseHandler(handler http.Handler) {
-	n.Use(Wrap(handler))
-}
-
-// Run is a convenience function that runs the negroni stack as an HTTP
-// server. The addr string takes the same format as http.ListenAndServe.
-func (n *Negroni) Run(addr string) {
+// Run takes a network address and calls http.ListenAndServe.
+func (c *Negroni) Run(addr string) {
 	l := log.New(os.Stdout, "[negroni] ", 0)
 	l.Printf("listening on %s", addr)
-	l.Fatal(http.ListenAndServe(addr, n))
+	l.Fatal(http.ListenAndServe(addr, c))
 }
 
-func build(handlers []Handler) middleware {
-	var next middleware
+// ServeHTTP is implemented by Negroni so it can be called by
+// the net/http package in order to do its own thing.
+func (c *Negroni) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	c.first.mServeHTTP(NewResponseWriter(w), r)
+}
 
-	if len(handlers) == 0 {
-		return voidMiddleware()
-	} else if len(handlers) > 1 {
-		next = build(handlers[1:])
+// mServeHTTP is recursively called after the current middleware's
+// handler is processed.
+func (m *middleware) mServeHTTP(w http.ResponseWriter, r *http.Request) {
+	m.handler.ServeHTTP(w, r, m.next.mServeHTTP)
+}
+
+// Handler is an interface that can be implemented by middlewares.
+type Handler interface {
+	ServeHTTP(http.ResponseWriter, *http.Request, http.HandlerFunc)
+}
+
+// HandlerFunc accepts a function with the following parameters to
+// create a HandlerFunc that can be used to implement the negroni.Handler
+// interface.
+type HandlerFunc func(http.ResponseWriter, *http.Request, http.HandlerFunc)
+
+// ServeHTTP is an implementation of negroni.Handler's interface
+func (fn HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	fn(w, r, next)
+}
+
+// For a negroni to not be empty, it must have at least one
+// middleware whose next isn't nil
+func (c *Negroni) isEmpty() bool {
+	return c.first == nil || c.last == nil
+}
+
+// load registers a middleware that implements http.Handler or
+// negroni.Handler to Negroni.
+func (c *Negroni) load(handler Handler) {
+	middleware := &middleware{handler, emptyMiddleware()}
+	if c.isEmpty() {
+		c.first = middleware
+		c.last = c.first
 	} else {
-		next = voidMiddleware()
+		oldlast := c.last
+		c.last = middleware
+		oldlast.next = c.last
 	}
-
-	return middleware{handlers[0], &next}
 }
 
-func voidMiddleware() middleware {
-	return middleware{
-		HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {}),
-		&middleware{},
-	}
+// wrap takes an http.Handler and transforms it to a negroni.HandlerFunc
+// object.
+func wrap(handler http.Handler) Handler {
+	return HandlerFunc(func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		handler.ServeHTTP(w, r)
+		next(w, r)
+	})
+}
+
+// emptyMiddleware is always the last middleware to be processed.
+func emptyMiddleware() *middleware {
+	return &middleware{HandlerFunc(func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {}), nil}
 }
