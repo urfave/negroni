@@ -9,7 +9,7 @@ import (
 
 // Logger is a middleware handler that logs the request as it goes in and the response as it goes out.
 type Logger struct {
-	// Logger is the log.Logger instance used to log messages with the Logger middleware
+	// Logger inherits from log.Logger used to log messages with the Logger middleware
 	*log.Logger
 }
 
