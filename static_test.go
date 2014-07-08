@@ -32,7 +32,7 @@ func TestStaticHead(t *testing.T) {
 
 	n := New()
 	n.Use(NewStatic(http.Dir(".")))
-	n.UseHandler(http.NotFoundHandler())
+	n.Use(http.NotFoundHandler())
 
 	req, err := http.NewRequest("HEAD", "http://localhost:3000/negroni.go", nil)
 	if err != nil {
@@ -51,7 +51,7 @@ func TestStaticAsPost(t *testing.T) {
 
 	n := New()
 	n.Use(NewStatic(http.Dir(".")))
-	n.UseHandler(http.NotFoundHandler())
+	n.Use(http.NotFoundHandler())
 
 	req, err := http.NewRequest("POST", "http://localhost:3000/negroni.go", nil)
 	if err != nil {
@@ -66,7 +66,7 @@ func TestStaticBadDir(t *testing.T) {
 	response := httptest.NewRecorder()
 
 	n := Classic()
-	n.UseHandler(http.NotFoundHandler())
+	n.Use(http.NotFoundHandler())
 
 	req, err := http.NewRequest("GET", "http://localhost:3000/negroni.go", nil)
 	if err != nil {

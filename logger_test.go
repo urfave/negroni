@@ -18,7 +18,7 @@ func Test_Logger(t *testing.T) {
 	n := New()
 	// replace log for testing
 	n.Use(l)
-	n.UseHandler(http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+	n.Use(http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		rw.WriteHeader(http.StatusNotFound)
 	}))
 

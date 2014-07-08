@@ -18,7 +18,7 @@ func TestRecovery(t *testing.T) {
 	n := New()
 	// replace log for testing
 	n.Use(rec)
-	n.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+	n.Use(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		panic("here is a panic!")
 	}))
 	n.ServeHTTP(recorder, (*http.Request)(nil))
