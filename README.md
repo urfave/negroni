@@ -134,7 +134,7 @@ Here is a current list of Negroni compatible middlware. Feel free to put up a PR
 | [render](https://github.com/unrolled/render) | [Cory Jacobsen](https://github.com/unrolled) | Package for rendering JSON, XML, and HTML templates |
 | [gorelic](https://github.com/jingweno/negroni-gorelic) | [Jingwen Owen Ou](https://github.com/jingweno) | New Relic agent for Go runtime |
 | [gzip](https://github.com/phyber/negroni-gzip) | [phyber](https://github.com/phyber) | GZIP response compression |
-
+| [oauth2](https://github.com/goincremental/negroni-oauth2) | [David Bochenski](https://github.com/bochenski) | oAuth2 middleware |
 
 
 ## Live code reload?
