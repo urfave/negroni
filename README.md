@@ -81,7 +81,7 @@ type Handler interface {
 }
 ~~~
 
-If a middlware hasn't already written to the ResponseWriter, it should call the next `http.HandlerFunc` in the chain to yield to the next middleware handler. This can be used for great good:
+If a middleware hasn't already written to the ResponseWriter, it should call the next `http.HandlerFunc` in the chain to yield to the next middleware handler. This can be used for great good:
 
 ~~~ go
 func MyMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
@@ -118,6 +118,22 @@ Negroni has a convenience function called `Run`. `Run` takes an addr string iden
 n := negroni.Classic()
 // ...
 log.Fatal(http.ListenAndServe(":8080", n))
+~~~
+
+## Route Specific Middleware
+If you have a route group of routes that need specific middleware to be executed, you can simply create a new Negroni instance and use it as your route handler.
+
+~~~ go
+router := mux.NewRouter()
+adminRoutes := mux.NewRouter()
+// add admin routes here
+
+Create a new negroni for the admin middleware
+router.Handle("/admin", negroni.New(
+  Middleware1, 
+  Middleware2, 
+  negroni.Wrap(adminRoutes),
+))
 ~~~
 
 ## Third Party Middleware
