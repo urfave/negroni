@@ -92,6 +92,11 @@ func (n *Negroni) Run(addr string) {
 	l.Fatal(http.ListenAndServe(addr, n))
 }
 
+// Returns a list of all the handlers in the current Negroni middleware chain.
+func (n *Negroni) Handlers() ([]Handler) {
+	return n.handlers
+}
+
 func build(handlers []Handler) middleware {
 	var next middleware
 
