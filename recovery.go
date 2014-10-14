@@ -27,6 +27,16 @@ func NewRecovery() *Recovery {
 	}
 }
 
+// NewRecoveryWithFunc returns a nwe instance of Recovery with an
+// attached errorHandlerFunction
+func NewRecoveryWithFunc(errorHandlerFunc ErrorHandlerFunc) *Recovery {
+	return &Recovery{
+		Logger:           log.New(os.Stdout, "[negroni] ", 0),
+		PrintStack:       true,
+		ErrorHandlerFunc: errorHandlerFunc,
+	}
+}
+
 func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	defer func() {
 		if err := recover(); err != nil {
