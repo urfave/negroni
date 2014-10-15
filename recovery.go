@@ -9,7 +9,7 @@ import (
 )
 
 type ErrorHandlerFunc interface {
-	Handle(err interface{}, report bool)
+	HandleError(err interface{}, report bool)
 }
 
 // Recovery is a Negroni middleware that recovers from any panics and writes a 500 if there was one.
@@ -50,7 +50,7 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			}
 
 			if rec.ErrorHandlerFunc != nil {
-				rec.ErrorHandlerFunc.Handle(err, true)
+				rec.ErrorHandlerFunc.HandleError(err, true)
 			}
 		}
 	}()
