@@ -4,6 +4,10 @@ Negroni is an idiomatic approach to web middleware in Go. It is tiny, non-intrus
 
 If you like the idea of [Martini](http://github.com/go-martini/martini), but you think it contains too much magic, then Negroni is a great fit.
 
+
+Language Translations:
+* [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
+
 ## Getting Started
 
 After installing Go and setting up your [GOPATH](http://golang.org/doc/code.html#GOPATH), create your first `.go` file. We'll call it `server.go`.
@@ -130,8 +134,8 @@ adminRoutes := mux.NewRouter()
 
 // Create a new negroni for the admin middleware
 router.Handle("/admin", negroni.New(
-  Middleware1, 
-  Middleware2, 
+  Middleware1,
+  Middleware2,
   negroni.Wrap(adminRoutes),
 ))
 ~~~
