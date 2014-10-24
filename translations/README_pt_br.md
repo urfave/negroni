@@ -155,11 +155,11 @@ Aqui está uma lista atual de Middleware Compatíveis com Negroni. Sinta se livr
 | [permissions](https://github.com/xyproto/permissions) | [Alexander Rødseth](https://github.com/xyproto) | Cookies, usuários e permissões. |
 | [onthefly](https://github.com/xyproto/onthefly) | [Alexander Rødseth](https://github.com/xyproto) | Pacote para gerar TinySVG, HTML e CSS em tempo real. |
 
-## Examplos
+## Exemplos
 [Alexander Rødseth](https://github.com/xyproto) criou [mooseware](https://github.com/xyproto/mooseware), um esqueleto para escrever um handler middleware Negroni.
 
-## Recarregar código?
-[gin](https://github.com/codegangsta/gin) e [fresh](https://github.com/pilu/fresh) ambos recarregam aplicações Negroni.
+## Servidor com autoreload?
+[gin](https://github.com/codegangsta/gin) e [fresh](https://github.com/pilu/fresh) são aplicativos para autoreload do Negroni.
 
 ## Sobre
 Negroni é obsessivamente desenhado por ninguém menos que  [Code Gangsta](http://codegangsta.io/)
