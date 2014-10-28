@@ -98,7 +98,7 @@ n := negroni.New()
 n.Use(negroni.HandlerFunc(MyMiddleware))
 ~~~
 
-You can also map plain old `http.Handler`'s:
+You can also map plain old `http.Handler`s:
 
 ~~~ go
 n := negroni.New()
