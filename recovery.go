@@ -22,7 +22,7 @@ func NewRecovery() *Recovery {
 		Logger:     log.New(os.Stdout, "[negroni] ", 0),
 		PrintStack: true,
 		StackAll:   false,
-		StackSize:  1024 * 4,
+		StackSize:  1024 * 8,
 	}
 }
 
