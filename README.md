@@ -164,6 +164,11 @@ Here is a current list of Negroni compatible middlware. Feel free to put up a PR
 ## Live code reload?
 [gin](https://github.com/codegangsta/gin) and [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
 
+## Essential Reading for Beginners of Go & Negroni
+
+* [Using a Context to pass information from middleware to end handler](http://elithrar.github.io/article/map-string-interface/)
+* [Understanding middleware](http://mattstauffer.co/blog/laravel-5.0-middleware-replacing-filters)
+
 ## About
 
 Negroni is obsessively designed by none other than the [Code Gangsta](http://codegangsta.io/)
