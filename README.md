@@ -130,8 +130,8 @@ adminRoutes := mux.NewRouter()
 
 // Create a new negroni for the admin middleware
 router.Handle("/admin", negroni.New(
-  Middleware1, 
-  Middleware2, 
+  Middleware1,
+  Middleware2,
   negroni.Wrap(adminRoutes),
 ))
 ~~~
@@ -156,6 +156,7 @@ Here is a current list of Negroni compatible middlware. Feel free to put up a PR
 | [permissions2](https://github.com/xyproto/permissions2) | [Alexander Rødseth](https://github.com/xyproto) | Cookies, users and permissions |
 | [onthefly](https://github.com/xyproto/onthefly) | [Alexander Rødseth](https://github.com/xyproto) | Generate TinySVG, HTML and CSS on the fly |
 | [cors](https://github.com/rs/cors) | [Olivier Poitrey](https://github.com/rs) | [Cross Origin Resource Sharing](http://www.w3.org/TR/cors/) (CORS) support |
+| [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | Middleware that assigns a random X-Request-Id header to each request |
 
 ## Examples
 [Alexander Rødseth](https://github.com/xyproto) created [mooseware](https://github.com/xyproto/mooseware), a skeleton for writing a Negroni middleware handler.
