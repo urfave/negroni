@@ -125,14 +125,17 @@ If you have a route group of routes that need specific middleware to be executed
 
 ~~~ go
 router := mux.NewRouter()
-adminRoutes := mux.NewRouter()
-// add admin routes here
+apiRoutes := mux.NewRouter()
+// add api routes here
+// eg apiRoutes.HandleFunc("/api", apiHandler)
+// eg apiRoutes.HandleFunc("/api/users", userHandler)
+// eg apiRoutes.HandleFunc("/api/products", productHandler)
 
-// Create a new negroni for the admin middleware
-router.Handle("/admin", negroni.New(
+// Create a new negroni for the api middleware
+router.PathPrefix("/api").Handler( negroni.New(
   Middleware1,
   Middleware2,
-  negroni.Wrap(adminRoutes),
+  negroni.Wrap(apiRoutes),
 ))
 ~~~
 
