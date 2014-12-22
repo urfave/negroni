@@ -48,7 +48,7 @@ Se você tem uma pergunta ou pedido de recurso,[go ask the mailing list](https:/
 Negroni **não** é a framework. É uma biblioteca que é desenhada para trabalhar diretamente com net/http.
 
 ## Roteamento?
-Negroni é TSPR(Traga seu próprio Roteamento). A comunidade Go já tem um grande número de roteadores http disponíveis, Negroni tenta jogar bem com todos eles pelo suporte total `net/http`/ Por exemplo, a integração com [Gorilla Mux](http://github.com/gorilla/mux) se parece com isso:
+Negroni é TSPR(Traga seu próprio Roteamento). A comunidade Go já tem um grande número de roteadores http disponíveis, Negroni tenta rodar bem com todos eles pelo suporte total `net/http`/ Por exemplo, a integração com [Gorilla Mux](http://github.com/gorilla/mux) se parece com isso:
 
 ~~~ go
 router := mux.NewRouter()
@@ -156,7 +156,7 @@ Aqui está uma lista atual de Middleware Compatíveis com Negroni. Sinta se livr
 | [onthefly](https://github.com/xyproto/onthefly) | [Alexander Rødseth](https://github.com/xyproto) | Pacote para gerar TinySVG, HTML e CSS em tempo real. |
 
 ## Exemplos
-[Alexander Rødseth](https://github.com/xyproto) criou [mooseware](https://github.com/xyproto/mooseware), um esqueleto para escrever um handler middleware Negroni.
+[Alexander Rødseth](https://github.com/xyproto) criou [mooseware](https://github.com/xyproto/mooseware), uma estrutura para escrever um handler middleware Negroni.
 
 ## Servidor com autoreload?
 [gin](https://github.com/codegangsta/gin) e [fresh](https://github.com/pilu/fresh) são aplicativos para autoreload do Negroni.
