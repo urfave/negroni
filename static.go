@@ -45,7 +45,8 @@ func (s *Static) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.Ha
 	}
 	f, err := s.Dir.Open(file)
 	if err != nil {
-		// discard the error?
+		// If the file wasn't found, write a 404 status code
+		rw.WriteHeader(http.StatusNotFound)
 		next(rw, r)
 		return
 	}
