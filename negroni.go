@@ -59,15 +59,6 @@ func New(handlers ...Handler) *Negroni {
 	}
 }
 
-// NewFromFuncs is similar to New(), but accepts a series of Negroni-style handler functions.
-func NewFromFuncs(handlerFuncs ...func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)) *Negroni {
-	handlers := make([]Handler, len(handlerFuncs), len(handlerFuncs))
-	for i, f := range handlerFuncs {
-		handlers[i] = HandlerFunc(f)
-	}
-	return New(handlers...)
-}
-
 // Classic returns a new Negroni instance with the default middleware already
 // in the stack.
 //
