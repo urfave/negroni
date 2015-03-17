@@ -138,7 +138,7 @@ router.Handle("/admin", negroni.New(
 
 ## Middleware de Terceiros
 
-Aqui está uma lista atual de Middleware Compatíveis com Negroni. Sinta se livre para mandar um PR vinculando seu middleware if construiu um:
+Aqui está uma lista atual de Middleware Compatíveis com Negroni. Sinta se livre para mandar um PR vinculando seu middleware se construiu um:
 
 
 | Middleware | Autor | Descrição |
