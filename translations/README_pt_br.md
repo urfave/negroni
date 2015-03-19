@@ -42,7 +42,7 @@ go run server.go
 Agora terá um servidor web Go net/http rodando em `localhost:3000`.
 
 ## Precisa de Ajuda?
-Se você tem uma pergunta ou pedido de recurso,[go ask the mailing list](https://groups.google.com/forum/#!forum/negroni-users). O Github issuses para o Negroni será usado exclusivamente para Reportar bugs e pull requests.
+Se você tem uma pergunta ou pedido de recurso,[go ask the mailing list](https://groups.google.com/forum/#!forum/negroni-users). O Github issues para o Negroni será usado exclusivamente para Reportar bugs e pull requests.
 
 ## Negroni é um Framework?
 Negroni **não** é a framework. É uma biblioteca que é desenhada para trabalhar diretamente com net/http.
@@ -64,7 +64,7 @@ n.Run(":3000")
 ~~~
 
 ## `negroni.Classic()`
-`negroni.Classic()`  fornece alguns middlewares padrão que são útil para maioria das aplicações:
+`negroni.Classic()`  fornece alguns middlewares padrão que são úteis para maioria das aplicações:
 
 * `negroni.Recovery` - Panic Recovery Middleware.
 * `negroni.Logging` - Request/Response Logging Middleware.
@@ -121,7 +121,7 @@ log.Fatal(http.ListenAndServe(":8080", n))
 ~~~
 
 ## Middleware para Rotas Específicas
-Se você tem um grupo de rota com rotas que precisam ser executadas por um middleware específico, pode simplesmente criar uma nova instância de Negroni e usar no seu Manipular de rota.
+Se você tem um grupo de rota com rotas que precisam ser executadas por um middleware específico, pode simplesmente criar uma nova instância de Negroni e usar no seu Manipulador de rota.
 
 ~~~ go
 router := mux.NewRouter()
@@ -138,7 +138,7 @@ router.Handle("/admin", negroni.New(
 
 ## Middleware de Terceiros
 
-Aqui está uma lista atual de Middleware Compatíveis com Negroni. Sinta se livre para mandar um PR vinculando seu middleware if construiu um:
+Aqui está uma lista atual de Middleware Compatíveis com Negroni. Sinta se livre para mandar um PR vinculando seu middleware se construiu um:
 
 
 | Middleware | Autor | Descrição |
