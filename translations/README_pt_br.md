@@ -161,5 +161,10 @@ Aqui está uma lista atual de Middleware Compatíveis com Negroni. Sinta se livr
 ## Servidor com autoreload?
 [gin](https://github.com/codegangsta/gin) e [fresh](https://github.com/pilu/fresh) são aplicativos para autoreload do Negroni.
 
+## Leitura Essencial para Iniciantes em Go & Negroni
+* [Usando um contexto para passar informação de um middleware para o manipulador final](http://elithrar.github.io/article/map-string-interface/)
+* [Entendendo middleware](http://mattstauffer.co/blog/laravel-5.0-middleware-replacing-filters)
+
+
 ## Sobre
 Negroni é obsessivamente desenhado por ninguém menos que  [Code Gangsta](http://codegangsta.io/)
