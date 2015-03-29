@@ -49,7 +49,7 @@ func Wrap(handler http.Handler) Handler {
 type Negroni struct {
 	middleware middleware
 	handlers   []Handler
-	title string 
+	title      string
 }
 
 // New returns a new Negroni instance with no middleware preconfigured.
@@ -57,7 +57,7 @@ func New(handlers ...Handler) *Negroni {
 	return &Negroni{
 		handlers:   handlers,
 		middleware: build(handlers),
-		title: "NEGRONI",
+		title:      "NEGRONI",
 	}
 }
 
@@ -108,7 +108,6 @@ func (n *Negroni) Run(addr string) {
 func (n *Negroni) SetTitle(title string) {
 	n.title = title
 }
-
 
 // Returns a list of all the handlers in the current Negroni middleware chain.
 func (n *Negroni) Handlers() []Handler {
