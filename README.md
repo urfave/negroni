@@ -7,6 +7,7 @@ If you like the idea of [Martini](http://github.com/go-martini/martini), but you
 
 Language Translations:
 * [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
+* [German (de_DE)](translations/README_de_de.md)
 
 ## Getting Started
 
