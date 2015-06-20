@@ -18,6 +18,11 @@ func NewLogger() *Logger {
 	return &Logger{log.New(os.Stdout, "[negroni] ", 0)}
 }
 
+// NewWithLogger returns a new Logger instance using the given *log.Logger
+func NewWithLogger(logger *log.Logger) *Logger {
+	return &Logger{logger}
+}
+
 func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	start := time.Now()
 	l.Printf("Started %s %s", r.Method, r.URL.Path)
