@@ -71,7 +71,7 @@ n.Run(":3000")
 `negroni.Classic()` provides some default middleware that is useful for most applications:
 
 * `negroni.Recovery` - Panic Recovery Middleware.
-* `negroni.Logging` - Request/Response Logging Middleware.
+* `negroni.Logger` - Request/Response Logger Middleware.
 * `negroni.Static` - Static File serving under the "public" directory.
 
 This makes it really easy to get started with some useful features from Negroni.
