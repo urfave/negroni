@@ -174,7 +174,7 @@ router.Handle("/admin", negroni.New(
 
 ## Go & Negroni 初学者必读推荐
 
-* [使用中间价的上下文把消息传递给后端处理器](http://elithrar.github.io/article/map-string-interface/)
+* [在中间件中使用上下文把消息传递给后端处理器](http://elithrar.github.io/article/map-string-interface/)
 * [了解中间件](http://mattstauffer.co/blog/laravel-5.0-middleware-replacing-filters)
 
 ## 关于
