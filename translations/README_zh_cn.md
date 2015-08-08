@@ -2,7 +2,7 @@
 
 在Go语言里，Negroni 是一个很地道的 web 中间件，它是微型，非嵌入式，并鼓励使用原生 `net/http` 处理器的库。
 
-如果你用过并喜欢 [Martini](http://github.com/go-martini/martini) 框架，但又不想框架有太多魔幻性的特征，那 Negroni 就是你的菜了，相信它非常适合你。
+如果你用过并喜欢 [Martini](http://github.com/go-martini/martini) 框架，但又不想框架中有太多魔幻性的特征，那 Negroni 就是你的菜了，相信它非常适合你。
 
 
 语言翻译:
@@ -50,7 +50,7 @@ go run server.go
 如果你有问题或新想法，请到 [邮件群组](https://groups.google.com/forum/#!forum/negroni-users) 里反馈，GitHub issues 是专门给提交 bug 报告和 pull 请求用途的。
 
 ## Negroni 是一个框架吗？
-Negroni **不算**是一个框架，它是为了方便使用 net/http 而设计的一个库而已。
+Negroni **不**是一个框架，它是为了方便使用 `net/http` 而设计的一个库而已。
 
 ## 路由呢？
 Negroni 没有带路由功能，使用 Negroni 时，需要找一个适合你的路由。不过好在 Go 社区里已经有相当多可用的路由，Negroni 更喜欢和那些完全支持 `net/http` 库的路由组合使用，比如，结合 [Gorilla Mux](http://github.com/gorilla/mux) 使用像这样：
@@ -148,23 +148,23 @@ router.Handle("/admin", negroni.New(
 
 | Middleware | Author | Description |
 | -----------|--------|-------------|
-| [RestGate](https://github.com/pjebs/restgate) | [Prasanga Siripala](https://github.com/pjebs) | Secure authentication for REST API endpoints |
-| [Graceful](https://github.com/stretchr/graceful) | [Tyler Bunnell](https://github.com/tylerb) | Graceful HTTP Shutdown |
+| [RestGate](https://github.com/pjebs/restgate) | [Prasanga Siripala](https://github.com/pjebs) | REST API 接口的安全认证 |
+| [Graceful](https://github.com/stretchr/graceful) | [Tyler Bunnell](https://github.com/tylerb) | 优雅关闭 HTTP 的中间件 |
 | [secure](https://github.com/unrolled/secure) | [Cory Jacobsen](https://github.com/unrolled) | Middleware that implements a few quick security wins |
 | [JWT Middleware](https://github.com/auth0/go-jwt-middleware) | [Auth0](https://github.com/auth0) | Middleware checks for a JWT on the `Authorization` header on incoming requests and decodes it|
 | [binding](https://github.com/mholt/binding) | [Matt Holt](https://github.com/mholt) | HTTP 请求数据注入到 structs 实体|
-| [logrus](https://github.com/meatballhat/negroni-logrus) | [Dan Buch](https://github.com/meatballhat) | Logrus-based logger |
+| [logrus](https://github.com/meatballhat/negroni-logrus) | [Dan Buch](https://github.com/meatballhat) | 基于 Logrus-based logger 日志 |
 | [render](https://github.com/unrolled/render) | [Cory Jacobsen](https://github.com/unrolled) | 渲染 JSON, XML and HTML 中间件 |
 | [gorelic](https://github.com/jingweno/negroni-gorelic) | [Jingwen Owen Ou](https://github.com/jingweno) | New Relic agent for Go runtime |
-| [gzip](https://github.com/phyber/negroni-gzip) | [phyber](https://github.com/phyber) | 响应 GZIP 压缩 |
-| [oauth2](https://github.com/goincremental/negroni-oauth2) | [David Bochenski](https://github.com/bochenski) | oAuth2 middleware |
-| [sessions](https://github.com/goincremental/negroni-sessions) | [David Bochenski](https://github.com/bochenski) | Session Management |
-| [permissions2](https://github.com/xyproto/permissions2) | [Alexander Rødseth](https://github.com/xyproto) | Cookies, users and permissions |
-| [onthefly](https://github.com/xyproto/onthefly) | [Alexander Rødseth](https://github.com/xyproto) | Generate TinySVG, HTML and CSS on the fly |
+| [gzip](https://github.com/phyber/negroni-gzip) | [phyber](https://github.com/phyber) | 响应流 GZIP 压缩 |
+| [oauth2](https://github.com/goincremental/negroni-oauth2) | [David Bochenski](https://github.com/bochenski) | oAuth2 中间件 |
+| [sessions](https://github.com/goincremental/negroni-sessions) | [David Bochenski](https://github.com/bochenski) | Session 会话管理 |
+| [permissions2](https://github.com/xyproto/permissions2) | [Alexander Rødseth](https://github.com/xyproto) | Cookies， 用户和权限 |
+| [onthefly](https://github.com/xyproto/onthefly) | [Alexander Rødseth](https://github.com/xyproto) | 快速生成 TinySVG， HTML and CSS 中间件 |
 | [cors](https://github.com/rs/cors) | [Olivier Poitrey](https://github.com/rs) | [Cross Origin Resource Sharing](http://www.w3.org/TR/cors/) (CORS) support |
-| [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | Middleware that assigns a random X-Request-Id header to each request |
-| [VanGoH](https://github.com/auroratechnologies/vangoh) | [Taylor Wrobel](https://github.com/twrobel3) | Configurable [AWS-Style](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html) HMAC authentication middleware |
-| [stats](https://github.com/thoas/stats) | [Florent Messa](https://github.com/thoas) | Store information about your web application (response time, etc.) |
+| [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | 给每个请求指定一个随机 X-Request-Id 头的中间件 |
+| [VanGoH](https://github.com/auroratechnologies/vangoh) | [Taylor Wrobel](https://github.com/twrobel3) | Configurable [AWS-Style](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html) 基于 HMAC 鉴权认证的中间件 |
+| [stats](https://github.com/thoas/stats) | [Florent Messa](https://github.com/thoas) | 检测 web 应用当前运行状态信息 （响应时间等等。） |
 
 ## 范例
 [Alexander Rødseth](https://github.com/xyproto) 创建的 [mooseware](https://github.com/xyproto/mooseware) 是一个写兼容 Negroni 中间件的处理器骨架的范例。
