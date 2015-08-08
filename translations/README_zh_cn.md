@@ -146,7 +146,7 @@ router.Handle("/admin", negroni.New(
 以下的兼容 Negroni 的中间件列表，如果你也有兼容 Negroni 的中间件，可以提交到这个列表来交换链接，我们很乐意做这样有益的事情。
 
 
-| 中间件 | 作者 | 描述 |
+|    中间件    |    作者    |    描述    |
 | -----------|--------|-------------|
 | [RestGate](https://github.com/pjebs/restgate) | [Prasanga Siripala](https://github.com/pjebs) | REST API 接口的安全认证 |
 | [Graceful](https://github.com/stretchr/graceful) | [Tyler Bunnell](https://github.com/tylerb) | 优雅关闭 HTTP 的中间件 |
@@ -174,7 +174,7 @@ router.Handle("/admin", negroni.New(
 
 ## Go & Negroni 初学者必读推荐
 
-* [使用中间价的上下文把消息传递给后端处理器](http://elithrar.github.io/article/map-string-interface/)
+* [在中间件中使用上下文把消息传递给后端处理器](http://elithrar.github.io/article/map-string-interface/)
 * [了解中间件](http://mattstauffer.co/blog/laravel-5.0-middleware-replacing-filters)
 
 ## 关于
