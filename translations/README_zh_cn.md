@@ -68,7 +68,7 @@ n.UseHandler(router)
 n.Run(":3000")
 ~~~
 
-## `negroni.Classic()`
+## `negroni.Classic()` 经典实例
 `negroni.Classic()` 提供一些默认的中间件，这些中间件在多数应用都很有用。
 
 * `negroni.Recovery` - 异常（恐慌）恢复中间件
@@ -86,7 +86,6 @@ type Handler interface {
 }
 ~~~
 
-If a middleware hasn't already written to the ResponseWriter, it should call the next `http.HandlerFunc` in the chain to yield to the next middleware handler. This can be used for great good:
 如果一个中间件没有写入 ResponseWriter 响应，它会在中间件链里调用下一个 `http.HandlerFunc` 执行下去， 它可以这么优雅的使用。如下：
 
 ~~~ go
