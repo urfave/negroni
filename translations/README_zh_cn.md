@@ -146,7 +146,7 @@ router.Handle("/admin", negroni.New(
 以下的兼容 Negroni 的中间件列表，如果你也有兼容 Negroni 的中间件，可以提交到这个列表来交换链接，我们很乐意做这样有益的事情。
 
 
-| 中间件名称 | 作者 | 描述 |
+| 中间件 | 作者 | 描述 |
 | -----------|--------|-------------|
 | [RestGate](https://github.com/pjebs/restgate) | [Prasanga Siripala](https://github.com/pjebs) | REST API 接口的安全认证 |
 | [Graceful](https://github.com/stretchr/graceful) | [Tyler Bunnell](https://github.com/tylerb) | 优雅关闭 HTTP 的中间件 |
