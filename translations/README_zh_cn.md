@@ -47,7 +47,7 @@ go run server.go
 这时一个 Go `net/http` Web 服务器就跑在 `localhost:3000` 上，使用浏览器打开 `localhost:3000` 可以看到输出结果。
 
 ## 需要你的贡献
-如果你有问题或新想法，请到 [邮件群组](https://groups.google.com/forum/#!forum/negroni-users) 里反馈，GitHub issues 是专门给提交 bug 报告和 pull 请求用途的，欢迎你的参与。
+如果你有问题或新想法，请到[邮件群组](https://groups.google.com/forum/#!forum/negroni-users)里反馈，GitHub issues 是专门给提交 bug 报告和 pull 请求用途的，欢迎你的参与。
 
 ## Negroni 是一个框架吗？
 Negroni **不**是一个框架，它是为了方便使用 `net/http` 而设计的一个库而已。
@@ -117,7 +117,7 @@ n.Run(":3000")
 ~~~
 
 ## `Run()`
-Negroni 提供一个很好用的函数叫 `Run` ，把地址字符串传人该函数，即可实现地道的 [http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe) 函数功能了。
+Negroni 提供一个很好用的函数叫 `Run` ，把地址字符串传人该函数，即可实现很地道的 [http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe) 函数功能了。
 
 ~~~ go
 n := negroni.Classic()
@@ -126,7 +126,7 @@ log.Fatal(http.ListenAndServe(":8080", n))
 ~~~
 
 ## 特定路由中间件
-如果你需要群组路由功能，需要借助特定的路由中间件完成，做法很简单，只需建立一个新Negroni实例，传人路由处理器里即可。
+如果你需要群组路由功能，需要借助特定的路由中间件完成，做法很简单，只需建立一个新 Negroni 实例，传人路由处理器里即可。
 
 ~~~ go
 router := mux.NewRouter()
@@ -169,8 +169,8 @@ router.Handle("/admin", negroni.New(
 ## 范例
 [Alexander Rødseth](https://github.com/xyproto) 创建的 [mooseware](https://github.com/xyproto/mooseware) 是一个写兼容 Negroni 中间件的处理器骨架的范例。
 
-## 即时编译？
-[gin](https://github.com/codegangsta/gin) 和 [fresh](https://github.com/pilu/fresh) 这两个应用是即时编译的 negroni 工具，推荐用户开发的时候使用。
+## 即时编译
+[gin](https://github.com/codegangsta/gin) 和 [fresh](https://github.com/pilu/fresh) 这两个应用是即时编译的 Negroni 工具，推荐用户开发的时候使用。
 
 ## Go & Negroni 初学者必读推荐
 
