@@ -47,7 +47,7 @@ go run server.go
 这时一个 Go `net/http` Web 服务器就跑在 `localhost:3000` 上，使用浏览器打开 `localhost:3000` 可以看到输出结果。
 
 ## 需要你的贡献
-如果你有问题或新想法，请到 [邮件群组](https://groups.google.com/forum/#!forum/negroni-users) 里反馈，GitHub issues 是专门给提交 bug 报告和 pull 请求用途的。
+如果你有问题或新想法，请到 [邮件群组](https://groups.google.com/forum/#!forum/negroni-users) 里反馈，GitHub issues 是专门给提交 bug 报告和 pull 请求用途的，欢迎你的参与。
 
 ## Negroni 是一个框架吗？
 Negroni **不**是一个框架，它是为了方便使用 `net/http` 而设计的一个库而已。
