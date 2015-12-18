@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"golang.org/x/net/http2"
 )
 
 // Handler handler is an interface that objects can implement to be registered to serve as middleware
@@ -100,6 +102,15 @@ func (n *Negroni) Run(addr string) {
 	l := log.New(os.Stdout, "[negroni] ", 0)
 	l.Printf("listening on %s", addr)
 	l.Fatal(http.ListenAndServe(addr, n))
+}
+
+//RunHttp2 to run the negroni stack as an HTTP2 server. Need to provided tls cert, key files.
+func (n *Negroni) RunHttp2(addr, certFile, keyFile string) {
+	l := log.New(os.Stdout, "[negroni] ", 0)
+	srv := &http.Server{Addr: addr, Handler: n}
+	http2.ConfigureServer(srv, nil)
+	l.Printf("listening on %s", addr)
+	l.Fatal(srv.ListenAndServeTLS(certFile, keyFile))
 }
 
 // Returns a list of all the handlers in the current Negroni middleware chain.
