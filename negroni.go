@@ -102,6 +102,26 @@ func (n *Negroni) Run(addr string) {
 	l.Fatal(http.ListenAndServe(addr, n))
 }
 
+// RunWithOptions is a convenience function that runs the negroni stack as a
+// provided HTTP server, with the following caveats:
+// 1. the Handler field of the provided serverConfig should be nil,
+//    because the Handler used will be the n Negroni object.
+func (n *Negroni) RunWithOptions(serverConfig *http.Server) {
+	l := log.New(os.Stdout, "[negroni] ", 0)
+	if serverConfig.Addr == "" {
+		l.Fatal("Address not specified.")
+	}
+	if serverConfig.Handler != nil {
+		l.Fatal("Handler not supported.")
+	}
+	serverConfig.Handler = n
+	if serverConfig.ErrorLog == nil {
+		serverConfig.ErrorLog = l
+	}
+	l.Printf("listening on %s with configuration %v\n", serverConfig.Addr, serverConfig)
+	l.Fatal(serverConfig.ListenAndServe())
+}
+
 // Returns a list of all the handlers in the current Negroni middleware chain.
 func (n *Negroni) Handlers() []Handler {
 	return n.handlers
