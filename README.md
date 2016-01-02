@@ -4,6 +4,10 @@ Negroni is an idiomatic approach to web middleware in Go. It is tiny, non-intrus
 
 If you like the idea of [Martini](http://github.com/go-martini/martini), but you think it contains too much magic, then Negroni is a great fit.
 
+
+Language Translations:
+* [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
+
 ## Getting Started
 
 After installing Go and setting up your [GOPATH](http://golang.org/doc/code.html#GOPATH), create your first `.go` file. We'll call it `server.go`.
@@ -98,7 +102,7 @@ n := negroni.New()
 n.Use(negroni.HandlerFunc(MyMiddleware))
 ~~~
 
-You can also map plain old `http.Handler`'s:
+You can also map plain old `http.Handler`s:
 
 ~~~ go
 n := negroni.New()
@@ -130,8 +134,8 @@ adminRoutes := mux.NewRouter()
 
 // Create a new negroni for the admin middleware
 router.Handle("/admin", negroni.New(
-  Middleware1, 
-  Middleware2, 
+  Middleware1,
+  Middleware2,
   negroni.Wrap(adminRoutes),
 ))
 ~~~
@@ -143,23 +147,34 @@ Here is a current list of Negroni compatible middlware. Feel free to put up a PR
 
 | Middleware | Author | Description |
 | -----------|--------|-------------|
+| [RestGate](https://github.com/pjebs/restgate) | [Prasanga Siripala](https://github.com/pjebs) | Secure authentication for REST API endpoints |
 | [Graceful](https://github.com/stretchr/graceful) | [Tyler Bunnell](https://github.com/tylerb) | Graceful HTTP Shutdown |
 | [secure](https://github.com/unrolled/secure) | [Cory Jacobsen](https://github.com/unrolled) | Middleware that implements a few quick security wins |
+| [JWT Middleware](https://github.com/auth0/go-jwt-middleware) | [Auth0](https://github.com/auth0) | Middleware checks for a JWT on the `Authorization` header on incoming requests and decodes it|
 | [binding](https://github.com/mholt/binding) | [Matt Holt](https://github.com/mholt) | Data binding from HTTP requests into structs |
 | [logrus](https://github.com/meatballhat/negroni-logrus) | [Dan Buch](https://github.com/meatballhat) | Logrus-based logger |
-| [render](https://github.com/unrolled/render) | [Cory Jacobsen](https://github.com/unrolled) | Package for rendering JSON, XML, and HTML templates |
+| [render](https://github.com/unrolled/render) | [Cory Jacobsen](https://github.com/unrolled) | Render JSON, XML and HTML templates |
 | [gorelic](https://github.com/jingweno/negroni-gorelic) | [Jingwen Owen Ou](https://github.com/jingweno) | New Relic agent for Go runtime |
 | [gzip](https://github.com/phyber/negroni-gzip) | [phyber](https://github.com/phyber) | GZIP response compression |
 | [oauth2](https://github.com/goincremental/negroni-oauth2) | [David Bochenski](https://github.com/bochenski) | oAuth2 middleware |
 | [sessions](https://github.com/goincremental/negroni-sessions) | [David Bochenski](https://github.com/bochenski) | Session Management |
-| [permissions](https://github.com/xyproto/permissions) | [Alexander Rødseth](https://github.com/xyproto) | Cookies, users and permissions |
-| [onthefly](https://github.com/xyproto/onthefly) | [Alexander Rødseth](https://github.com/xyproto) | Package for generating TinySVG, HTML and CSS on the fly |
+| [permissions2](https://github.com/xyproto/permissions2) | [Alexander Rødseth](https://github.com/xyproto) | Cookies, users and permissions |
+| [onthefly](https://github.com/xyproto/onthefly) | [Alexander Rødseth](https://github.com/xyproto) | Generate TinySVG, HTML and CSS on the fly |
+| [cors](https://github.com/rs/cors) | [Olivier Poitrey](https://github.com/rs) | [Cross Origin Resource Sharing](http://www.w3.org/TR/cors/) (CORS) support |
+| [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | Middleware that assigns a random X-Request-Id header to each request |
+| [VanGoH](https://github.com/auroratechnologies/vangoh) | [Taylor Wrobel](https://github.com/twrobel3) | Configurable [AWS-Style](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html) HMAC authentication middleware |
+| [stats](https://github.com/thoas/stats) | [Florent Messa](https://github.com/thoas) | Store information about your web application (response time, etc.) |
 
 ## Examples
 [Alexander Rødseth](https://github.com/xyproto) created [mooseware](https://github.com/xyproto/mooseware), a skeleton for writing a Negroni middleware handler.
 
 ## Live code reload?
 [gin](https://github.com/codegangsta/gin) and [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
+
+## Essential Reading for Beginners of Go & Negroni
+
+* [Using a Context to pass information from middleware to end handler](http://elithrar.github.io/article/map-string-interface/)
+* [Understanding middleware](http://mattstauffer.co/blog/laravel-5.0-middleware-replacing-filters)
 
 ## About
 

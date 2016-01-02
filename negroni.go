@@ -79,9 +79,19 @@ func (n *Negroni) Use(handler Handler) {
 	n.middleware = build(n.handlers)
 }
 
+// UseFunc adds a Negroni-style handler function onto the middleware stack.
+func (n *Negroni) UseFunc(handlerFunc func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)) {
+	n.Use(HandlerFunc(handlerFunc))
+}
+
 // UseHandler adds a http.Handler onto the middleware stack. Handlers are invoked in the order they are added to a Negroni.
 func (n *Negroni) UseHandler(handler http.Handler) {
 	n.Use(Wrap(handler))
+}
+
+// UseHandler adds a http.HandlerFunc-style handler function onto the middleware stack.
+func (n *Negroni) UseHandlerFunc(handlerFunc func(rw http.ResponseWriter, r *http.Request)) {
+	n.UseHandler(http.HandlerFunc(handlerFunc))
 }
 
 // Run is a convenience function that runs the negroni stack as an HTTP
@@ -93,7 +103,7 @@ func (n *Negroni) Run(addr string) {
 }
 
 // Returns a list of all the handlers in the current Negroni middleware chain.
-func (n *Negroni) Handlers() ([]Handler) {
+func (n *Negroni) Handlers() []Handler {
 	return n.handlers
 }
 
