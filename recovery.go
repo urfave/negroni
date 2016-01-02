@@ -38,6 +38,8 @@ func NewRecoveryWithFunc(errorHandlerFunc ErrorHandlerFunc) *Recovery {
 		Logger:           log.New(os.Stdout, "[negroni] ", 0),
 		PrintStack:       true,
 		ErrorHandlerFunc: errorHandlerFunc,
+		StackAll:         false,
+		StackSize:        1024 * 8,
 	}
 }
 
