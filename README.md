@@ -140,6 +140,22 @@ router.Handle("/admin", negroni.New(
 ))
 ~~~
 
+If you are using [gorilla/mux](http://www.gorillatoolkit.org/pkg/mux) here is an example using a subrouter.
+
+~~~go
+router := mux.NewRouter()
+subRouter := mux.NewRouter().PathPrefix("/subpath").Subrouter().StrictSlash(true)
+subRouter.HandleFunc("/", someSubpathHandler) // "/subpath/"
+subRouter.HandleFunc("/:id", someSubpathHandler) // "/subpath/:id"
+
+// "/subpath" is necessary to ensure the subRouter and main router linkup
+router.PathPrefix("/subpath").Handler(negroni.New(
+	Middleware1,
+	Middleware2,
+	negroni.Wrap(subRouter),
+))
+~~~
+
 ## Third Party Middleware
 
 Here is a current list of Negroni compatible middlware. Feel free to put up a PR linking your middleware if you have built one:
