@@ -17,9 +17,9 @@ type Recovery struct {
 }
 
 // NewRecovery returns a new instance of Recovery
-func NewRecovery() *Recovery {
+func NewRecovery(name string) *Recovery {
 	return &Recovery{
-		Logger:     log.New(os.Stdout, "[negroni] ", 0),
+		Logger:     log.New(os.Stdout, "["+name+"] ", 0),
 		PrintStack: true,
 		StackAll:   false,
 		StackSize:  1024 * 8,

@@ -12,7 +12,7 @@ func TestRecovery(t *testing.T) {
 	buff := bytes.NewBufferString("")
 	recorder := httptest.NewRecorder()
 
-	rec := NewRecovery()
+	rec := NewRecovery("negroni")
 	rec.Logger = log.New(buff, "[negroni] ", 0)
 
 	n := New()

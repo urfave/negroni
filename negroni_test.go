@@ -51,7 +51,7 @@ func TestNegroniServeHTTP(t *testing.T) {
 	expect(t, response.Code, http.StatusBadRequest)
 }
 
-// Ensures that a Negroni middleware chain 
+// Ensures that a Negroni middleware chain
 // can correctly return all of its handlers.
 func TestHandlers(t *testing.T) {
 	response := httptest.NewRecorder()
@@ -63,7 +63,7 @@ func TestHandlers(t *testing.T) {
 		rw.WriteHeader(http.StatusOK)
 	}))
 
-	// Expects the length of handlers to be exactly 1 
+	// Expects the length of handlers to be exactly 1
 	// after adding exactly one handler to the middleware chain
 	handlers = n.Handlers()
 	expect(t, 1, len(handlers))

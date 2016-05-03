@@ -49,6 +49,7 @@ func Wrap(handler http.Handler) Handler {
 type Negroni struct {
 	middleware middleware
 	handlers   []Handler
+	title      string
 }
 
 // New returns a new Negroni instance with no middleware preconfigured.
@@ -56,6 +57,7 @@ func New(handlers ...Handler) *Negroni {
 	return &Negroni{
 		handlers:   handlers,
 		middleware: build(handlers),
+		title:      "negroni",
 	}
 }
 
@@ -66,7 +68,7 @@ func New(handlers ...Handler) *Negroni {
 // Logger - Request/Response Logging
 // Static - Static File Serving
 func Classic() *Negroni {
-	return New(NewRecovery(), NewLogger(), NewStatic(http.Dir("public")))
+	return New(NewRecovery("negroni"), NewLogger("negroni"), NewStatic(http.Dir("public")))
 }
 
 func (n *Negroni) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -97,9 +99,14 @@ func (n *Negroni) UseHandlerFunc(handlerFunc func(rw http.ResponseWriter, r *htt
 // Run is a convenience function that runs the negroni stack as an HTTP
 // server. The addr string takes the same format as http.ListenAndServe.
 func (n *Negroni) Run(addr string) {
-	l := log.New(os.Stdout, "[negroni] ", 0)
+	l := log.New(os.Stdout, "["+n.title+"] ", 0)
 	l.Printf("listening on %s", addr)
 	l.Fatal(http.ListenAndServe(addr, n))
+}
+
+// SetTitle changes the applictaion title, used for the command line interface
+func (n *Negroni) SetTitle(title string) {
+	n.title = title
 }
 
 // Returns a list of all the handlers in the current Negroni middleware chain.
