@@ -140,7 +140,7 @@ router.Handle("/admin", negroni.New(
 ))
 ~~~
 
-If you are using [gorilla/mux](http://www.gorillatoolkit.org/pkg/mux) here is an example using a subrouter.
+If you are using [Gorilla Mux](http://github.com/gorilla/mux) here is an example using a subrouter.
 
 ~~~go
 router := mux.NewRouter()
