@@ -135,7 +135,7 @@ adminRoutes := mux.NewRouter()
 // add admin routes here
 
 // Create a new negroni for the admin middleware
-router.Handle("/admin", negroni.New(
+router.PathPrefix("/admin").Handler(negroni.New(
   Middleware1,
   Middleware2,
   negroni.Wrap(adminRoutes),
