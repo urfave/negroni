@@ -8,6 +8,7 @@ If you like the idea of [Martini](https://github.com/go-martini/martini), but yo
 Language Translations:
 * [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
 * [繁體中文 (zh_tw)](translations/README_zh_tw.md)
+* [简体中文 (zh_cn)](translations/README_zh_cn.md)
 * [German (de_DE)](translations/README_de_de.md)
 
 ## Getting Started
