@@ -8,11 +8,14 @@ If you like the idea of [Martini](https://github.com/go-martini/martini), but yo
 Language Translations:
 * [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
 * [繁體中文 (zh_tw)](translations/README_zh_tw.md)
+* [简体中文 (zh_cn)](translations/README_zh_cn.md)
 * [German (de_DE)](translations/README_de_de.md)
 
 ## Getting Started
 
-After installing Go and setting up your [GOPATH](http://golang.org/doc/code.html#GOPATH), create your first `.go` file. We'll call it `server.go`.
+After installing Go and setting up your
+[GOPATH](http://golang.org/doc/code.html#GOPATH), create your first `.go` file.
+We'll call it `server.go`.
 
 ~~~ go
 package main
@@ -29,9 +32,10 @@ func main() {
     fmt.Fprintf(w, "Welcome to the home page!")
   })
 
-  n := negroni.Classic()
+  n := negroni.Classic() // Includes some default middlewares
   n.UseHandler(mux)
-  n.Run(":3000")
+
+	http.ListenAndServe(":3000", n)
 }
 ~~~
 
@@ -66,7 +70,7 @@ n.Use(Middleware3)
 // router goes last
 n.UseHandler(router)
 
-n.Run(":3000")
+http.ListenAndServe(":3000", n)
 ~~~
 
 ## `negroni.Classic()`
@@ -114,16 +118,41 @@ mux := http.NewServeMux()
 
 n.UseHandler(mux)
 
-n.Run(":3000")
+http.ListenAndServe(":3000", n)
 ~~~
 
 ## `Run()`
-Negroni has a convenience function called `Run`. `Run` takes an addr string identical to [http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe).
+Negroni has a convenience function called `Run`. `Run` takes an addr string
+identical to
+[http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe).
 
 ~~~ go
 n := negroni.Classic()
-// ...
-log.Fatal(http.ListenAndServe(":8080", n))
+n.Run(":8080")
+~~~
+
+In general, you will want to use `net/http` methods and just pass `negroni` has
+a handler as this is more flexible.
+
+E.g.
+
+~~~ go
+  mux := http.NewServeMux()
+  mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+    fmt.Fprintf(w, "Welcome to the home page!")
+  })
+
+  n := negroni.Classic() // Includes some default middlewares
+  n.UseHandler(mux)
+
+	s := &http.Server{
+		Addr:           ":8080",
+		Handler:        n,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+	log.Fatal(s.ListenAndServe())
 ~~~
 
 ## Route Specific Middleware
