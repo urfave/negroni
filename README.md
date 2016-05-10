@@ -95,8 +95,9 @@ This makes it really easy to get started with some useful features from Negroni.
 
 ### `negroni.Recovery`
 
-The default recovery middleware, writing `500` and logging `PANIC: ` for any
-panic recovered when calling `next()`.  All struct members are configurable:
+The default recovery middleware, returning status `500` and logging `PANIC: `
+for any panic recovered when calling `next()`.  All struct members are
+configurable:
 
 * `Logger` - defaults to a new `log.Logger` prefixed `[negroni]` writing to
   `os.Stdout` with no flags set.
@@ -109,9 +110,9 @@ panic recovered when calling `next()`.  All struct members are configurable:
 
 ### `negroni.Logger`
 
-The default logging middleware, writing `Started {method} {path}` and `Completed
-{status} {text-status} in {time}` for every request.  There are no configurable
-struct members.
+The default logging middleware, writing `[negroni] Started {method} {path}` and
+`[negroni] Completed {status} {text-status} in {time}` to `os.Stdout` for every
+request.  There are no configurable struct members.
 
 ### `negroni.Static`
 
