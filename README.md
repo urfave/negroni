@@ -178,13 +178,22 @@ http.ListenAndServe(":3000", n)
 Negroni has a convenience function called `Run`. `Run` takes an addr string
 identical to [`http.ListenAndServe`](https://godoc.org/net/http#ListenAndServe).
 
+<!-- { "interrupt": true } -->
 ``` go
-n := negroni.Classic()
-n.Run(":8080")
+package main
+
+import (
+  "github.com/codegangsta/negroni"
+)
+
+func main() {
+  n := negroni.Classic()
+  n.Run(":8080")
+}
 ```
 
-In general, you will want to use `net/http` methods and just pass `negroni` has
-a handler as this is more flexible, e.g.:
+In general, you will want to use `net/http` methods and pass `negroni` as a
+`Handler`, as this is more flexible, e.g.:
 
 <!-- { "interrupt": true } -->
 ``` go
