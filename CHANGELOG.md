@@ -3,6 +3,8 @@
 **ATTN**: This project uses [semantic versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.2.0] - 2016-05-10
 ### Added
 - Support for variadic handlers in `New()`
 - Added `Negroni.Handlers()` to fetch all of the handlers for a given chain
@@ -18,4 +20,5 @@
 ### Added
 - Initial implementation.
 
-[Unreleased]: https://github.com/codegangsta/negroni/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/codegangsta/negroni/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/codegangsta/negroni/compare/v0.1.0...v0.2.0
