@@ -85,9 +85,9 @@ http.ListenAndServe(":3000", n)
 `negroni.Classic()` provides some default middleware that is useful for most
 applications:
 
-* [`negroni.Recovery`](#negroni-recovery) - Panic Recovery Middleware.
-* [`negroni.Logger`](#negroni-logger) - Request/Response Logger Middleware.
-* [`negroni.Static`](#negroni-static) - Static File serving under the "public"
+* [`negroni.Recovery`](#negronirecovery) - Panic Recovery Middleware.
+* [`negroni.Logger`](#negronilogger) - Request/Response Logger Middleware.
+* [`negroni.Static`](#negronistatic) - Static File serving under the "public"
   directory.
 
 This makes it really easy to get started with some useful features from Negroni.
