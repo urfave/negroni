@@ -1,13 +1,9 @@
-# Negroni
-
-[![GoDoc](https://godoc.org/github.com/codegangsta/negroni?status.svg)]
-[![wercker status](https://app.wercker.com/status/13688a4a94b82d84a0b8d038c4965b61/s)]
-[![codebeat](https://codebeat.co/badges/47d320b1-209e-45e8-bd99-9094bc5111e2)]
+# Negroni [![GoDoc](https://godoc.org/github.com/codegangsta/negroni?status.svg)](http://godoc.org/github.com/codegangsta/negroni) [![wercker status](https://app.wercker.com/status/13688a4a94b82d84a0b8d038c4965b61/s "wercker status")](https://app.wercker.com/project/bykey/13688a4a94b82d84a0b8d038c4965b61) [![codebeat](https://codebeat.co/badges/47d320b1-209e-45e8-bd99-9094bc5111e2)](https://codebeat.co/projects/github-com-codegangsta-negroni)
 
 Negroni is an idiomatic approach to web middleware in Go. It is tiny,
 non-intrusive, and encourages use of `net/http` Handlers.
 
-If you like the idea of [Martini], but
+If you like the idea of [Martini](https://github.com/go-martini/martini), but
 you think it contains too much magic, then Negroni is a great fit.
 
 Language Translations:
@@ -18,7 +14,7 @@ Language Translations:
 
 ## Getting Started
 
-After installing Go and setting up your [GOPATH], create your first `.go` file.
+After installing Go and setting up your [GOPATH](http://golang.org/doc/code.html#GOPATH), create your first `.go` file.
 We'll call it `server.go`.
 
 <!-- { "interrupt": true } -->
@@ -177,7 +173,8 @@ http.ListenAndServe(":3000", n)
 ## `Run()`
 
 Negroni has a convenience function called `Run`. `Run` takes an addr string
-identical to [http.ListenAndServe].
+identical to
+[http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe).
 
 ``` go
 n := negroni.Classic()
@@ -303,10 +300,4 @@ Negroni middleware handler.
 Negroni is obsessively designed by none other than the [Code
 Gangsta](https://codegangsta.io/)
 
-[GoDoc]: http://godoc.org/github.com/codegangsta/negroni
-[wercker status]: https://app.wercker.com/project/bykey/13688a4a94b82d84a0b8d038c4965b61
-[codebeat]: https://codebeat.co/projects/github-com-codegangsta-negroni
-[Martini]: https://github.com/go-martini/martini
-[GOPATH]: http://golang.org/doc/code.html#GOPATH
 [Gorilla Mux]: https://github.com/gorilla/mux
-[http.ListenAndServe]: http://golang.org/pkg/net/http#ListenAndServe
