@@ -116,16 +116,18 @@ struct members.
 
 The default static file serving middleware, meant as a best-effort file serving
 handler for `GET` or `HEAD` requests matching paths within a single
-`http.FileSystem`.  **NOTE** nonexistent files will *not* result in a `404`
-status.  If this behavior is desired, please consider using `http.FileServer`
-directly.  All struct members are configurable:
+[`http.FileSystem`].  All struct members are configurable:
 
-* `Dir` - required argument to `NewStatic` of type `http.FileSystem`, defaulting
+* `Dir` - required argument to `NewStatic` of type [`http.FileSystem`], defaulting
   to `http.Dir("public")` when constructed via `negroni.Classic()`
 * `Prefix` - default `""` optional prefix which is stripped (if non-empty) prior
   to file existence check.
 * `IndexFile` - default `"index.html"` file which will be served if the request
   path matches an existing directory.
+
+**NOTE**: Nonexistent files will *not* result in a `404` status.  If this
+behavior is desired, please consider using
+[`http.FileServer`](https://godoc.org/net/http#FileServer) directly.
 
 ## Handlers
 
@@ -173,8 +175,7 @@ http.ListenAndServe(":3000", n)
 ## `Run()`
 
 Negroni has a convenience function called `Run`. `Run` takes an addr string
-identical to
-[http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe).
+identical to [`http.ListenAndServe`](https://godoc.org/net/http#ListenAndServe).
 
 ``` go
 n := negroni.Classic()
@@ -301,3 +302,4 @@ Negroni is obsessively designed by none other than the [Code
 Gangsta](https://codegangsta.io/)
 
 [Gorilla Mux]: https://github.com/gorilla/mux
+[`http.FileSystem`]: https://godoc.org/net/http#FileSystem
