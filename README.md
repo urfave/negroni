@@ -42,7 +42,7 @@ func main() {
 }
 ```
 
-Then install the Negroni package (&gt;= **go 1.1** is required):
+Then install the Negroni package (**NOTE**: &gt;= **go 1.1** is required):
 
 ```
 go get github.com/codegangsta/negroni
