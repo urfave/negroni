@@ -3,12 +3,6 @@
 **ATTN**: This project uses [semantic versioning](http://semver.org/).
 
 ## [Unreleased]
-
-### Added
-
-### Changed
-
-## [0.2.0] - unreleased
 ### Added
 - Support for variadic handlers in `New()`
 - Added `Negroni.Handlers()` to fetch all of the handlers for a given chain
@@ -18,6 +12,7 @@
 ### Changed
 - Set the status before calling `beforeFuncs` so the information is available to them
 - Set default status to `200` in the case that no handler writes status -- was previously `0`
+- Panic if `nil` handler is given to `negroni.Use`
 
 ## 0.1.0 - 2013-07-22
 ### Added
