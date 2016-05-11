@@ -86,50 +86,12 @@ http.ListenAndServe(":3000", n)
 `negroni.Classic()` provides some default middleware that is useful for most
 applications:
 
-* [`negroni.Recovery`](#negronirecovery) - Panic Recovery Middleware.
-* [`negroni.Logger`](#negronilogger) - Request/Response Logger Middleware.
-* [`negroni.Static`](#negronistatic) - Static File serving under the "public"
+* [`negroni.Recovery`](#recovery) - Panic Recovery Middleware.
+* [`negroni.Logger`](#logger) - Request/Response Logger Middleware.
+* [`negroni.Static`](#static) - Static File serving under the "public"
   directory.
 
 This makes it really easy to get started with some useful features from Negroni.
-
-### `negroni.Recovery`
-
-The default recovery middleware, returning status `500` and logging `PANIC: `
-for any panic recovered when calling `next()`.  All struct members are
-configurable:
-
-* `Logger` - defaults to a new `log.Logger` prefixed `[negroni]` writing to
-  `os.Stdout` with no flags set.
-* `PrintStack` - default `true`, causing the error to be written to the
-  `http.ResponseWriter`
-* `StackSize` - default 8k, used to make a byte slice receiver passed to
-  `runtime.Stack` when retrieving the stack for logging during recovery
-* `StackAll` - default `false`, passed to `runtime.Stack` when retrieving the
-  stack for logging during recovery
-
-### `negroni.Logger`
-
-The default logging middleware, writing `[negroni] Started {method} {path}` and
-`[negroni] Completed {status} {text-status} in {time}` to `os.Stdout` for every
-request.  There are no configurable struct members.
-
-### `negroni.Static`
-
-The default static file serving middleware, meant as a best-effort file serving
-handler for `GET` or `HEAD` requests matching paths within a single
-[`http.FileSystem`].  All struct members are configurable:
-
-* `Dir` - required argument to `NewStatic` of type [`http.FileSystem`], defaulting
-  to `http.Dir("public")` when constructed via `negroni.Classic()`
-* `Prefix` - default `""` optional prefix which is stripped (if non-empty) prior
-  to file existence check.
-* `IndexFile` - default `"index.html"` file which will be served if the request
-  path matches an existing directory.
-
-**NOTE**: Nonexistent files will *not* result in a `404` status.  If this
-behavior is desired, please consider using
-[`http.FileServer`](https://godoc.org/net/http#FileServer) directly.
 
 ## Handlers
 
@@ -276,7 +238,7 @@ a handler.
 
 Example:
 
-~~~ go
+``` go
 package main
 
 import (
@@ -301,7 +263,7 @@ func main() {
 
 	http.ListenAndServe(":3000", n)
 }
-~~~
+```
 
 Will serve files from the `/tmp` directory first, but proxy calls to the next
 handler if the request does not match a file on the filesystem.
@@ -315,7 +277,7 @@ the HTTP response code.
 
 Example:
 
-~~~ go
+``` go
 package main
 
 import (
@@ -337,7 +299,7 @@ func main() {
 
 	http.ListenAndServe(":3000", n)
 }
-~~~
+```
 
 Will return a `500 Internal Server Error` to each request. It will also log the
 stack traces as well as print the stack trace to the requester if `PrintStack`
@@ -349,7 +311,7 @@ This middleware logs each incoming request and response.
 
 Example:
 
-~~~ go
+``` go
 package main
 
 import (
@@ -371,7 +333,7 @@ func main() {
 
 	http.ListenAndServe(":3000", n)
 }
-~~~
+```
 
 Will print a log similar to:
 
