@@ -264,6 +264,124 @@ router.PathPrefix("/subpath").Handler(negroni.New(
 ))
 ```
 
+## Bundled Middleware
+
+### Static
+
+This middleware will serve files on the filesystem. If the files do not exist,
+it proxies the request to the next middleware. If you want the requests for
+non-existent files to return a `404 File Not Found` to the user you should look
+at using [http.FileServer](https://golang.org/pkg/net/http/#FileServer) as
+a handler.
+
+Example:
+
+~~~ go
+package main
+
+import (
+  "fmt"
+  "net/http"
+
+  "github.com/codegangsta/negroni"
+)
+
+func main() {
+  mux := http.NewServeMux()
+  mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+    fmt.Fprintf(w, "Welcome to the home page!")
+  })
+
+  // Example of using a http.FileServer if you want "server-like" rather than "middleware" behavior
+  // mux.Handle("/public", http.FileServer(http.Dir("/home/public")))
+
+  n := negroni.New()
+  n.Use(negroni.NewStatic(http.Dir("/tmp")))
+  n.UseHandler(mux)
+
+	http.ListenAndServe(":3000", n)
+}
+~~~
+
+Will serve files from the `/tmp` directory first, but proxy calls to the next
+handler if the request does not match a file on the filesystem.
+
+### Recovery
+
+This middleware catches `panic`s and responds with a `500` response code. If
+any other middleware has written a response code or body, this middleware will
+fail to properly send a 500 to the client, as the client has already received
+the HTTP response code.
+
+Example:
+
+~~~ go
+package main
+
+import (
+  "fmt"
+  "net/http"
+
+  "github.com/codegangsta/negroni"
+)
+
+func main() {
+  mux := http.NewServeMux()
+  mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+    panic("oh no")
+  })
+
+  n := negroni.New()
+  n.Use(negroni.NewRecovery())
+  n.UseHandler(mux)
+
+	http.ListenAndServe(":3000", n)
+}
+~~~
+
+Will return a `500 Internal Server Error` to each request. It will also log the
+stack traces as well as print the stack trace to the requester if `PrintStack`
+is set to `true` (the default).
+
+## Logger
+
+This middleware logs each incoming request and response.
+
+Example:
+
+~~~ go
+package main
+
+import (
+  "fmt"
+  "net/http"
+
+  "github.com/codegangsta/negroni"
+)
+
+func main() {
+  mux := http.NewServeMux()
+  mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+    fmt.Fprintf(w, "Welcome to the home page!")
+  })
+
+  n := negroni.New()
+  n.Use(negroni.NewLogger())
+  n.UseHandler(mux)
+
+	http.ListenAndServe(":3000", n)
+}
+~~~
+
+Will print a log similar to:
+
+```
+[negroni] Started GET /
+[negroni] Completed 200 OK in 145.446µs
+```
+
+on each request.
+
 ## Third Party Middleware
 
 Here is a current list of Negroni compatible middlware. Feel free to put up a PR
