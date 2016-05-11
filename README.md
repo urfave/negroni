@@ -78,7 +78,7 @@ n.Use(Middleware3)
 // router goes last
 n.UseHandler(router)
 
-http.ListenAndServe(":3000", n)
+http.ListenAndServe(":3001", n)
 ```
 
 ## `negroni.Classic()`
@@ -238,6 +238,7 @@ a handler.
 
 Example:
 
+<!-- { "interrupt": true } -->
 ``` go
 package main
 
@@ -261,7 +262,7 @@ func main() {
   n.Use(negroni.NewStatic(http.Dir("/tmp")))
   n.UseHandler(mux)
 
-	http.ListenAndServe(":3000", n)
+  http.ListenAndServe(":3002", n)
 }
 ```
 
@@ -277,6 +278,7 @@ the HTTP response code.
 
 Example:
 
+<!-- { "interrupt": true } -->
 ``` go
 package main
 
@@ -297,7 +299,7 @@ func main() {
   n.Use(negroni.NewRecovery())
   n.UseHandler(mux)
 
-	http.ListenAndServe(":3000", n)
+  http.ListenAndServe(":3003", n)
 }
 ```
 
@@ -311,6 +313,7 @@ This middleware logs each incoming request and response.
 
 Example:
 
+<!-- { "interrupt": true } -->
 ``` go
 package main
 
@@ -331,7 +334,7 @@ func main() {
   n.Use(negroni.NewLogger())
   n.UseHandler(mux)
 
-	http.ListenAndServe(":3000", n)
+  http.ListenAndServe(":3004", n)
 }
 ```
 
