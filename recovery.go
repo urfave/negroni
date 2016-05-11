@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/http/httptest"
 	"os"
 	"runtime"
 )
@@ -27,6 +28,9 @@ func NewRecovery() *Recovery {
 }
 
 func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	nr := httptest.NewRecorder()
+	nrw := NewResponseWriter(nr)
+
 	defer func() {
 		if err := recover(); err != nil {
 			rw.WriteHeader(http.StatusInternalServerError)
@@ -39,8 +43,14 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			if rec.PrintStack {
 				fmt.Fprintf(rw, f, err, stack)
 			}
+		} else {
+			for k, v := range nrw.Header() {
+				rw.Header()[k] = v
+			}
+			rw.WriteHeader(nr.Code)
+			rw.Write(nr.Body.Bytes())
 		}
 	}()
 
-	next(rw, r)
+	next(nrw, r)
 }
