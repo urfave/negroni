@@ -29,6 +29,10 @@ func NewRecovery() *Recovery {
 func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	defer func() {
 		if err := recover(); err != nil {
+			if rw.Header().Get("Content-Type") == "" {
+				rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
+			}
+
 			rw.WriteHeader(http.StatusInternalServerError)
 			stack := make([]byte, rec.StackSize)
 			stack = stack[:runtime.Stack(stack, rec.StackAll)]
