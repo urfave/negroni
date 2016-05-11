@@ -283,7 +283,6 @@ Example:
 package main
 
 import (
-  "fmt"
   "net/http"
 
   "github.com/codegangsta/negroni"
