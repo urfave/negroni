@@ -8,15 +8,11 @@ import (
 	"runtime"
 )
 
-type ErrorHandlerFunc interface {
-	HandleError(err interface{}, report bool)
-}
-
 // Recovery is a Negroni middleware that recovers from any panics and writes a 500 if there was one.
 type Recovery struct {
 	Logger           *log.Logger
 	PrintStack       bool
-	ErrorHandlerFunc ErrorHandlerFunc
+	ErrorHandlerFunc func(interface{})
 	StackAll         bool
 	StackSize        int
 }
@@ -33,7 +29,7 @@ func NewRecovery() *Recovery {
 
 // NewRecoveryWithFunc returns a nwe instance of Recovery with an
 // attached errorHandlerFunction
-func NewRecoveryWithFunc(errorHandlerFunc ErrorHandlerFunc) *Recovery {
+func NewRecoveryWithFunc(errorHandlerFunc func(interface{})) *Recovery {
 	return &Recovery{
 		Logger:           log.New(os.Stdout, "[negroni] ", 0),
 		PrintStack:       true,
@@ -58,7 +54,7 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			}
 
 			if rec.ErrorHandlerFunc != nil {
-				rec.ErrorHandlerFunc.HandleError(err, true)
+				rec.ErrorHandlerFunc(err)
 			}
 		}
 	}()
