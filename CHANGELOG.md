@@ -3,6 +3,8 @@
 **ATTN**: This project uses [semantic versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- `Recovery.ErrorHandlerFunc` for custom error handling during recovery
 
 ## [0.2.0] - 2016-05-10
 ### Added
