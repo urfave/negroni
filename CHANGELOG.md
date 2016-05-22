@@ -8,6 +8,12 @@
 
 ### Fixed
 - `Written()` correct returns `false` if no response header has been written
+-
+### Changed
+
+- Set default status to `0` in the case that no handler writes status -- was
+  previously `200` (in 0.2.0, before that it was `0` so this reestablishes that
+  behavior)
 
 ## [0.2.0] - 2016-05-10
 ### Added
