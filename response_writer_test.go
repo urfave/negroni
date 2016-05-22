@@ -46,6 +46,14 @@ func (h *hijackableResponse) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	return nil, nil, nil
 }
 
+func TestResponseWriterBeforeWrite(t *testing.T) {
+	rec := httptest.NewRecorder()
+	rw := NewResponseWriter(rec)
+
+	expect(t, rw.Status(), http.StatusOK)
+	expect(t, rw.Written(), false)
+}
+
 func TestResponseWriterWritingString(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
