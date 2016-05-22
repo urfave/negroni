@@ -1,4 +1,11 @@
-# Negroni [![GoDoc](https://godoc.org/github.com/codegangsta/negroni?status.svg)](http://godoc.org/github.com/codegangsta/negroni) [![wercker status](https://app.wercker.com/status/13688a4a94b82d84a0b8d038c4965b61/s "wercker status")](https://app.wercker.com/project/bykey/13688a4a94b82d84a0b8d038c4965b61) [![codebeat](https://codebeat.co/badges/47d320b1-209e-45e8-bd99-9094bc5111e2)](https://codebeat.co/projects/github-com-codegangsta-negroni)
+# Negroni
+[![GoDoc](https://godoc.org/github.com/urfave/negroni?status.svg)](http://godoc.org/github.com/urfave/negroni)
+[![Build Status](https://travis-ci.org/urfave/negroni.svg?branch=master)](https://travis-ci.org/urfave/negroni)
+[![codebeat](https://codebeat.co/badges/47d320b1-209e-45e8-bd99-9094bc5111e2)](https://codebeat.co/projects/github-com-urfave-negroni)
+
+**Notice:** This is the library formally known as
+`github.com/codegangsta/negroni` -- Github will automatically redirect requests
+to this repository, but we recommend updating your references for clarity.
 
 Negroni is an idiomatic approach to web middleware in Go. It is tiny,
 non-intrusive, and encourages use of `net/http` Handlers.
@@ -27,7 +34,7 @@ import (
   "fmt"
   "net/http"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -46,7 +53,7 @@ func main() {
 Then install the Negroni package (**NOTE**: &gt;= **go 1.1** is required):
 
 ```
-go get github.com/codegangsta/negroni
+go get github.com/urfave/negroni
 ```
 
 Then run your server:
@@ -147,7 +154,7 @@ identical to [`http.ListenAndServe`](https://godoc.org/net/http#ListenAndServe).
 package main
 
 import (
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -169,7 +176,7 @@ import (
   "net/http"
   "time"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -247,7 +254,7 @@ import (
   "fmt"
   "net/http"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -287,7 +294,7 @@ package main
 import (
   "net/http"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -316,7 +323,7 @@ package main
 import (
   "net/http"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -354,7 +361,7 @@ import (
   "fmt"
   "net/http"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -416,7 +423,7 @@ Negroni middleware handler.
 
 ## Live code reload?
 
-[gin](https://github.com/codegangsta/gin) and
+[gin](https://github.com/urfave/gin) and
 [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
 
 ## Essential Reading for Beginners of Go & Negroni
