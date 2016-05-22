@@ -1,4 +1,4 @@
-# Negroni [![GoDoc](https://godoc.org/github.com/codegangsta/negroni?status.svg)](http://godoc.org/github.com/codegangsta/negroni) [![wercker status](https://app.wercker.com/status/13688a4a94b82d84a0b8d038c4965b61/s "wercker status")](https://app.wercker.com/project/bykey/13688a4a94b82d84a0b8d038c4965b61) [![codebeat](https://codebeat.co/badges/47d320b1-209e-45e8-bd99-9094bc5111e2)](https://codebeat.co/projects/github-com-codegangsta-negroni)
+# Negroni [![GoDoc](https://godoc.org/github.com/urfave/negroni?status.svg)](http://godoc.org/github.com/urfave/negroni) [![wercker status](https://app.wercker.com/status/13688a4a94b82d84a0b8d038c4965b61/s "wercker status")](https://app.wercker.com/project/bykey/13688a4a94b82d84a0b8d038c4965b61) [![codebeat](https://codebeat.co/badges/47d320b1-209e-45e8-bd99-9094bc5111e2)](https://codebeat.co/projects/github-com-urfave-negroni)
 
 NegroniはGoによるWeb ミドルウェアへの慣用的なアプローチです。
 軽量で押し付けがましい作法は無く、また`net/http`ハンドラの使用を推奨しています。
@@ -17,7 +17,7 @@ import (
   "fmt"
   "net/http"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -36,7 +36,7 @@ func main() {
 Negroni パッケージをインストールします (**NOTE**: &gt;= **go 1.1** 以上のバージョンが必要です):
 
 ```
-go get github.com/codegangsta/negroni
+go get github.com/urfave/negroni
 ```
 
 インストールが完了したら、サーバーを起動しましょう。
@@ -129,7 +129,7 @@ http.ListenAndServe(":3000", n)
 package main
 
 import (
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -151,7 +151,7 @@ import (
   "net/http"
   "time"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -224,7 +224,7 @@ import (
   "fmt"
   "net/http"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -260,7 +260,7 @@ package main
 import (
   "net/http"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -294,7 +294,7 @@ import (
   "fmt"
   "net/http"
 
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -357,7 +357,7 @@ Negroni middleware handler.
 
 ## Live code reload?
 
-[gin](https://github.com/codegangsta/gin) and
+[gin](https://github.com/urfave/gin) and
 [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
 
 ## Go や Negroni の初心者にオススメの参考資料（英語）

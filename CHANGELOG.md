@@ -25,5 +25,5 @@
 ### Added
 - Initial implementation.
 
-[Unreleased]: https://github.com/codegangsta/negroni/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/codegangsta/negroni/compare/v0.1.0...v0.2.0
+[Unreleased]: https://github.com/urfave/negroni/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/urfave/negroni/compare/v0.1.0...v0.2.0

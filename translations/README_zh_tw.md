@@ -1,4 +1,4 @@
-# Negroni(尼格龍尼) [![GoDoc](https://godoc.org/github.com/codegangsta/negroni?status.svg)](http://godoc.org/github.com/codegangsta/negroni) [![wercker status](https://app.wercker.com/status/13688a4a94b82d84a0b8d038c4965b61/s "wercker status")](https://app.wercker.com/project/bykey/13688a4a94b82d84a0b8d038c4965b61)
+# Negroni(尼格龍尼) [![GoDoc](https://godoc.org/github.com/urfave/negroni?status.svg)](http://godoc.org/github.com/urfave/negroni) [![wercker status](https://app.wercker.com/status/13688a4a94b82d84a0b8d038c4965b61/s "wercker status")](https://app.wercker.com/project/bykey/13688a4a94b82d84a0b8d038c4965b61)
 
 尼格龍尼符合Go的web 中介器特性. 精簡、非侵入式、鼓勵使用 `net/http`  Handler.
 
@@ -12,7 +12,7 @@
 package main
 
 import (
-  "github.com/codegangsta/negroni"
+  "github.com/urfave/negroni"
   "net/http"
   "fmt"
 )
@@ -31,7 +31,7 @@ func main() {
 
 安裝尼格龍尼套件 (最低需求為**go 1.1**或更高版本):
 ~~~
-go get github.com/codegangsta/negroni
+go get github.com/urfave/negroni
 ~~~
 
 執行伺服器:
@@ -164,7 +164,7 @@ router.Handle("/admin", negroni.New(
 [mooseware](https://github.com/xyproto/mooseware)是用來寫尼格龍尼中介處理器的骨架，由[Alexander Rødseth](https://github.com/xyproto)建立。
 
 ## 即時程式重載?
-[gin](https://github.com/codegangsta/gin)和[fresh](https://github.com/pilu/fresh)兩個尼格龍尼即時重載的應用。
+[gin](https://github.com/urfave/gin)和[fresh](https://github.com/pilu/fresh)兩個尼格龍尼即時重載的應用。
 
 ## Go & 尼格龍尼初學者必讀
 
