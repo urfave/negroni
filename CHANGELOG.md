@@ -6,6 +6,9 @@
 ### Added
 - `Recovery.ErrorHandlerFunc` for custom error handling during recovery
 
+### Fixed
+- `Written()` correct returns `false` if no response header has been written
+
 ## [0.2.0] - 2016-05-10
 ### Added
 - Support for variadic handlers in `New()`
