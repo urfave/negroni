@@ -54,6 +54,19 @@ func TestResponseWriterBeforeWrite(t *testing.T) {
 	expect(t, rw.Written(), false)
 }
 
+func TestResponseWriterStatusBeforeWrite(t *testing.T) {
+	var status int
+	rec := httptest.NewRecorder()
+	rw := NewResponseWriter(rec)
+
+	rw.Before(func(w ResponseWriter) {
+		status = w.Status()
+	})
+	rw.WriteHeader(http.StatusCreated)
+
+	expect(t, status, http.StatusCreated)
+}
+
 func TestResponseWriterWritingString(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
