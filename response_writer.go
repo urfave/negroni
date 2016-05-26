@@ -39,14 +39,12 @@ type responseWriter struct {
 	status      int
 	size        int
 	beforeFuncs []beforeFunc
-	wroteHeader bool
 }
 
 func (rw *responseWriter) WriteHeader(s int) {
 	rw.status = s
 	rw.callBefore()
 	rw.ResponseWriter.WriteHeader(s)
-	rw.wroteHeader = true
 }
 
 func (rw *responseWriter) Write(b []byte) (int, error) {
@@ -60,11 +58,6 @@ func (rw *responseWriter) Write(b []byte) (int, error) {
 }
 
 func (rw *responseWriter) Status() int {
-	// Default status code is 200
-	if !rw.Written() {
-		return http.StatusOK
-	}
-
 	return rw.status
 }
 
@@ -73,7 +66,7 @@ func (rw *responseWriter) Size() int {
 }
 
 func (rw *responseWriter) Written() bool {
-	return rw.wroteHeader
+	return rw.status != 0
 }
 
 func (rw *responseWriter) Before(before func(ResponseWriter)) {
