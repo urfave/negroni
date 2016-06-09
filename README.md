@@ -424,7 +424,7 @@ Negroni middleware handler.
 
 ## Live code reload?
 
-[gin](https://github.com/urfave/gin) and
+[gin](https://github.com/codegangsta/gin) and
 [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
 
 ## Essential Reading for Beginners of Go & Negroni
