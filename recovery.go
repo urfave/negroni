@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"runtime"
+	"runtime/debug"
 )
 
 // Recovery is a Negroni middleware that recovers from any panics and writes a 500 if there was one.
@@ -35,6 +36,7 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			}
 
 			rw.WriteHeader(http.StatusInternalServerError)
+
 			stack := make([]byte, rec.StackSize)
 			stack = stack[:runtime.Stack(stack, rec.StackAll)]
 
@@ -46,7 +48,15 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			}
 
 			if rec.ErrorHandlerFunc != nil {
-				rec.ErrorHandlerFunc(err)
+				func() {
+					defer func() {
+						if err := recover(); err != nil {
+							rec.Logger.Printf("provided ErrorHandlerFunc panic'd: %s, trace:\n%s", err, debug.Stack())
+							rec.Logger.Printf("%s\n", debug.Stack())
+						}
+					}()
+					rec.ErrorHandlerFunc(err)
+				}()
 			}
 		}
 	}()
