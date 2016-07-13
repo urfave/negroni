@@ -2,7 +2,6 @@ package negroni
 
 import (
 	"bytes"
-	"fmt"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -69,5 +68,4 @@ func TestRecovery_callbackPanic(t *testing.T) {
 	n.ServeHTTP(recorder, (*http.Request)(nil))
 
 	expect(t, strings.Contains(buff.String(), "callback panic"), true)
-	fmt.Println(buff.String())
 }
