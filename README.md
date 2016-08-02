@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/urfave/negroni.svg?branch=master)](https://travis-ci.org/urfave/negroni)
 [![codebeat](https://codebeat.co/badges/47d320b1-209e-45e8-bd99-9094bc5111e2)](https://codebeat.co/projects/github-com-urfave-negroni)
 
-**Notice:** This is the library formally known as
+**Notice:** This is the library formerly known as
 `github.com/codegangsta/negroni` -- Github will automatically redirect requests
 to this repository, but we recommend updating your references for clarity.
 
