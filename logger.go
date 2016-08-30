@@ -9,8 +9,7 @@ import (
 
 // Logger is a middleware handler that logs the request as it goes in and the response as it goes out.
 type Logger struct {
-	// Logger inherits from log.Logger used to log messages with the Logger middleware
-	*log.Logger
+	Logger logger
 }
 
 // NewLogger returns a new Logger instance
@@ -20,10 +19,10 @@ func NewLogger() *Logger {
 
 func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	start := time.Now()
-	l.Printf("Started %s %s", r.Method, r.URL.Path)
+	l.Logger.Printf("Started %s %s", r.Method, r.URL.Path)
 
 	next(rw, r)
 
 	res := rw.(ResponseWriter)
-	l.Printf("Completed %v %s in %v", res.Status(), http.StatusText(res.Status()), time.Since(start))
+	l.Logger.Printf("Completed %v %s in %v", res.Status(), http.StatusText(res.Status()), time.Since(start))
 }

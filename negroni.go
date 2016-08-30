@@ -33,6 +33,12 @@ func (m middleware) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	m.handler.ServeHTTP(rw, r, m.next.ServeHTTP)
 }
 
+// logger implements just enough log.Logger interface to be compatible with other implementations
+type logger interface {
+	Println(v ...interface{})
+	Printf(format string, v ...interface{})
+}
+
 // Wrap converts a http.Handler into a negroni.Handler so it can be used as a Negroni
 // middleware. The next http.HandlerFunc is automatically called after the Handler
 // is executed.
