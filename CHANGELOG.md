@@ -14,6 +14,8 @@
   previously `200` (in 0.2.0, before that it was `0` so this reestablishes that
   behavior)
 - Catch `panic`s thrown by callbacks provided to the `Recovery` handler
+- Switch `log.Logger`s to an interface to allow injection of `logrus` or other
+  logging libraries that have similar interfaces
 
 ## [0.2.0] - 2016-05-10
 ### Added
