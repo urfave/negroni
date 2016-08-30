@@ -11,7 +11,7 @@ import (
 
 // Recovery is a Negroni middleware that recovers from any panics and writes a 500 if there was one.
 type Recovery struct {
-	Logger           ALogger
+	Logger           *log.Logger
 	PrintStack       bool
 	ErrorHandlerFunc func(interface{})
 	StackAll         bool
