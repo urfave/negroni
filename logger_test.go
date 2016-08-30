@@ -13,7 +13,7 @@ func Test_Logger(t *testing.T) {
 	recorder := httptest.NewRecorder()
 
 	l := NewLogger()
-	l.ALogger = log.New(buff, "[negroni] ", 0)
+	l.Logger = log.New(buff, "[negroni] ", 0)
 
 	n := New()
 	// replace log for testing

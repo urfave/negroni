@@ -7,16 +7,10 @@ import (
 	"time"
 )
 
-// ALogger interface
-type ALogger interface {
-	Println(v ...interface{})
-	Printf(format string, v ...interface{})
-}
-
 // Logger is a middleware handler that logs the request as it goes in and the response as it goes out.
 type Logger struct {
-	// ALogger implements just enough log.Logger interface to be compatible with other implementations
-	ALogger
+	// Logger inherits from log.Logger used to log messages with the Logger middleware
+	*log.Logger
 }
 
 // NewLogger returns a new Logger instance
