@@ -359,6 +359,7 @@ package main
 
 import (
   "fmt"
+  "log"
   "net/http"
 
   "github.com/urfave/negroni"
@@ -371,7 +372,7 @@ func main() {
   })
 
   n := negroni.New()
-  n.Use(negroni.NewLogger())
+  n.Use(negroni.NewLogger(log.New(os.Stdout, "[app]", log.Lshortfile)))
   n.UseHandler(mux)
 
   http.ListenAndServe(":3004", n)
@@ -381,8 +382,8 @@ func main() {
 Will print a log similar to:
 
 ```
-[negroni] Started GET /
-[negroni] Completed 200 OK in 145.446µs
+[app]logger.go:28: Started GET /
+[app]logger.go:28: Completed 200 OK in 145.446µs
 ```
 
 on each request.

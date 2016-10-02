@@ -3,7 +3,6 @@ package negroni
 import (
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -20,8 +19,8 @@ type Logger struct {
 }
 
 // NewLogger returns a new Logger instance
-func NewLogger() *Logger {
-	return &Logger{log.New(os.Stdout, "[negroni] ", 0)}
+func NewLogger(l *log.Logger) *Logger {
+	return &Logger{l}
 }
 
 func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
