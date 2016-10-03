@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"runtime"
 	"runtime/debug"
 )
@@ -19,9 +18,9 @@ type Recovery struct {
 }
 
 // NewRecovery returns a new instance of Recovery
-func NewRecovery() *Recovery {
+func NewRecovery(l *log.Logger) *Recovery {
 	return &Recovery{
-		Logger:     log.New(os.Stdout, "[negroni] ", 0),
+		Logger:     l,
 		PrintStack: true,
 		StackAll:   false,
 		StackSize:  1024 * 8,

@@ -292,6 +292,7 @@ Example:
 package main
 
 import (
+  "log"
   "net/http"
 
   "github.com/urfave/negroni"
@@ -304,7 +305,7 @@ func main() {
   })
 
   n := negroni.New()
-  n.Use(negroni.NewRecovery())
+  n.Use(negroni.NewRecovery(log.New(os.Stdout, "[app] ", log.Lshortfile)))
   n.UseHandler(mux)
 
   http.ListenAndServe(":3003", n)
@@ -321,6 +322,7 @@ Example with error handler:
 package main
 
 import (
+  "log"
   "net/http"
 
   "github.com/urfave/negroni"
@@ -333,7 +335,7 @@ func main() {
   })
 
   n := negroni.New()
-  recovery := negroni.NewRecovery()
+  recovery := negroni.NewRecovery(log.New(os.Stdout, "[app] ", log.Lshortfile))
   recovery.ErrorHandlerFunc = reportToSentry
   n.Use(recovery)
   n.UseHandler(mux)

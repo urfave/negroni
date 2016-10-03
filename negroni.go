@@ -66,7 +66,7 @@ func New(handlers ...Handler) *Negroni {
 // Logger - Request/Response Logging
 // Static - Static File Serving
 func Classic() *Negroni {
-	return New(NewRecovery(),
+	return New(NewRecovery(log.New(os.Stdout, "[negroni] ", 0)),
 		NewLogger(log.New(os.Stdout, "[negroni] ", 0)),
 		NewStatic(http.Dir("public")))
 }
