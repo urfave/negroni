@@ -94,6 +94,10 @@ func (rw *responseWriter) callBefore() {
 func (rw *responseWriter) Flush() {
 	flusher, ok := rw.ResponseWriter.(http.Flusher)
 	if ok {
+		if !rw.Written() {
+			// The status will be StatusOK if WriteHeader has not been called yet
+			rw.WriteHeader(http.StatusOK)
+		}
 		flusher.Flush()
 	}
 }
