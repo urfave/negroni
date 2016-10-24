@@ -163,6 +163,12 @@ func TestResponseWriterCloseNotify(t *testing.T) {
 	expect(t, closed, true)
 }
 
+func TestResponseWriterNonCloseNotify(t *testing.T) {
+	rw := NewResponseWriter(httptest.NewRecorder())
+	_, ok := rw.(http.CloseNotifier)
+	expect(t, ok, false)
+}
+
 func TestResponseWriterFlusher(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
