@@ -64,6 +64,13 @@ go run server.go
 
 You will now have a Go `net/http` webserver running on `localhost:3000`.
 
+### Packaging
+
+If you are on Debian, you `negroni` is also available as [a
+package](https://packages.debian.org/sid/golang-github-urfave-negroni-dev) that
+you can install via `apt install golang-github-urfave-negroni-dev` (at the time
+of writing, it is in the `sid` repositories).
+
 ## Is Negroni a Framework?
 
 Negroni is **not** a framework. It is a middleware-focused library that is
