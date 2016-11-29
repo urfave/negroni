@@ -14,8 +14,7 @@ func TestRecovery(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	handlerCalled := false
 
-	rec := NewRecovery()
-	rec.Logger = log.New(buff, "[negroni] ", 0)
+	rec := NewRecovery(log.New(buff, "[negroni] ", 0))
 	rec.ErrorHandlerFunc = func(i interface{}) {
 		handlerCalled = true
 	}
@@ -37,8 +36,7 @@ func TestRecovery(t *testing.T) {
 func TestRecovery_noContentTypeOverwrite(t *testing.T) {
 	recorder := httptest.NewRecorder()
 
-	rec := NewRecovery()
-	rec.Logger = log.New(bytes.NewBuffer([]byte{}), "[negroni] ", 0)
+	rec := NewRecovery(log.New(bytes.NewBuffer([]byte{}), "[negroni] ", 0))
 
 	n := New()
 	n.Use(rec)
@@ -54,8 +52,7 @@ func TestRecovery_callbackPanic(t *testing.T) {
 	buff := bytes.NewBufferString("")
 	recorder := httptest.NewRecorder()
 
-	rec := NewRecovery()
-	rec.Logger = log.New(buff, "[negroni] ", 0)
+	rec := NewRecovery(log.New(buff, "[negroni] ", 0))
 	rec.ErrorHandlerFunc = func(i interface{}) {
 		panic("callback panic")
 	}

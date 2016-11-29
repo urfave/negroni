@@ -3,12 +3,11 @@ package negroni
 import (
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
 // ALogger interface
-type ALogger interface {
+type aLogger interface {
 	Println(v ...interface{})
 	Printf(format string, v ...interface{})
 }
@@ -16,12 +15,12 @@ type ALogger interface {
 // Logger is a middleware handler that logs the request as it goes in and the response as it goes out.
 type Logger struct {
 	// ALogger implements just enough log.Logger interface to be compatible with other implementations
-	ALogger
+	aLogger
 }
 
 // NewLogger returns a new Logger instance
-func NewLogger() *Logger {
-	return &Logger{log.New(os.Stdout, "[negroni] ", 0)}
+func NewLogger(l *log.Logger) *Logger {
+	return &Logger{l}
 }
 
 func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {

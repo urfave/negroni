@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"runtime"
 	"runtime/debug"
 )
 
 // Recovery is a Negroni middleware that recovers from any panics and writes a 500 if there was one.
 type Recovery struct {
-	Logger           ALogger
+	logger           aLogger
 	PrintStack       bool
 	ErrorHandlerFunc func(interface{})
 	StackAll         bool
@@ -19,9 +18,9 @@ type Recovery struct {
 }
 
 // NewRecovery returns a new instance of Recovery
-func NewRecovery() *Recovery {
+func NewRecovery(l *log.Logger) *Recovery {
 	return &Recovery{
-		Logger:     log.New(os.Stdout, "[negroni] ", 0),
+		logger:     l,
 		PrintStack: true,
 		StackAll:   false,
 		StackSize:  1024 * 8,
@@ -41,7 +40,7 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			stack = stack[:runtime.Stack(stack, rec.StackAll)]
 
 			f := "PANIC: %s\n%s"
-			rec.Logger.Printf(f, err, stack)
+			rec.logger.Printf(f, err, stack)
 
 			if rec.PrintStack {
 				fmt.Fprintf(rw, f, err, stack)
@@ -51,8 +50,8 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 				func() {
 					defer func() {
 						if err := recover(); err != nil {
-							rec.Logger.Printf("provided ErrorHandlerFunc panic'd: %s, trace:\n%s", err, debug.Stack())
-							rec.Logger.Printf("%s\n", debug.Stack())
+							rec.logger.Printf("provided ErrorHandlerFunc panic'd: %s, trace:\n%s", err, debug.Stack())
+							rec.logger.Printf("%s\n", debug.Stack())
 						}
 					}()
 					rec.ErrorHandlerFunc(err)
