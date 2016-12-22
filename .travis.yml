@@ -18,7 +18,8 @@ matrix:
   - go: master
 
 before_install:
-- find "${GOPATH%%:*}" -wholename '*golang.org/x/tools/cover*' -delete
+- find "${GOPATH%%:*}" -name '*.a' -delete
+- rm -rf "${GOPATH%%:*}/src/golang.org/x/tools/cover"
 - go get golang.org/x/tools/cmd/cover
 
 script:
