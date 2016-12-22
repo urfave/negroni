@@ -16,6 +16,9 @@ matrix:
   allow_failures:
   - go: master
 
+before_install:
+- go get golang.org/x/tools/cmd/cover
+
 script:
 - go test -race -coverprofile=coverage.txt -covermode=atomic
 
