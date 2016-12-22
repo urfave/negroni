@@ -20,7 +20,7 @@ matrix:
 before_install:
 - find "${GOPATH%%:*}" -name '*.a' -delete
 - rm -rf "${GOPATH%%:*}/src/golang.org/x/tools/cover"
-- go get golang.org/x/tools/cmd/cover
+- go get golang.org/x/tools/cover/...
 
 script:
 - go test -race -coverprofile=coverage.txt -covermode=atomic
