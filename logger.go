@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"sync"
 	"text/template"
 	"time"
 )
