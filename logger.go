@@ -11,9 +11,9 @@ import (
 	"time"
 )
 
-// Log is the structure
+// LoggerEntry is the structure
 // passed to the template.
-type Log struct {
+type LoggerEntry struct {
 	StartTime string
 	Status    int
 	Duration  time.Duration
@@ -22,14 +22,14 @@ type Log struct {
 	Path      string
 }
 
-// DefaultFormat is the format
+// LoggerDefaultFormat is the format
 // logged used by the default Logger instance.
-var DefaultFormat = "{{.StartTime}} | {{.Status}} | \t {{.Duration}} | {{.Hostname}} | {{.Method}} {{.Path}} \n"
+var LoggerDefaultFormat = "{{.StartTime}} | {{.Status}} | \t {{.Duration}} | {{.Hostname}} | {{.Method}} {{.Path}} \n"
 
-// DefaultDateFormat is the
+// LoggerDefaultDateFormat is the
 // format used for date by the
 // default Logger instance.
-var DefaultDateFormat = time.RFC3339
+var LoggerDefaultDateFormat = time.RFC3339
 
 // ALogger interface
 type ALogger interface {
@@ -43,14 +43,12 @@ type Logger struct {
 	ALogger
 	dateFormat string
 	template   *template.Template
-	buffer     *bytes.Buffer
-	mu         sync.Mutex
 }
 
 // NewLogger returns a new Logger instance
 func NewLogger() *Logger {
-	logger := &Logger{ALogger: log.New(os.Stdout, "[negroni] ", 0), dateFormat: DefaultDateFormat, buffer: bytes.NewBufferString("")}
-	logger.SetFormat(DefaultFormat)
+	logger := &Logger{ALogger: log.New(os.Stdout, "[negroni] ", 0), dateFormat: LoggerDefaultDateFormat}
+	logger.SetFormat(LoggerDefaultDateFormat)
 	return logger
 }
 
@@ -68,11 +66,16 @@ func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.Ha
 	next(rw, r)
 
 	res := rw.(ResponseWriter)
-	log := Log{start.Format(l.dateFormat), res.Status(), time.Since(start), r.Host, r.Method, r.URL.Path}
+	log := LoggerEntry{
+		StartTime: start.Format(l.dateFormat),
+		Status:    res.Status(),
+		Duration:  time.Since(start),
+		Hostname:  r.Host,
+		Method:    r.Method,
+		Path:      r.URL.Path,
+	}
 
-	l.mu.Lock()
-	defer l.mu.Unlock()
-	l.template.Execute(l.buffer, log)
-	l.Printf(l.buffer.String())
-	l.buffer.Reset()
+	buff := &bytes.Buffer{}
+	l.template.Execute(buff, log)
+	l.Printf(buff.String())
 }
