@@ -47,7 +47,7 @@ type Logger struct {
 // NewLogger returns a new Logger instance
 func NewLogger() *Logger {
 	logger := &Logger{ALogger: log.New(os.Stdout, "[negroni] ", 0), dateFormat: LoggerDefaultDateFormat}
-	logger.SetFormat(LoggerDefaultDateFormat)
+	logger.SetFormat(LoggerDefaultFormat)
 	return logger
 }
 
