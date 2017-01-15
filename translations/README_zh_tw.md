@@ -164,7 +164,7 @@ router.Handle("/admin", negroni.New(
 [mooseware](https://github.com/xyproto/mooseware)是用來寫尼格龍尼中介處理器的骨架，由[Alexander Rødseth](https://github.com/xyproto)建立。
 
 ## 即時程式重載?
-[gin](https://github.com/urfave/gin)和[fresh](https://github.com/pilu/fresh)兩個尼格龍尼即時重載的應用。
+[gin](https://github.com/codegangsta/gin)和[fresh](https://github.com/pilu/fresh)兩個尼格龍尼即時重載的應用。
 
 ## Go & 尼格龍尼初學者必讀
 
