@@ -12,9 +12,10 @@
 package main
 
 import (
-  "github.com/urfave/negroni"
-  "net/http"
   "fmt"
+  "net/http"
+
+  "github.com/urfave/negroni"
 )
 
 func main() {
@@ -23,9 +24,10 @@ func main() {
     fmt.Fprintf(w, "Welcome to the home page!")
   })
 
-  n := negroni.Classic()
+  n := negroni.Classic() // Includes some default middlewares
   n.UseHandler(mux)
-  n.Run(":3000")
+
+  http.ListenAndServe(":3000", n)
 }
 ~~~
 
@@ -54,21 +56,21 @@ go run server.go
 router := mux.NewRouter()
 router.HandleFunc("/", HomeHandler)
 
-n := negroni.New(中介器1, 中介器2)
-// Or use a 中介器 with the Use() function
-n.Use(中介器3)
+n := negroni.New(Middleware1, Middleware2)
+// Or use a middleware with the Use() function
+n.Use(Middleware3)
 // router goes last
 n.UseHandler(router)
 
-n.Run(":3000")
+http.ListenAndServe(":3001", n)
 ~~~
 
 ## `negroni.Classic()`
 `negroni.Classic()` 提供一些好用的預設中介器:
 
-* `negroni.Recovery` - Panic 還原中介器
-* `negroni.Logging` - Request/Response 紀錄中介器
-* `negroni.Static` - 在"public"目錄下的靜態檔案服務
+* [`negroni.Recovery`](https://github.com/urfave/negroni#recovery) - Panic 還原中介器
+* [`negroni.Logging`](https://github.com/urfave/negroni#logger) - Request/Response 紀錄中介器
+* [`negroni.Static`](https://github.com/urfave/negroni#static) - 在"public"目錄下的靜態檔案服務
 
 尼格龍尼的這些功能讓你開發變得很簡單。
 
@@ -91,14 +93,14 @@ func MyMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc
 }
 ~~~
 
-然後你可以透過`Use`函數對應到處理器的通道:
+然後你可以透過 `Use` 函數對應到處理器的通道:
 
 ~~~ go
 n := negroni.New()
 n.Use(negroni.HandlerFunc(MyMiddleware))
 ~~~
 
-你也可以應原始的舊`http.Handler`:
+你也可以對應原始的 `http.Handler`:
 
 ~~~ go
 n := negroni.New()
@@ -108,16 +110,58 @@ mux := http.NewServeMux()
 
 n.UseHandler(mux)
 
-n.Run(":3000")
+http.ListenAndServe(":3000", n)
 ~~~
 
 ## `Run()`
 尼格龍尼有一個很好用的函數`Run`，`Run`接收addr字串辨識[http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe)。
 
 ~~~ go
-n := negroni.Classic()
-// ...
-log.Fatal(http.ListenAndServe(":8080", n))
+package main
+
+import (
+  "github.com/urfave/negroni"
+)
+
+func main() {
+  n := negroni.Classic()
+  n.Run(":8080")
+}
+~~~
+
+In general, you will want to use net/http methods and pass negroni as a Handler, as this is more flexible, e.g.:
+一般來說，你會希望使用 `net/http` 方法，並且將尼格龍尼當作處理器傳入，這相對起來彈性比較大，例如：
+
+~~~ go
+package main
+
+import (
+  "fmt"
+  "log"
+  "net/http"
+  "time"
+
+  "github.com/urfave/negroni"
+)
+
+func main() {
+  mux := http.NewServeMux()
+  mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+    fmt.Fprintf(w, "Welcome to the home page!")
+  })
+
+  n := negroni.Classic() // Includes some default middlewares
+  n.UseHandler(mux)
+
+  s := &http.Server{
+    Addr:           ":8080",
+    Handler:        n,
+    ReadTimeout:    10 * time.Second,
+    WriteTimeout:   10 * time.Second,
+    MaxHeaderBytes: 1 << 20,
+  }
+  log.Fatal(s.ListenAndServe())
+}
 ~~~
 
 ## 路由特有中介器
@@ -133,6 +177,23 @@ router.Handle("/admin", negroni.New(
   Middleware1,
   Middleware2,
   negroni.Wrap(adminRoutes),
+))
+~~~
+
+If you are using Gorilla Mux, here is an example using a subrouter:
+如果你使用 [Gorilla Mux](https://github.com/gorilla/mux)，下方是一個使用 subrounter 的例子：
+
+~~~ go
+router := mux.NewRouter()
+subRouter := mux.NewRouter().PathPrefix("/subpath").Subrouter().StrictSlash(true)
+subRouter.HandleFunc("/", someSubpathHandler) // "/subpath/"
+subRouter.HandleFunc("/:id", someSubpathHandler) // "/subpath/:id"
+
+// "/subpath" is necessary to ensure the subRouter and main router linkup
+router.PathPrefix("/subpath").Handler(negroni.New(
+  Middleware1,
+  Middleware2,
+  negroni.Wrap(subRouter),
 ))
 ~~~
 
@@ -164,7 +225,7 @@ router.Handle("/admin", negroni.New(
 [mooseware](https://github.com/xyproto/mooseware)是用來寫尼格龍尼中介處理器的骨架，由[Alexander Rødseth](https://github.com/xyproto)建立。
 
 ## 即時程式重載?
-[gin](https://github.com/urfave/gin)和[fresh](https://github.com/pilu/fresh)兩個尼格龍尼即時重載的應用。
+[gin](https://github.com/codegangsta/gin)和[fresh](https://github.com/pilu/fresh)兩個尼格龍尼即時重載的應用。
 
 ## Go & 尼格龍尼初學者必讀
 
