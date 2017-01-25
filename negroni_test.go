@@ -25,7 +25,7 @@ func TestNegroniRun(t *testing.T) {
 	go New().Run(":3000")
 }
 
-func TestNegroniCombine(t *testing.T) {
+func TestNegroniWith(t *testing.T) {
 	result := ""
 	response := httptest.NewRecorder()
 
@@ -43,7 +43,7 @@ func TestNegroniCombine(t *testing.T) {
 	expect(t, 2, len(n1.Handlers()))
 	expect(t, result, "onetwo")
 
-	n2 := n1.Combine(HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	n2 := n1.With(HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 		result += "three"
 		next(rw, r)
 	}))

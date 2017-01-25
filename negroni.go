@@ -59,9 +59,9 @@ func New(handlers ...Handler) *Negroni {
 	}
 }
 
-// Combine returns a new Negroni instance that is a combination of the negroni
+// With returns a new Negroni instance that is a combination of the negroni
 // receiver's handlers and the provided handlers.
-func (n *Negroni) Combine(handlers ...Handler) *Negroni {
+func (n *Negroni) With(handlers ...Handler) *Negroni {
 	return New(
 		append(n.handlers, handlers...)...,
 	)

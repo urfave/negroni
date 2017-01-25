@@ -152,9 +152,9 @@ n.UseHandler(mux)
 http.ListenAndServe(":3000", n)
 ```
 
-## `Combine()`
+## `With()`
 
-Negroni has a convenience function called `Combine`. `Combine` takes one or more
+Negroni has a convenience function called `With`. `With` takes one or more
 `Handler` instances and returns a new `Negroni` with the combination of the
 receiver's handlers and the new handlers.
 
@@ -166,7 +166,7 @@ common.Use(MyMiddleware2)
 
 // `specific` is a new negroni with the handlers from `common` combined with the
 // the handlers passed in
-specific := common.Combine(
+specific := common.With(
 	SpecificMiddleware1,
 	SpecificMiddleware2
 )
@@ -262,7 +262,7 @@ router.PathPrefix("/subpath").Handler(negroni.New(
 ))
 ```
 
-`Combine()` can be used to eliminate redundancy for middlewares shared across
+`With()` can be used to eliminate redundancy for middlewares shared across
 routes.
 
 ``` go
@@ -280,13 +280,13 @@ common := negroni.New(
 
 // create a new negroni for the api middleware
 // using the common middleware as a base
-router.PathPrefix("/api").Handler(common.Combine(
+router.PathPrefix("/api").Handler(common.With(
   APIMiddleware1,
   negroni.Wrap(apiRoutes),
 ))
 // create a new negroni for the web middleware
 // using the common middleware as a base
-router.PathPrefix("/web").Handler(common.Combine(
+router.PathPrefix("/web").Handler(common.With(
   WebMiddleware1,
   negroni.Wrap(webRoutes),
 ))
