@@ -25,6 +25,39 @@ func TestNegroniRun(t *testing.T) {
 	go New().Run(":3000")
 }
 
+func TestNegroniWith(t *testing.T) {
+	result := ""
+	response := httptest.NewRecorder()
+
+	n1 := New()
+	n1.Use(HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		result = "one"
+		next(rw, r)
+	}))
+	n1.Use(HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		result += "two"
+		next(rw, r)
+	}))
+
+	n1.ServeHTTP(response, (*http.Request)(nil))
+	expect(t, 2, len(n1.Handlers()))
+	expect(t, result, "onetwo")
+
+	n2 := n1.With(HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		result += "three"
+		next(rw, r)
+	}))
+
+	// Verify that n1 was left intact and not modified.
+	n1.ServeHTTP(response, (*http.Request)(nil))
+	expect(t, 2, len(n1.Handlers()))
+	expect(t, result, "onetwo")
+
+	n2.ServeHTTP(response, (*http.Request)(nil))
+	expect(t, 3, len(n2.Handlers()))
+	expect(t, result, "onetwothree")
+}
+
 func TestNegroniServeHTTP(t *testing.T) {
 	result := ""
 	response := httptest.NewRecorder()
