@@ -5,6 +5,8 @@
 ## [Unreleased]
 ### Added
 - `Recovery.ErrorHandlerFunc` for custom error handling during recovery
+- `With()` helper for building a new `Negroni` struct chaining handlers from
+  existing `Negroni` structs
 
 ### Fixed
 - `Written()` correct returns `false` if no response header has been written
