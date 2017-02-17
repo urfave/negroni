@@ -170,7 +170,7 @@ router.Handle("/admin", negroni.New(
 [Alexander Rødseth](https://github.com/xyproto) 创建的 [mooseware](https://github.com/xyproto/mooseware) 是一个写兼容 Negroni 中间件的处理器骨架的范例。
 
 ## 即时编译
-[gin](https://github.com/urfave/gin) 和 [fresh](https://github.com/pilu/fresh) 这两个应用是即时编译的 Negroni 工具，推荐用户开发的时候使用。
+[gin](https://github.com/codegangsta/gin) 和 [fresh](https://github.com/pilu/fresh) 这两个应用是即时编译的 Negroni 工具，推荐用户开发的时候使用。
 
 ## Go & Negroni 初学者必读推荐
 

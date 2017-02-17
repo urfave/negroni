@@ -7,7 +7,7 @@ NegroniはGoによるWeb ミドルウェアへの慣用的なアプローチで�
 
 ## はじめに
 
-Goをインストールし、[GOPATH](http://golang.org/doc/code.html#GOPATH)の設定を行った後、.goファイルを作りましょう。これをserver.goとします。
+Goをインストールし、[GOPATH](http://golang.org/doc/code.html#GOPATH)の設定を行った後、`.go`ファイルを作りましょう。これを`server.go`とします。
 
 <!-- { "interrupt": true } -->
 ``` go
@@ -89,7 +89,7 @@ type Handler interface {
 }
 ```
 
-ミドルウェアが既にResponseWriter に書き込み処理を行っていない場合、次のミドルウェア・ハンドラを動かすために、チェーン内の次のhttp.HandlerFuncを呼び出す必要があります。
+ミドルウェアが既に`ResponseWriter`に書き込み処理を行っていない場合、次のミドルウェア・ハンドラを動かすために、チェーン内の次の`http.HandlerFunc`を呼び出す必要があります。
 
 
 ``` go
@@ -278,7 +278,7 @@ func main() {
 ```
 
 上記のコードは、 `500 Internal Server Error` を各リクエストごとに返します。
-また、スタックトレースをログに出力するだけでなく、PrintStack がtrue に設定されている場合、クライアントにスタックトレースを出力します。（デフォルトでtrue に設定されています。）
+また、スタックトレースをログに出力するだけでなく、`PrintStack`が`true`に設定されている場合、クライアントにスタックトレースを出力します。（デフォルトで`true`に設定されています。）
 
 ## Logger
 
@@ -357,7 +357,7 @@ Negroni middleware handler.
 
 ## Live code reload?
 
-[gin](https://github.com/urfave/gin) and
+[gin](https://github.com/codegangsta/gin) and
 [fresh](https://github.com/pilu/fresh) both live reload negroni apps.
 
 ## Go や Negroni の初心者にオススメの参考資料（英語）

@@ -165,7 +165,7 @@ Hier ist eine aktuelle Liste von Middlewares, die kompatible mit Negroni sind. T
 [Alexander Rødseth](https://github.com/xyproto) programmierte [mooseware](https://github.com/xyproto/mooseware), ein  Grundgerüst zum Erstellen von Negroni Middleware-Handerln.
 
 ## Aktualisieren in Echtzeit?
-[gin](https://github.com/urfave/gin) und [fresh](https://github.com/pilu/fresh)  aktualisieren Deine Negroni-Anwendung automatisch.
+[gin](https://github.com/codegangsta/gin) und [fresh](https://github.com/pilu/fresh)  aktualisieren Deine Negroni-Anwendung automatisch.
 
 ## Unverzichbare Informationen für Go- & Negronineulinge
 
