@@ -59,6 +59,11 @@ func (l *Logger) SetDateFormat(format string) {
 	l.dateFormat = format
 }
 
+// NewWithLogger returns a new Logger instance using the given *log.Logger
+func NewWithLogger(logger *log.Logger) *Logger {
+	return &Logger{logger}
+}
+
 func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	start := time.Now()
 
