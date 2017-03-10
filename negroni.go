@@ -43,6 +43,10 @@ func Wrap(handler http.Handler) Handler {
 	})
 }
 
+func WrapFunc(fn func(w http.ResponseWriter, r *http.Request)) Handler {
+	return Wrap(http.HandlerFunc(fn))
+}
+
 // Negroni is a stack of Middleware Handlers that can be invoked as an http.Handler.
 // Negroni middleware is evaluated in the order that they are added to the stack using
 // the Use and UseHandler methods.
