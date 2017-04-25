@@ -113,7 +113,7 @@ func (n *Negroni) UseHandlerFunc(handlerFunc func(rw http.ResponseWriter, r *htt
 
 // Run is a convenience function that runs the negroni stack as an HTTP
 // server. The addr string, if provided, takes the same format as http.ListenAndServe.
-// If no address is provided but the PORT environment variable is set, this latest will be used.
+// If no address is provided but the PORT environment variable is set, the PORT value is used.
 // If neither is provided, the address' value will equal the DefaultAddress constant.
 func (n *Negroni) Run(addr ...string) {
 	l := log.New(os.Stdout, "[negroni] ", 0)
