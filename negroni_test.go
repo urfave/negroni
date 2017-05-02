@@ -3,6 +3,7 @@ package negroni
 import (
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"reflect"
 	"testing"
 )
@@ -117,4 +118,19 @@ func TestNegroni_Use_Nil(t *testing.T) {
 
 	n := New()
 	n.Use(nil)
+}
+
+func TestDetectAddress(t *testing.T) {
+	if detectAddress() != DefaultAddress {
+		t.Error("Expected the DefaultAddress")
+	}
+
+	if detectAddress(":6060") != ":6060" {
+		t.Error("Expected the provided address")
+	}
+
+	os.Setenv("PORT", "8080")
+	if detectAddress() != ":8080" {
+		t.Error("Expected the PORT env var with a prefixed colon")
+	}
 }

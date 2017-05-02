@@ -6,6 +6,11 @@ import (
 	"os"
 )
 
+const (
+	// DefaultAddress is used if no other is specified.
+	DefaultAddress = ":8080"
+)
+
 // Handler handler is an interface that objects can implement to be registered to serve as middleware
 // in the Negroni middleware stack.
 // ServeHTTP should yield to the next middleware in the chain by invoking the next http.HandlerFunc
@@ -107,11 +112,23 @@ func (n *Negroni) UseHandlerFunc(handlerFunc func(rw http.ResponseWriter, r *htt
 }
 
 // Run is a convenience function that runs the negroni stack as an HTTP
-// server. The addr string takes the same format as http.ListenAndServe.
-func (n *Negroni) Run(addr string) {
+// server. The addr string, if provided, takes the same format as http.ListenAndServe.
+// If no address is provided but the PORT environment variable is set, the PORT value is used.
+// If neither is provided, the address' value will equal the DefaultAddress constant.
+func (n *Negroni) Run(addr ...string) {
 	l := log.New(os.Stdout, "[negroni] ", 0)
 	l.Printf("listening on %s", addr)
-	l.Fatal(http.ListenAndServe(addr, n))
+	l.Fatal(http.ListenAndServe(detectAddress(addr...), n))
+}
+
+func detectAddress(addr ...string) string {
+	if len(addr) > 0 {
+		return addr[0]
+	}
+	if port := os.Getenv("PORT"); port != "" {
+		return ":" + port
+	}
+	return DefaultAddress
 }
 
 // Returns a list of all the handlers in the current Negroni middleware chain.

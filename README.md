@@ -190,6 +190,9 @@ func main() {
   n.Run(":8080")
 }
 ```
+If no address is provided, the `PORT` environment variable is used instead.
+If the `PORT`environment variable is not defined, the default address will be used. 
+See [Run](https://godoc.org/github.com/urfave/negroni#Negroni.Run) for a complete description.
 
 In general, you will want to use `net/http` methods and pass `negroni` as a
 `Handler`, as this is more flexible, e.g.:
