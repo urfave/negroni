@@ -7,7 +7,7 @@
 **注意:** 本函式庫原來自於
 `github.com/codegangsta/negroni` -- Github會自動將連線轉到本連結, 但我們建議你更新一下參照.
 
-尼格龍尼符合Go的web 中介器特性. 精簡、非侵入式、鼓勵使用 `net/http`  Handler.
+尼格龍尼是一款web中介器. 道地的Go寫法、精簡、非侵入、鼓勵用`net/http`處理器.
 
 如果你喜歡[Martini](http://github.com/go-martini/martini), 但覺得這其中包太多神奇的功能, 那麼尼格龍尼會是你的最佳選擇.
 
@@ -57,8 +57,9 @@ go run server.go
 
 你現在起了一個Go的net/http網頁伺服器在`localhost:3000`.
 
-## 有問題?
-如果你有問題或新功能建議, [到這郵件群組討論](https://groups.google.com/forum/#!forum/negroni-users). 尼格龍尼在GitHub上的issues專欄是專門用來回報bug跟pull requests.
+### 打包
+如果`negroni`在Debian環境下是個[套件](https://packages.debian.org/sid/golang-github-urfave-negroni-dev), 可直接
+執行`apt install golang-github-urfave-negroni-dev`安裝(這在`sid`倉庫中).
 
 ## 尼格龍尼是個framework嗎?
 尼格龍尼**不是**framework, 是個設計用來直接使用net/http的library.
@@ -143,8 +144,9 @@ func main() {
 }
 ```
 
-In general, you will want to use net/http methods and pass negroni as a Handler, as this is more flexible, e.g.:
-一般來說, 你會希望使用 `net/http` 方法, 並且將尼格龍尼當作處理器傳入, 這相對起來彈性比較大, 例如：
+未提供路徑情況下會使用系統環境變數`PORT`, 若未定義該系統環境變數則會用預設路徑, 請見[Run](https://godoc.org/github.com/urfave/negroni#Negroni.Run)細看說明.
+
+一般來說, 你會希望使用 `net/http` 方法, 並且將尼格龍尼當作處理器傳入, 這相對起來彈性比較大, 例如:
 
 ``` go
 package main
@@ -194,7 +196,7 @@ router.Handle("/admin", negroni.New(
 ))
 ```
 
-如果你使用 [Gorilla Mux](https://github.com/gorilla/mux), 下方是一個使用 subrounter 的例子：
+如果你使用 [Gorilla Mux](https://github.com/gorilla/mux), 下方是一個使用 subrounter 的例子:
 
 ``` go
 router := mux.NewRouter()
@@ -424,7 +426,7 @@ func main() {
 [Alexander Rødseth](https://github.com/xyproto)所建
 [mooseware](https://github.com/xyproto/mooseware)用來寫尼格龍尼中介處理器的骨架
 
-## Live code reload?
+## 即時編譯
 
 [gin](https://github.com/codegangsta/gin)和
 [fresh](https://github.com/pilu/fresh)兩個尼格龍尼即時重載的應用.
