@@ -117,8 +117,9 @@ func (n *Negroni) UseHandlerFunc(handlerFunc func(rw http.ResponseWriter, r *htt
 // If neither is provided, the address' value will equal the DefaultAddress constant.
 func (n *Negroni) Run(addr ...string) {
 	l := log.New(os.Stdout, "[negroni] ", 0)
-	l.Printf("listening on %s", addr)
-	l.Fatal(http.ListenAndServe(detectAddress(addr...), n))
+	finalAddr := detectAddress(addr...)
+	l.Printf("listening on %s", finalAddr)
+	l.Fatal(http.ListenAndServe(finalAddr, n))
 }
 
 func detectAddress(addr ...string) string {
