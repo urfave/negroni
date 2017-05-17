@@ -132,6 +132,13 @@ func detectAddress(addr ...string) string {
 	return DefaultAddress
 }
 
+//RunTLS to run the negroni stack as an HTTP2 server. Need to provided tls cert, key files.
+func (n *Negroni) RunTLS(addr, certFile, keyFile string) {
+	l := log.New(os.Stdout, "[negroni] ", 0)
+	l.Printf("listening on %s", addr)
+	l.Fatal(http.ListenAndServeTLS(addr, certFile, keyFile, n))
+}
+
 // Returns a list of all the handlers in the current Negroni middleware chain.
 func (n *Negroni) Handlers() []Handler {
 	return n.handlers
