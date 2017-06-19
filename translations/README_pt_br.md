@@ -143,6 +143,7 @@ Aqui está uma lista atual de Middleware Compatíveis com Negroni. Sinta se livr
 
 | Middleware | Autor | Descrição |
 | -----------|--------|-------------|
+| [authz](https://github.com/casbin/negroni) | [Yang Luo](https://github.com/hsluoyz) | ACL, RBAC, ABAC Authorization middlware based on [Casbin](https://github.com/casbin/casbin) |
 | [Graceful](https://github.com/stretchr/graceful) | [Tyler Bunnell](https://github.com/tylerb) | Graceful HTTP Shutdown |
 | [secure](https://github.com/unrolled/secure) | [Cory Jacobsen](https://github.com/unrolled) |  Implementa rapidamente itens de segurança.|
 | [binding](https://github.com/mholt/binding) | [Matt Holt](https://github.com/mholt) | Handler para mapeamento/validação de um request a estrutura. |
