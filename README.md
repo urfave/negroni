@@ -487,6 +487,8 @@ linking your middleware if you have built one:
 [mooseware](https://github.com/xyproto/mooseware), a skeleton for writing a
 Negroni middleware handler.
 
+[Prasanga Siripala](https://github.com/pjebs) created an effective skeleton structure for web-based Go/Negroni projects: [Go-Skeleton](https://github.com/pjebs/go-skeleton) 
+
 ## Live code reload?
 
 [gin](https://github.com/codegangsta/gin) and
