@@ -106,7 +106,7 @@ func (n *Negroni) UseHandler(handler http.Handler) {
 	n.Use(Wrap(handler))
 }
 
-// UseHandler adds a http.HandlerFunc-style handler function onto the middleware stack.
+// UseHandlerFunc adds a http.HandlerFunc-style handler function onto the middleware stack.
 func (n *Negroni) UseHandlerFunc(handlerFunc func(rw http.ResponseWriter, r *http.Request)) {
 	n.UseHandler(http.HandlerFunc(handlerFunc))
 }
