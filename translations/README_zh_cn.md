@@ -165,8 +165,8 @@ func main() {
     fmt.Fprintf(w, "Welcome to the home page!")
   })
 
-  n := negroni.Classic() // 導入一些預設中介器
-  n.UseHandler(mux)
+  n := negroni.Classic() // 导入一些预设的中间件
+  n.UseHandler(mux)
 
   s := &http.Server{
     Addr:           ":8080",
