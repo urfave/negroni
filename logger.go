@@ -4,6 +4,7 @@ import (
 	"bytes"
 
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"text/template"
@@ -17,6 +18,7 @@ type LoggerEntry struct {
 	Status    int
 	Duration  time.Duration
 	Hostname  string
+	Remote    string
 	Method    string
 	Path      string
 }
@@ -59,6 +61,14 @@ func (l *Logger) SetDateFormat(format string) {
 	l.dateFormat = format
 }
 
+func (l *Logger) getRemoteAddr(r *http.Request) string {
+	if ip, _, err := net.SplitHostPort(r.RemoteAddr);err == nil{
+		return ip
+	}else{
+		return ""
+	}
+}
+
 func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	start := time.Now()
 
@@ -70,6 +80,7 @@ func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.Ha
 		Status:    res.Status(),
 		Duration:  time.Since(start),
 		Hostname:  r.Host,
+		Remote:    l.getRemoteAddr(r),
 		Method:    r.Method,
 		Path:      r.URL.Path,
 	}
