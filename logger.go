@@ -17,13 +17,14 @@ type LoggerEntry struct {
 	Status    int
 	Duration  time.Duration
 	Hostname  string
+	Remote    string
 	Method    string
 	Path      string
 }
 
 // LoggerDefaultFormat is the format
 // logged used by the default Logger instance.
-var LoggerDefaultFormat = "{{.StartTime}} | {{.Status}} | \t {{.Duration}} | {{.Hostname}} | {{.Method}} {{.Path}} \n"
+var LoggerDefaultFormat = "{{.StartTime}} | {{.Status}} | \t {{.Duration}} | {{.Hostname}} | {{.Remote}} | {{.Method}} {{.Path}} \n"
 
 // LoggerDefaultDateFormat is the
 // format used for date by the
@@ -70,6 +71,7 @@ func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.Ha
 		Status:    res.Status(),
 		Duration:  time.Since(start),
 		Hostname:  r.Host,
+		Remote:    r.RemoteAddr,
 		Method:    r.Method,
 		Path:      r.URL.Path,
 	}
