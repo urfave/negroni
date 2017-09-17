@@ -134,3 +134,34 @@ func TestDetectAddress(t *testing.T) {
 		t.Error("Expected the PORT env var with a prefixed colon")
 	}
 }
+
+func voidHTTPHandlerFunc(rw http.ResponseWriter, r *http.Request) {
+	// Do nothing
+}
+
+// Test for function Wrap
+func TestWrap(t *testing.T) {
+	response := httptest.NewRecorder()
+
+	handler := Wrap(http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		rw.WriteHeader(http.StatusOK)
+	}))
+
+	handler.ServeHTTP(response, (*http.Request)(nil), voidHTTPHandlerFunc)
+
+	expect(t, response.Code, http.StatusOK)
+}
+
+// Test for function WrapFunc
+func TestWrapFunc(t *testing.T) {
+	response := httptest.NewRecorder()
+
+	// WrapFunc(f) equals Wrap(http.HandlerFunc(f)), it's simpler and usefull.
+	handler := WrapFunc(func(rw http.ResponseWriter, r *http.Request) {
+		rw.WriteHeader(http.StatusOK)
+	})
+
+	handler.ServeHTTP(response, (*http.Request)(nil), voidHTTPHandlerFunc)
+
+	expect(t, response.Code, http.StatusOK)
+}

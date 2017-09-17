@@ -48,6 +48,16 @@ func Wrap(handler http.Handler) Handler {
 	})
 }
 
+// WrapFunc converts a http.HandlerFunc into a negroni.Handler so it can be used as a Negroni
+// middleware. The next http.HandlerFunc is automatically called after the Handler
+// is executed.
+func WrapFunc(handlerFunc http.HandlerFunc) Handler {
+	return HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		handlerFunc(rw, r)
+		next(rw, r)
+	})
+}
+
 // Negroni is a stack of Middleware Handlers that can be invoked as an http.Handler.
 // Negroni middleware is evaluated in the order that they are added to the stack using
 // the Use and UseHandler methods.
