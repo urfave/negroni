@@ -19,6 +19,7 @@ type LoggerEntry struct {
 	Hostname  string
 	Method    string
 	Path      string
+	Request   *http.Request
 }
 
 // LoggerDefaultFormat is the format
@@ -72,6 +73,7 @@ func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.Ha
 		Hostname:  r.Host,
 		Method:    r.Method,
 		Path:      r.URL.Path,
+		Request:   r,
 	}
 
 	buff := &bytes.Buffer{}
