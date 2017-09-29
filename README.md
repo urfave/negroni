@@ -448,6 +448,14 @@ Will print a log similar to:
 
 on each request.
 
+You can also set your own log format by calling the `SetFormat` function. The format is a template string with fields as mentioned in the `LoggerEntry` struct. So, as an example -
+
+```go
+l.SetFormat("[{{.Status}} {{.Duration}}] - {{.Request.UserAgent}}")
+```
+
+will show something like - `[200 18.263µs] - Go-User-Agent/1.1 `
+
 ## Third Party Middleware
 
 Here is a current list of Negroni compatible middlware. Feel free to put up a PR
