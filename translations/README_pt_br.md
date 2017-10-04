@@ -6,7 +6,7 @@ Se gosta da idéia do [Martini](http://github.com/go-martini/martini), mas acha 
 
 ## Começando
 
-Depois de instalar Go e definir seu [GOPATH](http://golang.org/doc/code.html#GOPATH), criar seu primeirto arquivo `.go`. Iremos chamá-lo `server.go`.
+Depois de instalar Go e definir seu [GOPATH](http://golang.org/doc/code.html#GOPATH), criar seu primeiro arquivo `.go`. Iremos chamá-lo `server.go`.
 
 ~~~ go
 package main
