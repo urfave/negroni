@@ -314,8 +314,7 @@ func main() {
 各リクエストごとに、以下のようなログが出力されます。
 
 ```
-[negroni] Started GET /
-[negroni] Completed 200 OK in 145.446µs
+[negroni] 2017-10-04T14:56:25+02:00 | 200 |      378µs | localhost:3004 | GET /
 ```
 
 

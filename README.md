@@ -15,7 +15,7 @@ If you like the idea of [Martini](https://github.com/go-martini/martini), but
 you think it contains too much magic, then Negroni is a great fit.
 
 Language Translations:
-* [German (de_DE)](translations/README_de_de.md)
+* [Deutsch (de_DE)](translations/README_de_de.md)
 * [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
 * [简体中文 (zh_cn)](translations/README_zh_cn.md)
 * [繁體中文 (zh_tw)](translations/README_zh_tw.md)
@@ -191,7 +191,7 @@ func main() {
 }
 ```
 If no address is provided, the `PORT` environment variable is used instead.
-If the `PORT`environment variable is not defined, the default address will be used. 
+If the `PORT` environment variable is not defined, the default address will be used. 
 See [Run](https://godoc.org/github.com/urfave/negroni#Negroni.Run) for a complete description.
 
 In general, you will want to use `net/http` methods and pass `negroni` as a
@@ -442,8 +442,7 @@ func main() {
 Will print a log similar to:
 
 ```
-[negroni] Started GET /
-[negroni] Completed 200 OK in 145.446µs
+[negroni] 2017-10-04T14:56:25+02:00 | 200 |      378µs | localhost:3004 | GET /
 ```
 
 on each request.
