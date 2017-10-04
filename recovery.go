@@ -7,7 +7,120 @@ import (
 	"os"
 	"runtime"
 	"runtime/debug"
+	"text/template"
 )
+
+const (
+	panicText = "PANIC: %s\n%s"
+	panicHTML = `<html>
+<head><title>PANIC: {{.RecoveredElement}}</title></head>
+<style type="text/css">
+html, body {
+	font-family: Helvetica, Arial, Sans;
+	color: #333333;
+	background-color: #ffffff;
+	margin: 0px;
+}
+h1 {
+	color: #ffffff;
+	background-color: #f14c4c;
+	padding: 20px;
+	border-bottom: 1px solid #2b3848;
+}
+.block {
+	margin: 2em;
+}
+.panic-interface {
+}
+
+.panic-stack-raw pre {
+	padding: 1em;
+	background: #f6f8fa;
+	border: dashed 1px;
+}
+.panic-interface-title {
+	font-weight: bold;
+}
+</style>
+<body>
+<h1>Negroni - PANIC</h1>
+
+<div class="panic-interface block">
+	<h3>{{.RequestDescription}}</h3>
+	<span class="panic-interface-title">Runtime error:</span> <span class="panic-interface-element">{{.RecoveredElement}}</span>
+</div>
+
+{{ if .Stack }}
+<div class="panic-stack-raw block">
+	<h3>Runtime Stack</h3>
+	<pre>{{.StackAsString}}</pre>
+</div>
+{{ end }}
+
+</body>
+</html>`
+	nilRequestMessage = "Request is nil"
+)
+
+var panicHTMLTemplate = template.Must(template.New("PanicPage").Parse(panicHTML))
+
+// PanicInformations contains all
+// elements for printing stack informations.
+type PanicInformations struct {
+	RecoveredElement interface{}
+	Stack            []byte
+	Request          *http.Request
+}
+
+// StackAsString returns a printable version of the stack
+func (p *PanicInformations) StackAsString() string {
+	return string(p.Stack)
+}
+
+//RequestDescription returns a printable description of the url
+func (p *PanicInformations) RequestDescription() string {
+
+	if p.Request == nil {
+		return nilRequestMessage
+	}
+
+	var queryOutput string
+	if p.Request.URL.RawQuery != "" {
+		queryOutput = "?" + p.Request.URL.RawQuery
+	}
+	return fmt.Sprintf("%s %s%s", p.Request.Method, p.Request.URL.Path, queryOutput)
+}
+
+// PanicFormatter is an interface on object can implement
+// to be able to output the stack trace
+type PanicFormatter interface {
+	// ServeStackTrace output the stack for the given answer/response.
+	// If the stack should not be printed, stack will equals "".
+	FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformations)
+}
+
+// TextPanicFormatter output the stack
+// as simple text on os.Stdout. If no `Content-Type` is set,
+// it will output the data as `text/plain; charset=utf-8`.
+// Otherwise, the origin `Content-Type` is kept.
+type TextPanicFormatter struct{}
+
+func (t *TextPanicFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformations) {
+	if rw.Header().Get("Content-Type") == "" {
+		rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	}
+	fmt.Fprintf(rw, panicText, infos.RecoveredElement, infos.Stack)
+}
+
+// HTMLPanicFormatter output the stack inside
+// an HTML page. This has been largely inspired by
+// https://github.com/go-martini/martini/pull/156/commits.
+type HTMLPanicFormatter struct{}
+
+func (t *HTMLPanicFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformations) {
+	rw.Header().Set("Content-Type", "text/html; charset=utf-8")
+	panicHTMLTemplate.Execute(rw, infos)
+}
 
 // Recovery is a Negroni middleware that recovers from any panics and writes a 500 if there was one.
 type Recovery struct {
@@ -16,6 +129,7 @@ type Recovery struct {
 	ErrorHandlerFunc func(interface{})
 	StackAll         bool
 	StackSize        int
+	formatter        PanicFormatter
 }
 
 // NewRecovery returns a new instance of Recovery
@@ -25,27 +139,29 @@ func NewRecovery() *Recovery {
 		PrintStack: true,
 		StackAll:   false,
 		StackSize:  1024 * 8,
+		formatter:  &TextPanicFormatter{},
 	}
+}
+
+// SetFormatter changes the panic formatter. Default is to TextPanicFormatter.
+func (rec *Recovery) SetFormatter(formatter PanicFormatter) {
+	rec.formatter = formatter
 }
 
 func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	defer func() {
 		if err := recover(); err != nil {
-			if rw.Header().Get("Content-Type") == "" {
-				rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
-			}
-
 			rw.WriteHeader(http.StatusInternalServerError)
 
 			stack := make([]byte, rec.StackSize)
 			stack = stack[:runtime.Stack(stack, rec.StackAll)]
-
-			f := "PANIC: %s\n%s"
-			rec.Logger.Printf(f, err, stack)
+			infos := &PanicInformations{RecoveredElement: err, Request: r}
 
 			if rec.PrintStack {
-				fmt.Fprintf(rw, f, err, stack)
+				infos.Stack = stack
 			}
+			rec.Logger.Printf(panicText, err, stack)
+			rec.formatter.FormatPanicError(rw, r, infos)
 
 			if rec.ErrorHandlerFunc != nil {
 				func() {
