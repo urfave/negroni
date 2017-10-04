@@ -384,8 +384,7 @@ func main() {
 在每个请求印的纪录会看起来像:
 
 ```
-[negroni] Started GET /
-[negroni] Completed 200 OK in 145.446µs
+[negroni] 2017-10-04T14:56:25+02:00 | 200 |      378µs | localhost:3004 | GET /
 ```
 
 ## 第三方中间件
