@@ -91,7 +91,7 @@ func TestRecovery_formatter(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	formatter := newTestOutput()
 
-	req, _ := http.NewRequest("GET", "http://localhost:3003/somePath?element=true", http.NoBody)
+	req, _ := http.NewRequest("GET", "http://localhost:3003/somePath?element=true", nil)
 	var element interface{} = "here is a panic!"
 	expectedInfos := &PanicInformations{RecoveredElement: element, Request: req}
 
@@ -110,14 +110,14 @@ func TestRecovery_formatter(t *testing.T) {
 
 func TestRecovery_PanicInformations(t *testing.T) {
 	// Request with query
-	req, _ := http.NewRequest("GET", "http://localhost:3003/somePath?element=true", http.NoBody)
+	req, _ := http.NewRequest("GET", "http://localhost:3003/somePath?element=true", nil)
 	var element interface{} = "here is a panic!"
 	expectedInfos := &PanicInformations{RecoveredElement: element, Request: req}
 
 	expect(t, expectedInfos.RequestDescription(), "GET /somePath?element=true")
 
 	// Request without Query
-	req, _ = http.NewRequest("POST", "http://localhost:3003/somePath", http.NoBody)
+	req, _ = http.NewRequest("POST", "http://localhost:3003/somePath", nil)
 	element = "here is a panic!"
 	expectedInfos = &PanicInformations{RecoveredElement: element, Request: req}
 
