@@ -80,12 +80,12 @@ func newTestOutput() *testOutput {
 	return &testOutput{buf}
 }
 
-func (t *testOutput) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformations) {
+func (t *testOutput) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformation) {
 	fmt.Fprintf(t, formatInfos(infos))
 }
 
-func formatInfos(infos *PanicInformations) string {
-	return fmt.Sprintf("%s %s", infos.RequestDescription(), infos.RecoveredElement)
+func formatInfos(infos *PanicInformation) string {
+	return fmt.Sprintf("%s %s", infos.RequestDescription(), infos.RecoveredPanic)
 }
 func TestRecovery_formatter(t *testing.T) {
 	recorder := httptest.NewRecorder()
@@ -93,10 +93,10 @@ func TestRecovery_formatter(t *testing.T) {
 
 	req, _ := http.NewRequest("GET", "http://localhost:3003/somePath?element=true", nil)
 	var element interface{} = "here is a panic!"
-	expectedInfos := &PanicInformations{RecoveredElement: element, Request: req}
+	expectedInfos := &PanicInformation{RecoveredPanic: element, Request: req}
 
 	rec := NewRecovery()
-	rec.SetFormatter(formatter)
+	rec.Formatter = formatter
 	n := New()
 	n.Use(rec)
 	n.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -108,35 +108,35 @@ func TestRecovery_formatter(t *testing.T) {
 	expect(t, formatInfos(expectedInfos), formatter.String())
 }
 
-func TestRecovery_PanicInformations(t *testing.T) {
+func TestRecovery_PanicInformation(t *testing.T) {
 	// Request with query
 	req, _ := http.NewRequest("GET", "http://localhost:3003/somePath?element=true", nil)
 	var element interface{} = "here is a panic!"
-	expectedInfos := &PanicInformations{RecoveredElement: element, Request: req}
+	expectedInfos := &PanicInformation{RecoveredPanic: element, Request: req}
 
 	expect(t, expectedInfos.RequestDescription(), "GET /somePath?element=true")
 
 	// Request without Query
 	req, _ = http.NewRequest("POST", "http://localhost:3003/somePath", nil)
 	element = "here is a panic!"
-	expectedInfos = &PanicInformations{RecoveredElement: element, Request: req}
+	expectedInfos = &PanicInformation{RecoveredPanic: element, Request: req}
 
 	expect(t, expectedInfos.RequestDescription(), "POST /somePath")
 
 	// Nil request
-	expectedInfos = &PanicInformations{RecoveredElement: element, Request: nil}
+	expectedInfos = &PanicInformation{RecoveredPanic: element, Request: nil}
 	expect(t, expectedInfos.RequestDescription(), nilRequestMessage)
 
 	// Stack
 	stackValue := "Some Stack element"
-	expectedInfos = &PanicInformations{RecoveredElement: element, Request: req, Stack: []byte(stackValue)}
+	expectedInfos = &PanicInformation{RecoveredPanic: element, Request: req, Stack: []byte(stackValue)}
 	expect(t, expectedInfos.StackAsString(), stackValue)
 }
 
 func TestRecovery_HTMLFormatter(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	rec := NewRecovery()
-	rec.SetFormatter(&HTMLPanicFormatter{})
+	rec.Formatter = &HTMLPanicFormatter{}
 	n := New()
 	n.Use(rec)
 	n.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {

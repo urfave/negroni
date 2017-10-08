@@ -13,7 +13,7 @@ import (
 const (
 	panicText = "PANIC: %s\n%s"
 	panicHTML = `<html>
-<head><title>PANIC: {{.RecoveredElement}}</title></head>
+<head><title>PANIC: {{.RecoveredPanic}}</title></head>
 <style type="text/css">
 html, body {
 	font-family: Helvetica, Arial, Sans;
@@ -47,7 +47,7 @@ h1 {
 
 <div class="panic-interface block">
 	<h3>{{.RequestDescription}}</h3>
-	<span class="panic-interface-title">Runtime error:</span> <span class="panic-interface-element">{{.RecoveredElement}}</span>
+	<span class="panic-interface-title">Runtime error:</span> <span class="panic-interface-element">{{.RecoveredPanic}}</span>
 </div>
 
 {{ if .Stack }}
@@ -64,21 +64,21 @@ h1 {
 
 var panicHTMLTemplate = template.Must(template.New("PanicPage").Parse(panicHTML))
 
-// PanicInformations contains all
+// PanicInformation contains all
 // elements for printing stack informations.
-type PanicInformations struct {
-	RecoveredElement interface{}
-	Stack            []byte
-	Request          *http.Request
+type PanicInformation struct {
+	RecoveredPanic interface{}
+	Stack          []byte
+	Request        *http.Request
 }
 
 // StackAsString returns a printable version of the stack
-func (p *PanicInformations) StackAsString() string {
+func (p *PanicInformation) StackAsString() string {
 	return string(p.Stack)
 }
 
-//RequestDescription returns a printable description of the url
-func (p *PanicInformations) RequestDescription() string {
+// RequestDescription returns a printable description of the url
+func (p *PanicInformation) RequestDescription() string {
 
 	if p.Request == nil {
 		return nilRequestMessage
@@ -94,9 +94,10 @@ func (p *PanicInformations) RequestDescription() string {
 // PanicFormatter is an interface on object can implement
 // to be able to output the stack trace
 type PanicFormatter interface {
-	// ServeStackTrace output the stack for the given answer/response.
-	// If the stack should not be printed, stack will equals "".
-	FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformations)
+	// FormatPanicError output the stack for a given answer/response.
+	// In case the the middleware should not output the stack trace,
+	// the field `Stack` of the passed `PanicInformation` instance equals `[]byte{}`.
+	FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformation)
 }
 
 // TextPanicFormatter output the stack
@@ -105,11 +106,11 @@ type PanicFormatter interface {
 // Otherwise, the origin `Content-Type` is kept.
 type TextPanicFormatter struct{}
 
-func (t *TextPanicFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformations) {
+func (t *TextPanicFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformation) {
 	if rw.Header().Get("Content-Type") == "" {
 		rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	}
-	fmt.Fprintf(rw, panicText, infos.RecoveredElement, infos.Stack)
+	fmt.Fprintf(rw, panicText, infos.RecoveredPanic, infos.Stack)
 }
 
 // HTMLPanicFormatter output the stack inside
@@ -117,8 +118,10 @@ func (t *TextPanicFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Re
 // https://github.com/go-martini/martini/pull/156/commits.
 type HTMLPanicFormatter struct{}
 
-func (t *HTMLPanicFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformations) {
-	rw.Header().Set("Content-Type", "text/html; charset=utf-8")
+func (t *HTMLPanicFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformation) {
+	if rw.Header().Get("Content-Type") == "" {
+		rw.Header().Set("Content-Type", "text/html; charset=utf-8")
+	}
 	panicHTMLTemplate.Execute(rw, infos)
 }
 
@@ -129,7 +132,7 @@ type Recovery struct {
 	ErrorHandlerFunc func(interface{})
 	StackAll         bool
 	StackSize        int
-	formatter        PanicFormatter
+	Formatter        PanicFormatter
 }
 
 // NewRecovery returns a new instance of Recovery
@@ -139,13 +142,8 @@ func NewRecovery() *Recovery {
 		PrintStack: true,
 		StackAll:   false,
 		StackSize:  1024 * 8,
-		formatter:  &TextPanicFormatter{},
+		Formatter:  &TextPanicFormatter{},
 	}
-}
-
-// SetFormatter changes the panic formatter. Default is to TextPanicFormatter.
-func (rec *Recovery) SetFormatter(formatter PanicFormatter) {
-	rec.formatter = formatter
 }
 
 func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
@@ -155,13 +153,13 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 
 			stack := make([]byte, rec.StackSize)
 			stack = stack[:runtime.Stack(stack, rec.StackAll)]
-			infos := &PanicInformations{RecoveredElement: err, Request: r}
+			infos := &PanicInformation{RecoveredPanic: err, Request: r}
 
 			if rec.PrintStack {
 				infos.Stack = stack
 			}
 			rec.Logger.Printf(panicText, err, stack)
-			rec.formatter.FormatPanicError(rw, r, infos)
+			rec.Formatter.FormatPanicError(rw, r, infos)
 
 			if rec.ErrorHandlerFunc != nil {
 				func() {

@@ -412,6 +412,7 @@ You can customize the output process by using the `SetFormatter()` function.
 
 You can use also the `HTMLPanicFormatter` to display a pretty HTML when a crash occurs.
 
+<!-- { "interrupt": true } -->
 ``` go
 package main
 
@@ -429,7 +430,7 @@ func main() {
 
   n := negroni.New()
   recovery := negroni.NewRecovery()
-  recovery.SetFormatter(&HTMLPanicFormatter{})
+  recovery.Formatter = &negroni.HTMLPanicFormatter{}
   n.Use(recovery)
   n.UseHandler(mux)
 
