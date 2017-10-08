@@ -408,6 +408,36 @@ func reportToSentry(error interface{}) {
 }
 ```
 
+The middleware simply output the informations on STDOUT by default.
+You can customize the output process by using the `SetFormatter()` function.
+
+You can use also the `HTMLPanicFormatter` to display a pretty HTML when a crash occurs.
+
+<!-- { "interrupt": true } -->
+``` go
+package main
+
+import (
+  "net/http"
+
+  "github.com/urfave/negroni"
+)
+
+func main() {
+  mux := http.NewServeMux()
+  mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+    panic("oh no")
+  })
+
+  n := negroni.New()
+  recovery := negroni.NewRecovery()
+  recovery.Formatter = &negroni.HTMLPanicFormatter{}
+  n.Use(recovery)
+  n.UseHandler(mux)
+
+  http.ListenAndServe(":3003", n)
+}
+```
 
 ## Logger
 
