@@ -20,7 +20,7 @@ Language Translations:
 * [简体中文 (zh_cn)](translations/README_zh_cn.md)
 * [繁體中文 (zh_tw)](translations/README_zh_tw.md)
 * [日本語 (ja_JP)](translations/README_ja_JP.md)
-* [French (fr_FR)](translations/README_fr_FR.md)
+* [Français (fr_FR)](translations/README_fr_FR.md)
 
 ## Getting Started
 
