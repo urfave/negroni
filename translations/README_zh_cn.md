@@ -5,22 +5,23 @@
 [![codecov](https://codecov.io/gh/urfave/negroni/branch/master/graph/badge.svg)](https://codecov.io/gh/urfave/negroni)
 
 **注意:** 本函式库原来自于
-`github.com/codegangsta/negroni` -- Github会自动将连线转到本连结, 但我们建议你更新一下参照.
+`github.com/codegangsta/negroni` -- Github会自动将连线转到本连结, 但我们建议你更新一下参照。
 
-在Go语言里，Negroni 是一个很地道的 web 中间件，它是微型，非嵌入式，并鼓励使用原生 `net/http` 处理器的库。
+在 Go 语言里，Negroni 是一个非常地道的 Web 中间件，它是一个具备：微型、非嵌入式、鼓励使用原生 `net/http` 库的中间件。
 
-如果你用过并喜欢 [Martini](http://github.com/go-martini/martini) 框架，但又不想框架中有太多魔幻性的特征，那 Negroni 就是你的菜了，相信它非常适合你。
+如果你喜欢用 [Martini](http://github.com/go-martini/martini) ，但又觉得它太魔幻，那么 Negroni 就是你很好的选择了。
 
-语言翻译:
+各国语言翻译:
 * [German (de_DE)](translations/README_de_de.md)
 * [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
-* [简体中文 (zh_cn)](translations/README_zh_cn.md)
+* [简体中文 (zh_CN)](translations/README_zh_CN.md)
 * [繁體中文 (zh_tw)](translations/README_zh_tw.md)
 * [日本語 (ja_JP)](translations/README_ja_JP.md)
+* [法语 (fr_FR)](translations/README_fr_FR.md)
 
 ## 入门指导
 
-当安装了 Go 语言并设置好了 [GOPATH](http://golang.org/doc/code.html#GOPATH) 后，新建你第一个`.go` 文件，我们叫它 `server.go` 吧。
+当安装了 Go 语言并设置好了 [GOPATH](http://golang.org/doc/code.html#GOPATH) 后，新建第一个 `.go` 文件，命名为 `server.go`。
 
 ``` go
 package main
@@ -43,28 +44,27 @@ func main() {
 }
 ```
 
-然后安装 Negroni 包（它依赖 **Go 1.1** 或更高的版本）：
+然后安装 Negroni 包（注意：要求 **Go 1.1** 或更高的版本的 Go 语言环境）：
 ```
 go get github.com/urfave/negroni
 ```
 
-然后运行刚建好的 server.go 文件:
+最后运行刚建好的 server.go 文件:
 ```
 go run server.go
 ```
 
-这时一个 Go `net/http` Web 服务器就跑在 `localhost:3000` 上，使用浏览器打开 `localhost:3000` 可以看到输出结果。
+这时一个 Go `net/http` Web 服务器会跑在 `localhost:3000` 上，使用浏览器打开 `localhost:3000` 可看到输出的结果。
 
-### 打包
-如果`negroni`在Debian环境下是个[套件](https://packages.debian.org/sid/golang-github-urfave-negroni-dev), 可直接
-执行`apt install golang-github-urfave-negroni-dev`安装(这在`sid`仓库中).
+### 第三包
+如果你使用 Debian 系统，你可以执行 `apt install golang-github-urfave-negroni-dev` 来安装 `negroni`。 [包地址](https://packages.debian.org/sid/golang-github-urfave-negroni-dev) (写该文档时，它是在 `sid` 仓库中).
 
 
 ## Negroni 是一个框架吗？
 Negroni **不**是一个框架，它是为了方便使用 `net/http` 而设计的一个库而已。
 
 ## 路由呢？
-Negroni 没有带路由功能，使用 Negroni 时，需要找一个适合你的路由。不过好在 Go 社区里已经有相当多可用的路由，Negroni 更喜欢和那些完全支持 `net/http` 库的路由组合使用，比如，结合 [Gorilla Mux](http://github.com/gorilla/mux) 使用像这样：
+Negroni 没有带路由功能，使用 Negroni 时，需要找一个适合你的路由。不过好在 Go 社区里已经有相当多可用的路由，Negroni 更喜欢和那些完全支持 `net/http` 库的路由搭配使用，比如搭配 [Gorilla Mux](http://github.com/gorilla/mux) 路由器，这样使用：
 
 ``` go
 router := mux.NewRouter()
@@ -79,14 +79,14 @@ n.UseHandler(router)
 n.Run(":3000")
 ```
 
-## `negroni.Classic()` 经典实例
+## `negroni.Classic()` 经典的实例
 `negroni.Classic()` 提供一些默认的中间件，这些中间件在多数应用都很有用。
 
 * `negroni.Recovery` - 异常（恐慌）恢复中间件
 * `negroni.Logging` - 请求 / 响应 log 日志中间件
 * `negroni.Static` - 静态文件处理中间件，默认目录在 "public" 下.
 
-`negroni.Classic()` 让你一开始就非常容易上手 Negroni ，并使用它那些通用的功能。
+`negroni.Classic()` 它那些通用必要的属性，可以快速上手 Negroni 。
 
 ## Handlers (处理器)
 Negroni 提供双向的中间件机制，这个特征很棒，都是得益于 `negroni.Handler` 这个接口。
@@ -97,7 +97,7 @@ type Handler interface {
 }
 ```
 
-如果一个中间件没有写入 ResponseWriter 响应，它会在中间件链里调用下一个 `http.HandlerFunc` 执行下去， 它可以这么优雅的使用。如下：
+在中间件没有写入 ResponseWriter 响应前，它会在中间件链上调用 next `http.HandlerFunc` 先执行， 以下代码就是优雅的使用方式：
 
 ``` go
 func MyMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
@@ -107,14 +107,14 @@ func MyMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc
 }
 ```
 
-你也可以用 `Use` 函数把这些 `http.Handler` 处理器引进到处理器链上来：
+你也可以用 `Use` 函数把这些 `http.Handler` 处理器引入到处理器链上来：
 
 ``` go
 n := negroni.New()
 n.Use(negroni.HandlerFunc(MyMiddleware))
 ```
 
-你还可以使用 `http.Handler`(s) 把 `http.Handler` 处理器引进来。
+你也可以使用 `UseHandler` 把 `http.Handler`s 处理器引入。
 
 ``` go
 n := negroni.New()
@@ -127,8 +127,26 @@ n.UseHandler(mux)
 n.Run(":3000")
 ```
 
+## `With()`
+
+Negroni 还有一个便利的函数叫 `With`. `With` 函数可以把一个或多个 `Handler` 实例和接收者处理器集合组合成新的处理器集合，并返回新的 `Negroni` 实例对象。
+
+```go
+// middleware we want to reuse
+common := negroni.New()
+common.Use(MyMiddleware1)
+common.Use(MyMiddleware2)
+
+// `specific` is a new negroni with the handlers from `common` combined with the
+// the handlers passed in
+specific := common.With(
+  SpecificMiddleware1,
+  SpecificMiddleware2
+)
+
+
 ## `Run()`
-尼格龙尼有一个很好用的函数`Run`, `Run`接收addr字串辨识[http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe).
+Negroni 有一个很好用的函数 `Run` , `Run` 接收 addr 地址字符串 [http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe).
 
 ``` go
 package main
@@ -143,9 +161,10 @@ func main() {
 }
 ```
 
-未提供路径情况下会使用系统环境变数`PORT`, 若未定义该系统环境变数则会用预设路径, 请见[Run](https://godoc.org/github.com/urfave/negroni#Negroni.Run)细看说明.
+未提供地址的情况下，会使用 `PORT` 系统环境变量, 若未定义该系统环境变量则会用预设的地址, 请见参考 [Run](https://godoc.org/github.com/urfave/negroni#Negroni.Run) 详情说明。
 
-一般来说, 你会希望使用 `net/http` 方法, 并且将尼格龙尼当作处理器传入, 这相对起来弹性比较大, 例如:
+
+一般来说使用 `net/http` 方法, 并且将 Negroni 当作处理器传入, 这样可定制化更佳, 例如:
 
 ``` go
 package main
@@ -165,8 +184,8 @@ func main() {
     fmt.Fprintf(w, "Welcome to the home page!")
   })
 
-  n := negroni.Classic() // 导入一些预设的中间件
-  n.UseHandler(mux)
+  n := negroni.Classic() // 导入一些预设的中间件
+  n.UseHandler(mux)
 
   s := &http.Server{
     Addr:           ":8080",
@@ -180,7 +199,7 @@ func main() {
 ```
 
 ## 特定路由中间件
-如果你需要群组路由功能，需要借助特定的路由中间件完成，做法很简单，只需建立一个新 Negroni 实例，传人路由处理器里即可。
+如果你需要一组路由功能，需要借助特定的路由中间件完成，做法很简单，只需建立一个新 Negroni 实例，传人路由处理器里即可。
 
 ``` go
 router := mux.NewRouter()
@@ -195,7 +214,7 @@ router.Handle("/admin", negroni.New(
 ))
 ```
 
-如果你使用 [Gorilla Mux](https://github.com/gorilla/mux), 下方是一个使用 subrounter 的例子:
+如果你使用 [Gorilla Mux](https://github.com/gorilla/mux), 下面是一个使用 subrounter 的例子:
 
 ``` go
 router := mux.NewRouter()
@@ -211,7 +230,7 @@ router.PathPrefix("/subpath").Handler(negroni.New(
 ))
 ```
 
-`With()` 可被用来降低在跨路由分享时多余的中介器.
+`With()` 可被用来降低在跨路由分享时多余的中间件.
 
 ``` go
 router := mux.NewRouter()
@@ -220,35 +239,34 @@ apiRoutes := mux.NewRouter()
 webRoutes := mux.NewRouter()
 // 在此新增Web路由
 
-// 建立通用中介器来跨路由分享
+// 建立通用中间件来跨路由分享
 common := negroni.New(
   Middleware1,
   Middleware2,
 )
 
-// 为API中介器建立新的negroni
-// 使用通用中介器作底
+// 为API中间件建立新的negroni
+// 使用通用中间件作底
 router.PathPrefix("/api").Handler(common.With(
   APIMiddleware1,
   negroni.Wrap(apiRoutes),
 ))
-// 为Web中介器建立新的negroni
-// 使用通用中介器作底
+// 为Web中间件建立新的negroni
+// 使用通用中间件作底
 router.PathPrefix("/web").Handler(common.With(
   WebMiddleware1,
   negroni.Wrap(webRoutes),
 ))
 ```
 
-## 内建中介器
+## 内置中间件
 
-### 静态
+### 静态文件处理
 
-本中介器会在档案系统上服务档案. 若档案不存在, 会将流量导(proxy)到下个中介器.
-如果你想要返回`404 File Not Found`给档案不存在的请求, 请使用[http.FileServer](https://golang.org/pkg/net/http/#FileServer)
-作为处理器.
+中间件通过文件系统 filesystem 来代理（处理）静态文件。 一旦文件不存在, 请求代理会转到下个中间件。
+如果你想要处理不存在的文件返回 `404 File Not Found` HTTP 错误, 请参考 [http.FileServer](https://golang.org/pkg/net/http/#FileServer) 处理器吧.
 
-范例:
+列子:
 
 <!-- { "interrupt": true } -->
 ``` go
@@ -267,7 +285,7 @@ func main() {
     fmt.Fprintf(w, "Welcome to the home page!")
   })
 
-  // http.FileServer的使用范例, 若你预期要"像伺服器"而非"中介器"的行为
+  // http.FileServer的使用例子, 若你预期要"像伺服器"而非"中间件"的行为
   // mux.Handle("/public", http.FileServer(http.Dir("/home/public")))
 
   n := negroni.New()
@@ -278,17 +296,15 @@ func main() {
 }
 ```
 
-从`/tmp`目录开始服务档案 但如果请求的档案在档案系统中不符合, 代理会
-呼叫下个处理器.
+中间件首先从 `/tmp` 找文件，一旦在文件系统中找不到匹配的文件，代理将调用下一个文件。
+
 
 ### 恢复
 
-本中介器接收`panic`跟错误代码`500`的回应. 如果其他任何中介器写了回应
-的HTTP代码或内容的话, 中介器会无法顺利地传送500给用户端, 因为用户端
-已经收到HTTP的回应代码. 另外, 可以挂载`ErrorHandlerFunc`来回报500
-的错误到错误回报系统, 如: Sentry或Airbrake.
+本中间件接收 `panic` 跟错误代码 `500` 的响应。如果其他中间件写了响应代码或 Body 内容的话, 中间件会无法顺利地传送 500 错误给客户端, 因为客户端
+已经收到 HTTP 响应。另外, 可以 像 Sentry 或 Airbrake 挂载 `ErrorHandlerFunc` 来报 500 错误给系统。
 
-范例:
+例子:
 
 <!-- { "interrupt": true } -->
 ``` go
@@ -315,10 +331,9 @@ func main() {
 ```
 
 
-将回传`500 Internal Server Error`到每个结果. 也会把结果纪录到堆叠追踪,
-`PrintStack`设成`true`(预设值)的话也会印到注册者.
+它将输出 `500 Internal Server Error` 给每个请求. 如果`PrintStack` 设成 `true` (默认值)的话，它也会把错误日志写入请求方追踪堆栈。
 
-加错误处理器的范例:
+加错误处理器的例子:
 
 ``` go
 package main
@@ -350,11 +365,42 @@ func reportToSentry(error interface{}) {
 ```
 
 
+默认情况下，这个中间件会简要输出日志信息到 STDOUT 上。当然你也可以通过 SetFormatter() 函数自定义输出的日志。
+The middleware simply output the informations on STDOUT by default. You can customize the output process by using the SetFormatter() function.
+
+当发生崩溃时，同样你也可以通过 HTMLPanicFormatter 来显示和 THML 美化输出结果。
+
+``` go
+package main
+
+import (
+  "net/http"
+
+  "github.com/urfave/negroni"
+)
+
+func main() {
+  mux := http.NewServeMux()
+  mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+    panic("oh no")
+  })
+
+  n := negroni.New()
+  recovery := negroni.NewRecovery()
+  recovery.Formatter = &negroni.HTMLPanicFormatter{}
+  n.Use(recovery)
+  n.UseHandler(mux)
+
+  http.ListenAndServe(":3003", n)
+}
+```
+
+
 ## Logger
 
-本中介器纪录各个进入的请求与回应.
+该中间件负责打印各个请求和响应日志.
 
-范例:
+代码如:
 
 <!-- { "interrupt": true } -->
 ``` go
@@ -381,15 +427,22 @@ func main() {
 }
 ```
 
-在每个请求印的纪录会看起来像:
+每个请求打印日志将如下：
 
 ```
 [negroni] 2017-10-04T14:56:25+02:00 | 200 |      378µs | localhost:3004 | GET /
 ```
 
-## 第三方中间件
+当然你可以调用 SetFormat 来自定义日志的格式。格式是一个预定义了字段的 LoggerEntry 结构体。正如以下代码： -
 
-以下的兼容 Negroni 的中间件列表，如果你也有兼容 Negroni 的中间件，可以提交到这个列表来交换链接，我们很乐意做这样有益的事情。
+```
+l.SetFormat("[{{.Status}} {{.Duration}}] - {{.Request.UserAgent}}")
+```
+
+
+## 第三方兼容中间件
+
+以下是兼容 Negroni 的中间件列表，如果你也有兼容 Negroni 的中间件，如果想提交自己的中间件，建议你附上 PR 链接。
 
 
 |    中间件    |    作者    |    描述     |
@@ -417,11 +470,11 @@ func main() {
 | [stats](https://github.com/thoas/stats) | [Florent Messa](https://github.com/thoas) | 检测 web 应用当前运行状态信息 （响应时间等等。） |
 | [VanGoH](https://github.com/auroratechnologies/vangoh) | [Taylor Wrobel](https://github.com/twrobel3) | Configurable [AWS-Style](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html) 基于 HMAC 鉴权认证的中间件 |
 | [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | 给每个请求指定一个随机 X-Request-Id 头的中间件 |
-| [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | 处理在每个请求建立与关闭mgo sessions |
-| [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | 处理[Twitter Digits](https://get.digits.com/)的认证 |
+| [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | 处理在每个请求建立与关闭 mgo sessions |
+| [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | 处理 [Twitter Digits](https://get.digits.com/) 的认证 |
 
 ## 范例
-[Alexander Rødseth](https://github.com/xyproto) 创建的 [mooseware](https://github.com/xyproto/mooseware) 是一个写兼容 Negroni 中间件的处理器骨架的范例。
+[Alexander Rødseth](https://github.com/xyproto) 创建的 [mooseware](https://github.com/xyproto/mooseware) 是一个编写兼容 Negroni 中间件的处理器骨架的范例。
 
 ## 即时编译
 [gin](https://github.com/codegangsta/gin) 和 [fresh](https://github.com/pilu/fresh) 这两个应用是即时编译的 Negroni 工具，推荐用户开发的时候使用。
@@ -431,9 +484,6 @@ func main() {
 * [在中间件中使用上下文把消息传递给后端处理器](http://elithrar.github.io/article/map-string-interface/)
 * [了解中间件](http://mattstauffer.co/blog/laravel-5.0-middleware-replacing-filters)
 
-## 关于
+## 关于 Negroni
 
-尼格龙尼正是[Code Gangsta](https://codegangsta.io/)的执着设计.
-
-[Gorilla Mux]: https://github.com/gorilla/mux
-[`http.FileSystem`]: https://godoc.org/net/http#FileSystem
+ Negroni 原由 [Code Gangsta](https://codegangsta.io/) 主导设计开发。
