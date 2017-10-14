@@ -56,7 +56,7 @@ go run server.go
 
 这时一个 Go `net/http` Web 服务器会跑在 `localhost:3000` 上，使用浏览器打开 `localhost:3000` 可看到输出的结果。
 
-### 第三包
+### 第三方包
 如果你使用 Debian 系统，你可以执行 `apt install golang-github-urfave-negroni-dev` 来安装 `negroni`。 [包地址](https://packages.debian.org/sid/golang-github-urfave-negroni-dev) (写该文档时，它是在 `sid` 仓库中).
 
 
