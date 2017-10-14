@@ -7,13 +7,13 @@
 **注意:** 本函式库原来自于
 `github.com/codegangsta/negroni` -- Github会自动将连线转到本连结, 但我们建议你更新一下参照。
 
-在 Go 语言里，Negroni 是一个非常地道的 Web 中间件，它是一个具备：微型、非嵌入式、鼓励使用原生 `net/http` 库的中间件。
+在 Go 语言里，Negroni 是一个很地道的 Web 中间件，它是一个具备微型、非嵌入式、鼓励使用原生 `net/http` 库特征的中间件。
 
 如果你喜欢用 [Martini](http://github.com/go-martini/martini) ，但又觉得它太魔幻，那么 Negroni 就是你很好的选择了。
 
 各国语言翻译:
-* [German (de_DE)](translations/README_de_de.md)
-* [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
+* [德语 (de_DE)](translations/README_de_de.md)
+* [葡萄牙语 (pt_BR)](translations/README_pt_br.md)
 * [简体中文 (zh_CN)](translations/README_zh_CN.md)
 * [繁體中文 (zh_tw)](translations/README_zh_tw.md)
 * [日本語 (ja_JP)](translations/README_ja_JP.md)
@@ -198,7 +198,7 @@ func main() {
 }
 ```
 
-## 特定路由中间件
+## 特定路由（分组路由）
 如果你需要一组路由功能，需要借助特定的路由中间件完成，做法很简单，只需建立一个新 Negroni 实例，传人路由处理器里即可。
 
 ``` go
