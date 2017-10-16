@@ -143,7 +143,7 @@ specific := common.With(
   SpecificMiddleware1,
   SpecificMiddleware2
 )
-
+```
 
 ## `Run()`
 Negroni 有一个很好用的函数 `Run` , `Run` 接收 addr 地址字符串 [http.ListenAndServe](http://golang.org/pkg/net/http#ListenAndServe).
@@ -366,7 +366,6 @@ func reportToSentry(error interface{}) {
 
 
 默认情况下，这个中间件会简要输出日志信息到 STDOUT 上。当然你也可以通过 SetFormatter() 函数自定义输出的日志。
-The middleware simply output the informations on STDOUT by default. You can customize the output process by using the SetFormatter() function.
 
 当发生崩溃时，同样你也可以通过 HTMLPanicFormatter 来显示和 THML 美化输出结果。
 
