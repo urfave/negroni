@@ -129,6 +129,7 @@ func (t *HTMLPanicFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Re
 type Recovery struct {
 	Logger           ALogger
 	PrintStack       bool
+	PanicHandlerFunc func(*PanicInformation)
 	ErrorHandlerFunc func(interface{})
 	StackAll         bool
 	StackSize        int
@@ -170,6 +171,17 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 						}
 					}()
 					rec.ErrorHandlerFunc(err)
+				}()
+			}
+			if rec.PanicHandlerFunc != nil {
+				func() {
+					defer func() {
+						if err := recover(); err != nil {
+							rec.Logger.Printf("provided PanicHandlerFunc panic'd: %s, trace:\n%s", err, debug.Stack())
+							rec.Logger.Printf("%s\n", debug.Stack())
+						}
+					}()
+					rec.PanicHandlerFunc(infos)
 				}()
 			}
 		}
