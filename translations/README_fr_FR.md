@@ -336,7 +336,7 @@ Ce *middleware* attrape les appels à `panic` et renvoie une response `500` à
 la requête correspondante. Si un autre *middleware* a déjà renvoyé une réponse (vide ou non), 
 le renvoie de la réponse `500` au client échouera, le client en ayant déja obtenu une.
 
-Il est possible d'ajoindre au *middleware* une fonction de type `ErrorHandlerFunc` 
+Il est possible d'ajoindre au *middleware* une fonction de type `PanicHandlerFunc` 
 pour collecter les erreurs `500` et les transmettre à un service de rapport d'erreur
 tels Sentry ou Airbrake.
 
@@ -369,7 +369,7 @@ func main() {
 Ce programme renverra une erreur `500 Internal Server Error` à chaque requête reçue.
 Il transmettra à son *logger* associé la trace de la pile d'exécution et affichera cette même trace sur la sortie standard si la valeur `PrintStack` est mise à `true`. (valeur par défaut)
 
-Exemple avec l'utilisation d'une `ErrorHandlerFunc`:
+Exemple avec l'utilisation d'une `PanicHandlerFunc`:
 
 ``` go
 package main
@@ -388,14 +388,14 @@ func main() {
 
   n := negroni.New()
   recovery := negroni.NewRecovery()
-  recovery.ErrorHandlerFunc = reportToSentry
+  recovery.PanicHandlerFunc = reportToSentry
   n.Use(recovery)
   n.UseHandler(mux)
 
   http.ListenAndServe(":3003", n)
 }
 
-func reportToSentry(error interface{}) {
+func reportToSentry(info *negroni.PanicInformation) {
     // code envoyant le rapport d'erreur à Sentry
 }
 ```

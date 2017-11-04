@@ -302,7 +302,7 @@ func main() {
 ### 恢复
 
 本中间件接收 `panic` 跟错误代码 `500` 的响应。如果其他中间件写了响应代码或 Body 内容的话, 中间件会无法顺利地传送 500 错误给客户端, 因为客户端
-已经收到 HTTP 响应。另外, 可以 像 Sentry 或 Airbrake 挂载 `ErrorHandlerFunc` 来报 500 错误给系统。
+已经收到 HTTP 响应。另外, 可以 像 Sentry 或 Airbrake 挂载 `PanicHandlerFunc` 来报 500 错误给系统。
 
 例子:
 
@@ -352,14 +352,14 @@ func main() {
 
   n := negroni.New()
   recovery := negroni.NewRecovery()
-  recovery.ErrorHandlerFunc = reportToSentry
+  recovery.PanicHandlerFunc = reportToSentry
   n.Use(recovery)
   n.UseHandler(mux)
 
   http.ListenAndServe(":3003", n)
 }
 
-func reportToSentry(error interface{}) {
+func reportToSentry(info *negroni.PanicInformation) {
     // 在这写些程式回报错误给Sentry
 }
 ```

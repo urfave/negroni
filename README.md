@@ -344,7 +344,7 @@ handler if the request does not match a file on the filesystem.
 This middleware catches `panic`s and responds with a `500` response code. If
 any other middleware has written a response code or body, this middleware will
 fail to properly send a 500 to the client, as the client has already received
-the HTTP response code. Additionally, an `ErrorHandlerFunc` can be attached
+the HTTP response code. Additionally, an `PanicHandlerFunc` can be attached
 to report 500's to an error reporting service such as Sentry or Airbrake.
 
 Example:
@@ -396,14 +396,14 @@ func main() {
 
   n := negroni.New()
   recovery := negroni.NewRecovery()
-  recovery.ErrorHandlerFunc = reportToSentry
+  recovery.PanicHandlerFunc = reportToSentry
   n.Use(recovery)
   n.UseHandler(mux)
 
   http.ListenAndServe(":3003", n)
 }
 
-func reportToSentry(error interface{}) {
+func reportToSentry(info *negroni.PanicInformation) {
     // write code here to report error to Sentry
 }
 ```

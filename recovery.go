@@ -130,10 +130,13 @@ type Recovery struct {
 	Logger           ALogger
 	PrintStack       bool
 	PanicHandlerFunc func(*PanicInformation)
-	ErrorHandlerFunc func(interface{})
 	StackAll         bool
 	StackSize        int
 	Formatter        PanicFormatter
+
+	// Deprecated: Use PanicHandlerFunc instead to receive panic
+	// error with additional information (see PanicInformation)
+	ErrorHandlerFunc func(interface{})
 }
 
 // NewRecovery returns a new instance of Recovery
