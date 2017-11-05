@@ -13,12 +13,16 @@ import (
 func TestRecovery(t *testing.T) {
 	buff := bytes.NewBufferString("")
 	recorder := httptest.NewRecorder()
+	panicHandlerCalled := false
 	handlerCalled := false
 
 	rec := NewRecovery()
 	rec.Logger = log.New(buff, "[negroni] ", 0)
 	rec.ErrorHandlerFunc = func(i interface{}) {
 		handlerCalled = true
+	}
+	rec.PanicHandlerFunc = func(i *PanicInformation) {
+		panicHandlerCalled = (i != nil)
 	}
 
 	n := New()
@@ -30,6 +34,7 @@ func TestRecovery(t *testing.T) {
 	n.ServeHTTP(recorder, (*http.Request)(nil))
 	expect(t, recorder.Header().Get("Content-Type"), "text/plain; charset=utf-8")
 	expect(t, recorder.Code, http.StatusInternalServerError)
+	expect(t, panicHandlerCalled, true)
 	expect(t, handlerCalled, true)
 	refute(t, recorder.Body.Len(), 0)
 	refute(t, len(buff.String()), 0)
@@ -69,6 +74,26 @@ func TestRecovery_callbackPanic(t *testing.T) {
 	n.ServeHTTP(recorder, (*http.Request)(nil))
 
 	expect(t, strings.Contains(buff.String(), "callback panic"), true)
+}
+
+func TestRecovery_handlerPanic(t *testing.T) {
+	buff := bytes.NewBufferString("")
+	recorder := httptest.NewRecorder()
+
+	rec := NewRecovery()
+	rec.Logger = log.New(buff, "[negroni] ", 0)
+	rec.PanicHandlerFunc = func(i *PanicInformation) {
+		panic("panic handler panic")
+	}
+
+	n := New()
+	n.Use(rec)
+	n.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+		panic("here is a panic!")
+	}))
+	n.ServeHTTP(recorder, (*http.Request)(nil))
+
+	expect(t, strings.Contains(buff.String(), "panic handler panic"), true)
 }
 
 type testOutput struct {

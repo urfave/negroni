@@ -129,10 +129,14 @@ func (t *HTMLPanicFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Re
 type Recovery struct {
 	Logger           ALogger
 	PrintStack       bool
-	ErrorHandlerFunc func(interface{})
+	PanicHandlerFunc func(*PanicInformation)
 	StackAll         bool
 	StackSize        int
 	Formatter        PanicFormatter
+
+	// Deprecated: Use PanicHandlerFunc instead to receive panic
+	// error with additional information (see PanicInformation)
+	ErrorHandlerFunc func(interface{})
 }
 
 // NewRecovery returns a new instance of Recovery
@@ -170,6 +174,17 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 						}
 					}()
 					rec.ErrorHandlerFunc(err)
+				}()
+			}
+			if rec.PanicHandlerFunc != nil {
+				func() {
+					defer func() {
+						if err := recover(); err != nil {
+							rec.Logger.Printf("provided PanicHandlerFunc panic'd: %s, trace:\n%s", err, debug.Stack())
+							rec.Logger.Printf("%s\n", debug.Stack())
+						}
+					}()
+					rec.PanicHandlerFunc(infos)
 				}()
 			}
 		}

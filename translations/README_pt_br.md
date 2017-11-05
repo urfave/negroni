@@ -315,7 +315,7 @@ próximo handler se a requisição não encontrar um arquivo no filesystem.
 Este middleware pega repostas de `panic` com um código de resposta `500`. Se
 algum outro middleware escreveu um código resposta ou conteúdo, este middleware
 falhará corretamente enviando um 500 para o cliente, como o cliente já recebeu
-o código de resposta HTTP. Adicionalmente um `ErrorHandlerFunc` pode ser anexado
+o código de resposta HTTP. Adicionalmente um `PanicHandlerFunc` pode ser anexado
 para reportar 500 para um serviço de report como um Sentry ou Airbrake.
 
 Exemplo:
@@ -367,14 +367,14 @@ func main() {
 
   n := negroni.New()
   recovery := negroni.NewRecovery()
-  recovery.ErrorHandlerFunc = reportToSentry
+  recovery.PanicHandlerFunc = reportToSentry
   n.Use(recovery)
   n.UseHandler(mux)
 
   http.ListenAndServe(":3003", n)
 }
 
-func reportToSentry(error interface{}) {
+func reportToSentry(info *negroni.PanicInformation) {
     // write code here to report error to Sentry
 }
 ```
