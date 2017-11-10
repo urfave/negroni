@@ -446,7 +446,7 @@ l.SetFormat("[{{.Status}} {{.Duration}}] - {{.Request.UserAgent}}")
 
 |    中间件    |    作者    |    描述     |
 | -------------|------------|-------------|
-| [authz](https://github.com/casbin/negroni) | [Yang Luo](https://github.com/hsluoyz) | 支持ACL, RBAC, ABAC的权限管理中间件，基于[Casbin](https://github.com/casbin/casbin) |
+| [authz](https://github.com/casbin/negroni-authz) | [Yang Luo](https://github.com/hsluoyz) | 支持ACL, RBAC, ABAC的权限管理中间件，基于[Casbin](https://github.com/casbin/casbin) |
 | [binding](https://github.com/mholt/binding) | [Matt Holt](https://github.com/mholt) | HTTP 请求数据注入到 structs 实体|
 | [cloudwatch](https://github.com/cvillecsteele/negroni-cloudwatch) | [Colin Steele](https://github.com/cvillecsteele) | AWS CloudWatch 矩阵的中间件 |
 | [cors](https://github.com/rs/cors) | [Olivier Poitrey](https://github.com/rs) | [Cross Origin Resource Sharing](http://www.w3.org/TR/cors/) (CORS) support |

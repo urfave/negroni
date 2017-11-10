@@ -143,7 +143,7 @@ Hier ist eine aktuelle Liste von Middlewares, die kompatible mit Negroni sind. T
 
 | Middleware | Autor | Beschreibung |
 | -----------|--------|-------------|
-| [authz](https://github.com/casbin/negroni) | [Yang Luo](https://github.com/hsluoyz) | ACL, RBAC, ABAC Authorization middlware based on [Casbin](https://github.com/casbin/casbin) |
+| [authz](https://github.com/casbin/negroni-authz) | [Yang Luo](https://github.com/hsluoyz) | ACL, RBAC, ABAC Authorization middlware based on [Casbin](https://github.com/casbin/casbin) |
 | [RestGate](https://github.com/pjebs/restgate) | [Prasanga Siripala](https://github.com/pjebs) | Sichere Authentifikation für Endpunkte einer REST API |
 | [Graceful](https://github.com/stretchr/graceful) | [Tyler Bunnell](https://github.com/tylerb) | Graceful HTTP Shutdown |
 | [secure](https://github.com/unrolled/secure) | [Cory Jacobsen](https://github.com/unrolled) | Eine Middleware mit ein paar nützlichen Sicherheitseinstellungen |
