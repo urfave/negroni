@@ -459,6 +459,7 @@ l.SetFormat("[{{.Status}} {{.Duration}}] - {{.Request.UserAgent}}")
 | [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | 在每個request指定一個隨機X-Request-Id header的中介器 |
 | [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | 處理在每個請求建立與關閉mgo sessions |
 | [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | 處理[Twitter Digits](https://get.digits.com/)的認證 |
+| [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) | 終端用的管理QPS與延遲狀態的中介器非同步地將狀態刷入InfluxDB |
 
 ## 應用範例
 

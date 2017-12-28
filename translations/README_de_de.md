@@ -70,7 +70,7 @@ n.Run(":3000")
 * `negroni.Logging` - Anfrage/Rückmeldungs-Logging-Middleware.
 * `negroni.Static` - Ausliefern von statischen Dateien unter dem "public" Verzeichnis.
 
-Dies macht es wirklich einfach, mit den nützlichen Funktionen von Negroni zu starten. 
+Dies macht es wirklich einfach, mit den nützlichen Funktionen von Negroni zu starten.
 
 ## Handlers
 Negroni stellt einen bidirektionalen Middleware-Flow bereit. Dies wird durch das `negroni.Handler`-Interface erreicht:
@@ -121,7 +121,7 @@ log.Fatal(http.ListenAndServe(":8080", n))
 ~~~
 
 ## Routenspezifische Middleware
-Wenn Du eine Gruppe von Routen hast, welche alle die gleiche Middleware ausführen müssen, kannst Du einfach eine neue Negroni-Instanz erstellen und sie als Route-Handler nutzen: 
+Wenn Du eine Gruppe von Routen hast, welche alle die gleiche Middleware ausführen müssen, kannst Du einfach eine neue Negroni-Instanz erstellen und sie als Route-Handler nutzen:
 
 ~~~ go
 router := mux.NewRouter()
@@ -144,23 +144,31 @@ Hier ist eine aktuelle Liste von Middlewares, die kompatible mit Negroni sind. T
 | Middleware | Autor | Beschreibung |
 | -----------|--------|-------------|
 | [authz](https://github.com/casbin/negroni-authz) | [Yang Luo](https://github.com/hsluoyz) | ACL, RBAC, ABAC Authorization middlware based on [Casbin](https://github.com/casbin/casbin) |
-| [RestGate](https://github.com/pjebs/restgate) | [Prasanga Siripala](https://github.com/pjebs) | Sichere Authentifikation für Endpunkte einer REST API |
-| [Graceful](https://github.com/stretchr/graceful) | [Tyler Bunnell](https://github.com/tylerb) | Graceful HTTP Shutdown |
-| [secure](https://github.com/unrolled/secure) | [Cory Jacobsen](https://github.com/unrolled) | Eine Middleware mit ein paar nützlichen Sicherheitseinstellungen |
-| [JWT Middleware](https://github.com/auth0/go-jwt-middleware) | [Auth0](https://github.com/auth0) | Eine Middleware die nach JWTs im `Authorization`-Feld des Header sucht und sie dekodiert.|
-| [binding](https://github.com/mholt/binding) | [Matt Holt](https://github.com/mholt) | Data Binding von HTTP-Anfragen in Structs |
-| [logrus](https://github.com/meatballhat/negroni-logrus) | [Dan Buch](https://github.com/meatballhat) | Logrus-basierender Logger |
-| [render](https://github.com/unrolled/render) | [Cory Jacobsen](https://github.com/unrolled) | Rendere JSON, XML und HTML Vorlagen |
-| [gorelic](https://github.com/jingweno/negroni-gorelic) | [Jingwen Owen Ou](https://github.com/jingweno) | New Relic Agent für die Go-Echtzeitumgebung |
-| [gzip](https://github.com/phyber/negroni-gzip) | [phyber](https://github.com/phyber) | Kompression von HTTP-Rückmeldungen via GZIP |
-| [oauth2](https://github.com/goincremental/negroni-oauth2) | [David Bochenski](https://github.com/bochenski) | oAuth2 Middleware |
+| [binding](https://github.com/mholt/binding) | [Matt Holt](https://github.com/mholt) | Data binding from HTTP requests into structs |
+| [cloudwatch](https://github.com/cvillecsteele/negroni-cloudwatch) | [Colin Steele](https://github.com/cvillecsteele) | AWS cloudwatch metrics middleware |
+| [cors](https://github.com/rs/cors) | [Olivier Poitrey](https://github.com/rs) | [Cross Origin Resource Sharing](http://www.w3.org/TR/cors/) (CORS) support |
+| [csp](https://github.com/awakenetworks/csp) | [Awake Networks](https://github.com/awakenetworks) | [Content Security Policy](https://www.w3.org/TR/CSP2/) (CSP) support |
+| [delay](https://github.com/jeffbmartinez/delay) | [Jeff Martinez](https://github.com/jeffbmartinez) | Add delays/latency to endpoints. Useful when testing effects of high latency |
+| [New Relic Go Agent](https://github.com/yadvendar/negroni-newrelic-go-agent) | [Yadvendar Champawat](https://github.com/yadvendar) | Official [New Relic Go Agent](https://github.com/newrelic/go-agent) (currently in beta)  |
+| [gorelic](https://github.com/jingweno/negroni-gorelic) | [Jingwen Owen Ou](https://github.com/jingweno) | New Relic agent for Go runtime |
+| [Graceful](https://github.com/tylerb/graceful) | [Tyler Bunnell](https://github.com/tylerb) | Graceful HTTP Shutdown |
+| [gzip](https://github.com/phyber/negroni-gzip) | [phyber](https://github.com/phyber) | GZIP response compression |
+| [JWT Middleware](https://github.com/auth0/go-jwt-middleware) | [Auth0](https://github.com/auth0) | Middleware checks for a JWT on the `Authorization` header on incoming requests and decodes it|
+| [logrus](https://github.com/meatballhat/negroni-logrus) | [Dan Buch](https://github.com/meatballhat) | Logrus-based logger |
+| [oauth2](https://github.com/goincremental/negroni-oauth2) | [David Bochenski](https://github.com/bochenski) | oAuth2 middleware |
+| [onthefly](https://github.com/xyproto/onthefly) | [Alexander Rødseth](https://github.com/xyproto) | Generate TinySVG, HTML and CSS on the fly |
+| [permissions2](https://github.com/xyproto/permissions2) | [Alexander Rødseth](https://github.com/xyproto) | Cookies, users and permissions |
+| [prometheus](https://github.com/zbindenren/negroni-prometheus) | [Rene Zbinden](https://github.com/zbindenren) | Easily create metrics endpoint for the [prometheus](http://prometheus.io) instrumentation tool |
+| [render](https://github.com/unrolled/render) | [Cory Jacobsen](https://github.com/unrolled) | Render JSON, XML and HTML templates |
+| [RestGate](https://github.com/pjebs/restgate) | [Prasanga Siripala](https://github.com/pjebs) | Secure authentication for REST API endpoints |
+| [secure](https://github.com/unrolled/secure) | [Cory Jacobsen](https://github.com/unrolled) | Middleware that implements a few quick security wins |
 | [sessions](https://github.com/goincremental/negroni-sessions) | [David Bochenski](https://github.com/bochenski) | Session Management |
-| [permissions2](https://github.com/xyproto/permissions2) | [Alexander Rødseth](https://github.com/xyproto) | Cookies, Benutzer und Berechtigungen |
-| [onthefly](https://github.com/xyproto/onthefly) | [Alexander Rødseth](https://github.com/xyproto) | Generiere TinySVG, HTML und CSS spontan |
-| [cors](https://github.com/rs/cors) | [Olivier Poitrey](https://github.com/rs) | [Cross Origin Resource Sharing](http://www.w3.org/TR/cors/) (CORS) Unterstützung |
-| [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | Eine Middleware die zufällige X-Request-Id-Header jedem Request anfügt |
-| [VanGoH](https://github.com/auroratechnologies/vangoh) | [Taylor Wrobel](https://github.com/twrobel3) | Configurable [AWS-Style](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html) HMAC-basierte Middleware zur Authentifikation |
-| [stats](https://github.com/thoas/stats) | [Florent Messa](https://github.com/thoas) | Speichere wichtige Informationen über Deine Webanwendung (Reaktionszeit, etc.) |
+| [stats](https://github.com/thoas/stats) | [Florent Messa](https://github.com/thoas) | Store information about your web application (response time, etc.) |
+| [VanGoH](https://github.com/auroratechnologies/vangoh) | [Taylor Wrobel](https://github.com/twrobel3) | Configurable [AWS-Style](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html) HMAC authentication middleware |
+| [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | Middleware that assigns a random X-Request-Id header to each request |
+| [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | Middleware that handles creating and closing mgo sessions per request |
+| [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | Middleware that handles [Twitter Digits](https://get.digits.com/) authentication |
+| [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) | Middleware that manages qps and latency stats for your endpoints and asynchronously flushes them to influx db |
 
 ## Beispiele
 [Alexander Rødseth](https://github.com/xyproto) programmierte [mooseware](https://github.com/xyproto/mooseware), ein  Grundgerüst zum Erstellen von Negroni Middleware-Handerln.

@@ -4,7 +4,7 @@
 [![codebeat](https://codebeat.co/badges/47d320b1-209e-45e8-bd99-9094bc5111e2)](https://codebeat.co/projects/github-com-urfave-negroni)
 [![codecov](https://codecov.io/gh/urfave/negroni/branch/master/graph/badge.svg)](https://codecov.io/gh/urfave/negroni)
 
-**Notice:** Esta é uma biblioteca conhecida anteriormente como 
+**Notice:** Esta é uma biblioteca conhecida anteriormente como
 `github.com/codegangsta/negroni` -- Github irá redirecionar automaticamente os pedidos
 para este repositório, mas recomendas atualizar suas referências por clareza.
 
@@ -61,7 +61,7 @@ go run server.go
 Agora terá um servidor web Go net/http rodando em `localhost:3000`.
 
 ## Empacotamento
-Se você está no Debian, `negroni` também está disponível como  [um pacote](https://packages.debian.org/sid/golang-github-urfave-negroni-dev) que 
+Se você está no Debian, `negroni` também está disponível como  [um pacote](https://packages.debian.org/sid/golang-github-urfave-negroni-dev) que
 você podee instalar via `apt install golang-github-urfave-negroni-dev` (no momento queisto for escrito, ele estava em repositórios do `sid`).
 
 ## Negroni é um Framework?
@@ -345,7 +345,7 @@ func main() {
 ```
 
 Irá retornar um `500 Internal Server Error` para cada requisição. Ele também irá
-registrar stack trace bem como um print na stack tarce para quem fez a requisição 
+registrar stack trace bem como um print na stack tarce para quem fez a requisição
 if `PrintStack` estiver setado como `true` (o padrão).
 
 Exemplo com handler de erro:
@@ -421,7 +421,7 @@ em cada request.
 
 Você também pode definir seu próprio formato de log chamando a função `SetFormat`.
 O formato é uma string de template como os campos como mencionados na struct `LoggerEntry`.
-Então, como exemplo - 
+Então, como exemplo -
 
 ```go
 l.SetFormat("[{{.Status}} {{.Duration}}] - {{.Request.UserAgent}}")
@@ -460,12 +460,12 @@ Aqui está uma lista atual de Middleware Compatíveis com Negroni. Sinta se livr
 | [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | Middleware that assigns a random X-Request-Id header to each request |
 | [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | Middleware that handles creating and closing mgo sessions per request |
 | [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | Middleware that handles [Twitter Digits](https://get.digits.com/) authentication |
-
+| [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) | Middleware that manages qps and latency stats for your endpoints and asynchronously flushes them to influx db |
 
 ## Exemplos
 [Alexander Rødseth](https://github.com/xyproto) criou [mooseware](https://github.com/xyproto/mooseware), uma estrutura para escrever um handler middleware Negroni.
 
-[Prasanga Siripala](https://github.com/pjebs) Criou um efetivo estrutura esqueleto para projetos Go/Negroni baseados na web: [Go-Skeleton](https://github.com/pjebs/go-skeleton) 
+[Prasanga Siripala](https://github.com/pjebs) Criou um efetivo estrutura esqueleto para projetos Go/Negroni baseados na web: [Go-Skeleton](https://github.com/pjebs/go-skeleton)
 
 ## Servidor com autoreload?
 [gin](https://github.com/codegangsta/gin) e
