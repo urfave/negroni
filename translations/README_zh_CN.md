@@ -4,8 +4,8 @@
 [![codebeat](https://codebeat.co/badges/47d320b1-209e-45e8-bd99-9094bc5111e2)](https://codebeat.co/projects/github-com-urfave-negroni)
 [![codecov](https://codecov.io/gh/urfave/negroni/branch/master/graph/badge.svg)](https://codecov.io/gh/urfave/negroni)
 
-**注意:** 本函式库原来自于
-`github.com/codegangsta/negroni` -- Github会自动将连线转到本连结, 但我们建议你更新一下参照。
+**注意:** 本函数库原本位于
+`github.com/codegangsta/negroni` -- Github 会自动将请求重定向到当前地址, 但我们建议你更新一下引用路径。
 
 在 Go 语言里，Negroni 是一个很地道的 Web 中间件，它是一个具备微型、非嵌入式、鼓励使用原生 `net/http` 库特征的中间件。
 
@@ -161,7 +161,7 @@ func main() {
 }
 ```
 
-未提供地址的情况下，会使用 `PORT` 系统环境变量, 若未定义该系统环境变量则会用预设的地址, 请见参考 [Run](https://godoc.org/github.com/urfave/negroni#Negroni.Run) 详情说明。
+未提供地址的情况下，会使用 `PORT` 系统环境变量, 若未定义该系统环境变量则会用预设的地址, 请参考 [Run](https://godoc.org/github.com/urfave/negroni#Negroni.Run) 详情说明。
 
 
 一般来说使用 `net/http` 方法, 并且将 Negroni 当作处理器传入, 这样可定制化更佳, 例如:
@@ -199,7 +199,7 @@ func main() {
 ```
 
 ## 特定路由（分组路由）
-如果你需要一组路由功能，需要借助特定的路由中间件完成，做法很简单，只需建立一个新 Negroni 实例，传人路由处理器里即可。
+如果你需要一组路由功能，需要借助特定的路由中间件完成，做法很简单，只需建立一个新 Negroni 实例，传入路由处理器里即可。
 
 ``` go
 router := mux.NewRouter()
@@ -214,7 +214,7 @@ router.Handle("/admin", negroni.New(
 ))
 ```
 
-如果你使用 [Gorilla Mux](https://github.com/gorilla/mux), 下面是一个使用 subrounter 的例子:
+如果你使用 [Gorilla Mux](https://github.com/gorilla/mux), 下面是一个使用 subrouter 的例子:
 
 ``` go
 router := mux.NewRouter()
@@ -230,7 +230,7 @@ router.PathPrefix("/subpath").Handler(negroni.New(
 ))
 ```
 
-`With()` 可被用来降低在跨路由分享时多余的中间件.
+`With()` 可被用来减少在跨路由分享时多余的中间件的冗余.
 
 ``` go
 router := mux.NewRouter()
@@ -331,7 +331,7 @@ func main() {
 ```
 
 
-它将输出 `500 Internal Server Error` 给每个请求. 如果`PrintStack` 设成 `true` (默认值)的话，它也会把错误日志写入请求方追踪堆栈。
+它将输出 `500 Internal Server Error` 给每个请求. 如果 `PrintStack` 设成 `true` (默认值)的话，它也会把错误日志写入请求方追踪堆栈。
 
 加错误处理器的例子:
 
@@ -367,7 +367,7 @@ func reportToSentry(info *negroni.PanicInformation) {
 
 默认情况下，这个中间件会简要输出日志信息到 STDOUT 上。当然你也可以通过 SetFormatter() 函数自定义输出的日志。
 
-当发生崩溃时，同样你也可以通过 HTMLPanicFormatter 来显示和 THML 美化输出结果。
+当发生崩溃时，同样你也可以通过 HTMLPanicFormatter 来显示美化的 HTML 输出结果。
 
 ``` go
 package main
