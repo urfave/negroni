@@ -168,7 +168,7 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			if rec.ErrorHandlerFunc != nil {
 				func() {
 					defer func() {
-						if err := recover(); err != nil {
+						if err = recover(); err != nil {
 							rec.Logger.Printf("provided ErrorHandlerFunc panic'd: %s, trace:\n%s", err, debug.Stack())
 							rec.Logger.Printf("%s\n", debug.Stack())
 						}
