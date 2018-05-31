@@ -2,6 +2,7 @@ package negroni
 
 import (
 	"bytes"
+	"strings"
 
 	"log"
 	"net/http"
@@ -72,7 +73,7 @@ func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.Ha
 		Duration:  time.Since(start),
 		Hostname:  r.Host,
 		Method:    r.Method,
-		Path:      r.URL.Path,
+		Path:      strings.Replace(r.URL.Path, "%", "%%", -1),
 		Request:   r,
 	}
 
