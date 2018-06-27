@@ -519,6 +519,7 @@ linking your middleware if you have built one:
 | [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | Middleware that handles creating and closing mgo sessions per request |
 | [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | Middleware that handles [Twitter Digits](https://get.digits.com/) authentication |
 | [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) | Middleware that manages qps and latency stats for your endpoints and asynchronously flushes them to influx db |
+| [Chaos](https://github.com/falzm/chaos) | [Marc Falzon](https://github.com/falzm) | Middleware for injecting chaotic behavior into application in a programmatic way |
 
 ## Examples
 
