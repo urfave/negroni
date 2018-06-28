@@ -472,6 +472,7 @@ l.SetFormat("[{{.Status}} {{.Duration}}] - {{.Request.UserAgent}}")
 | [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | 处理在每个请求建立与关闭 mgo sessions |
 | [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | 处理 [Twitter Digits](https://get.digits.com/) 的认证 |
 | [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) | endpoints用的管理QPS与延迟状态的中间件非同步地将状态刷入InfluxDB |
+| [Chaos](https://github.com/falzm/chaos) | [Marc Falzon](https://github.com/falzm) | 以编程方式在应用程式中插入无序行为的中间件 |
 
 ## 范例
 [Alexander Rødseth](https://github.com/xyproto) 创建的 [mooseware](https://github.com/xyproto/mooseware) 是一个编写兼容 Negroni 中间件的处理器骨架的范例。
