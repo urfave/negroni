@@ -382,7 +382,7 @@ func main() {
 }
 ```
 
-## Logger
+## 記錄器
 
 本中介器紀錄各個進入的請求與回應.
 
@@ -460,6 +460,7 @@ l.SetFormat("[{{.Status}} {{.Duration}}] - {{.Request.UserAgent}}")
 | [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | 處理在每個請求建立與關閉mgo sessions |
 | [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | 處理[Twitter Digits](https://get.digits.com/)的認證 |
 | [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) | 終端用的管理QPS與延遲狀態的中介器非同步地將狀態刷入InfluxDB |
+| [Chaos](https://github.com/falzm/chaos) | [Marc Falzon](https://github.com/falzm) | 以開發的方式在應用程式中插入無序行為的中介器 |
 
 ## 應用範例
 
