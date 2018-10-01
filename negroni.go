@@ -150,11 +150,12 @@ func (n *Negroni) Handlers() []Handler {
 func build(handlers []Handler) middleware {
 	var next middleware
 
-	if len(handlers) == 0 {
+	switch {
+	case len(handlers) == 0:
 		return voidMiddleware()
-	} else if len(handlers) > 1 {
+	case len(handlers) > 1:
 		next = build(handlers[1:])
-	} else {
+	default:
 		next = voidMiddleware()
 	}
 
