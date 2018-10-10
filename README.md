@@ -21,6 +21,7 @@ Language Translations:
 * [繁體中文 (zh_TW)](translations/README_zh_tw.md)
 * [日本語 (ja_JP)](translations/README_ja_JP.md)
 * [Français (fr_FR)](translations/README_fr_FR.md)
+* [한국어 (ko_KR)](translations/README_ko_KR.md)
 
 ## Getting Started
 
