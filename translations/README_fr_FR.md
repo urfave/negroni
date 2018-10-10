@@ -480,8 +480,7 @@ N'hésitez pas à créer une PR pour renseigner un middleware de votre cru:
 | [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | Un *middleware* qui assigne un *header* `X-Request-Id` à chaque requête |
 | [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | Un *middleware* qui gère les sessions mgo pour chaque requête (ouverture, fermeture) |
 | [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | Un *middleware* qui gère l'authentification via [Twitter Digits](https://get.digits.com/) |
-| [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) |
-Middleware qui gère les statistiques qps et latence pour vos points de terminaison et les envoie de manière asynchrone à influx db |
+| [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) | Middleware qui gère les statistiques qps et latence pour vos points de terminaison et les envoie de manière asynchrone à influx db |
 
 ## Exemples
 
