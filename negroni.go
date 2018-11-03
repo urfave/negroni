@@ -77,8 +77,10 @@ func New(handlers ...Handler) *Negroni {
 // With returns a new Negroni instance that is a combination of the negroni
 // receiver's handlers and the provided handlers.
 func (n *Negroni) With(handlers ...Handler) *Negroni {
+	currentHandlers := make([]Handler, len(n.handlers))
+	copy(currentHandlers, n.handlers)
 	return New(
-		append(n.handlers, handlers...)...,
+		append(currentHandlers, handlers...)...,
 	)
 }
 
