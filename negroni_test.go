@@ -59,6 +59,46 @@ func TestNegroniWith(t *testing.T) {
 	expect(t, result, "onetwothree")
 }
 
+func TestNegroniWith_doNotModifyOriginal(t *testing.T) {
+	result := ""
+	response := httptest.NewRecorder()
+
+	n1 := New()
+	n1.handlers = make([]Handler, 0, 10) // enforce initial capacity
+	n1.Use(HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		result = "one"
+		next(rw, r)
+	}))
+
+	n1.ServeHTTP(response, (*http.Request)(nil))
+	expect(t, 1, len(n1.Handlers()))
+
+	n2 := n1.With(HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		result += "two"
+		next(rw, r)
+	}))
+	n3 := n1.With(HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		result += "three"
+		next(rw, r)
+	}))
+
+	// rebuilds middleware
+	n2.UseHandlerFunc(func(rw http.ResponseWriter, r *http.Request) {})
+	n3.UseHandlerFunc(func(rw http.ResponseWriter, r *http.Request) {})
+
+	n1.ServeHTTP(response, (*http.Request)(nil))
+	expect(t, 1, len(n1.Handlers()))
+	expect(t, result, "one")
+
+	n2.ServeHTTP(response, (*http.Request)(nil))
+	expect(t, 3, len(n2.Handlers()))
+	expect(t, result, "onetwo")
+
+	n3.ServeHTTP(response, (*http.Request)(nil))
+	expect(t, 3, len(n3.Handlers()))
+	expect(t, result, "onethree")
+}
+
 func TestNegroniServeHTTP(t *testing.T) {
 	result := ""
 	response := httptest.NewRecorder()
