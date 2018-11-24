@@ -129,6 +129,7 @@ func (t *HTMLPanicFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Re
 type Recovery struct {
 	Logger           ALogger
 	PrintStack       bool
+	LogStack         bool
 	PanicHandlerFunc func(*PanicInformation)
 	StackAll         bool
 	StackSize        int
@@ -144,6 +145,7 @@ func NewRecovery() *Recovery {
 	return &Recovery{
 		Logger:     log.New(os.Stdout, "[negroni] ", 0),
 		PrintStack: true,
+		LogStack:   true,
 		StackAll:   false,
 		StackSize:  1024 * 8,
 		Formatter:  &TextPanicFormatter{},
@@ -162,7 +164,11 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			if rec.PrintStack {
 				infos.Stack = stack
 			}
-			rec.Logger.Printf(panicText, err, stack)
+			
+			if rec.LogStack {
+				rec.Logger.Printf(panicText, err, stack)
+			}
+
 			rec.Formatter.FormatPanicError(rw, r, infos)
 
 			if rec.ErrorHandlerFunc != nil {
