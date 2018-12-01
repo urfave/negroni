@@ -3,7 +3,7 @@
 package negroni
 
 import (
-	"fmt"
+	"errors"
 	"net/http"
 )
 
@@ -12,5 +12,5 @@ func (rw *responseWriter) Push(target string, opts *http.PushOptions) error {
 	if ok {
 		return pusher.Push(target, opts)
 	}
-	return fmt.Errorf("the ResponseWriter doesn't support the Pusher interface")
+	return errors.New("the ResponseWriter doesn't support the Pusher interface")
 }

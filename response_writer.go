@@ -2,7 +2,7 @@ package negroni
 
 import (
 	"bufio"
-	"fmt"
+	"errors"
 	"net"
 	"net/http"
 )
@@ -82,7 +82,7 @@ func (rw *responseWriter) Before(before func(ResponseWriter)) {
 func (rw *responseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	hijacker, ok := rw.ResponseWriter.(http.Hijacker)
 	if !ok {
-		return nil, nil, fmt.Errorf("the ResponseWriter doesn't support the Hijacker interface")
+		return nil, nil, errors.New("the ResponseWriter doesn't support the Hijacker interface")
 	}
 	return hijacker.Hijack()
 }
