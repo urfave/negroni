@@ -163,13 +163,12 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 
 			if rec.PrintStack {
 				infos.Stack = stack
+				rec.Formatter.FormatPanicError(rw, r, infos)
 			}
-			
+
 			if rec.LogStack {
 				rec.Logger.Printf(panicText, err, stack)
 			}
-
-			rec.Formatter.FormatPanicError(rw, r, infos)
 
 			if rec.ErrorHandlerFunc != nil {
 				func() {
