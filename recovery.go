@@ -11,6 +11,9 @@ import (
 )
 
 const (
+	// NoPrintStackBodyString is the body content returned when HTTP stack printing is suppressed
+	NoPrintStackBodyString = "500 Internal Server Error"
+
 	panicText = "PANIC: %s\n%s"
 	panicHTML = `<html>
 <head><title>PANIC: {{.RecoveredPanic}}</title></head>
@@ -161,9 +164,16 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			stack = stack[:runtime.Stack(stack, rec.StackAll)]
 			infos := &PanicInformation{RecoveredPanic: err, Request: r}
 
+			// PrintStack will write stack trace info to the ResponseWriter if set to true!
+			// If set to false it will respond with the standard response documented here https://httpstat.us/500
 			if rec.PrintStack {
 				infos.Stack = stack
 				rec.Formatter.FormatPanicError(rw, r, infos)
+			}else{
+					if rw.Header().Get("Content-Type") == "" {
+						rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
+					}
+					fmt.Fprint(rw, NoPrintStackBodyString)
 			}
 
 			if rec.LogStack {
