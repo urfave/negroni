@@ -169,11 +169,11 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			if rec.PrintStack {
 				infos.Stack = stack
 				rec.Formatter.FormatPanicError(rw, r, infos)
-			}else{
-					if rw.Header().Get("Content-Type") == "" {
-						rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
-					}
-					fmt.Fprint(rw, NoPrintStackBodyString)
+			} else {
+				if rw.Header().Get("Content-Type") == "" {
+					rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
+				}
+				fmt.Fprint(rw, NoPrintStackBodyString)
 			}
 
 			if rec.LogStack {
