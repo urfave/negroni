@@ -137,6 +137,7 @@ type Recovery struct {
 	StackAll         bool
 	StackSize        int
 	Formatter        PanicFormatter
+	HeaderValues     map[string]string
 
 	// Deprecated: Use PanicHandlerFunc instead to receive panic
 	// error with additional information (see PanicInformation)
@@ -158,6 +159,12 @@ func NewRecovery() *Recovery {
 func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	defer func() {
 		if err := recover(); err != nil {
+			// set any custom header values before writing the status
+			if rec.HeaderValues != nil {
+				for k, v := range rec.HeaderValues {
+					rw.Header().Set(k, v)
+				}
+			}
 			rw.WriteHeader(http.StatusInternalServerError)
 
 			stack := make([]byte, rec.StackSize)

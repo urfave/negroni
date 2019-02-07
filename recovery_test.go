@@ -3,6 +3,7 @@ package negroni
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -171,4 +172,37 @@ func TestRecovery_HTMLFormatter(t *testing.T) {
 	n.ServeHTTP(recorder, (*http.Request)(nil))
 	expect(t, recorder.Header().Get("Content-Type"), "text/html; charset=utf-8")
 	refute(t, recorder.Body.Len(), 0)
+}
+
+type jSONFormatter struct{}
+
+func (t *jSONFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformation) {
+	fmt.Fprintf(rw, `{"error":"%s"}`, infos.RecoveredPanic)
+}
+
+// test custom Content type case, an httptest.Server is required as httptest.ResponseRecorder 
+// does not replicate the header flushing behaviour of http.Server
+func TestRecovery_JSONFormatter(t *testing.T) {
+	rec := NewRecovery()
+
+	rec.Formatter = &jSONFormatter{}
+	rec.HeaderValues = map[string]string{"Content-Type": "application/json"}
+	n := New()
+	n.Use(rec)
+	n.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+		panic("some panic")
+	}))
+	server := httptest.NewServer(n)
+	defer server.Close()
+
+	res, err := http.Get(server.URL + "/somePath")
+	expect(t, err, nil)
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	expect(t, err, nil)
+	expect(t, string(body), `{"error":"some panic"}`)
+
+	expect(t, res.Header.Get("Content-Type"), "application/json")
+	expect(t, res.StatusCode, http.StatusInternalServerError)
 }
