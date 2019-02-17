@@ -144,7 +144,7 @@ func detectAddress(addr ...string) string {
 	return DefaultAddress
 }
 
-// Returns a list of all the handlers in the current Negroni middleware chain.
+// Handlers returns a list of all the handlers in the current Negroni middleware chain.
 func (n *Negroni) Handlers() []Handler {
 	return n.handlers
 }
