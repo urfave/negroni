@@ -12,12 +12,12 @@
 如果你喜歡[Martini](http://github.com/go-martini/martini), 但覺得這其中包太多神奇的功能, 那麼尼格龍尼會是你的最佳選擇.
 
 其他語言:
-* [Deutsch (de_DE)](translations/README_de_de.md)
-* [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
-* [简体中文 (zh_cn)](translations/README_zh_CN.md)
-* [繁體中文 (zh_tw)](translations/README_zh_tw.md)
-* [日本語 (ja_JP)](translations/README_ja_JP.md)
-* [Français (fr_FR)](translations/README_fr_FR.md)
+* [Deutsch (de_DE)](./README_de_de.md)
+* [Português Brasileiro (pt_BR)](./README_pt_br.md)
+* [简体中文 (zh_cn)](./README_zh_CN.md)
+* [繁體中文 (zh_tw)](./README_zh_tw.md)
+* [日本語 (ja_JP)](./README_ja_JP.md)
+* [Français (fr_FR)](./README_fr_FR.md)
 
 ## 入門
 

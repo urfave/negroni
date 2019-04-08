@@ -13,11 +13,11 @@ Negroni é uma abordagem idiomática para middleware web em Go. É pequeno, não
 Se gosta da idéia do [Martini](http://github.com/go-martini/martini), mas acha que contém muita mágica, então Negroni é ideal.
 
 Idiomas traduzidos:
-* [Deutsch (de_DE)](translations/README_de_de.md)
-* [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
-* [简体中文 (zh_cn)](translations/README_zh_cn.md)
-* [繁體中文 (zh_tw)](translations/README_zh_tw.md)
-* [日本語 (ja_JP)](translations/README_ja_JP.md)
+* [Deutsch (de_DE)](./README_de_de.md)
+* [Português Brasileiro (pt_BR)](./README_pt_br.md)
+* [简体中文 (zh_cn)](./README_zh_cn.md)
+* [繁體中文 (zh_tw)](./README_zh_tw.md)
+* [日本語 (ja_JP)](./README_ja_JP.md)
 
 ## Começando
 

@@ -12,12 +12,12 @@
 如果你喜欢用 [Martini](http://github.com/go-martini/martini) ，但又觉得它太魔幻，那么 Negroni 就是你很好的选择了。
 
 各国语言翻译:
-* [德语 (de_DE)](translations/README_de_de.md)
-* [葡萄牙语 (pt_BR)](translations/README_pt_br.md)
-* [简体中文 (zh_CN)](translations/README_zh_CN.md)
-* [繁體中文 (zh_tw)](translations/README_zh_tw.md)
-* [日本語 (ja_JP)](translations/README_ja_JP.md)
-* [法语 (fr_FR)](translations/README_fr_FR.md)
+* [德语 (de_DE)](./README_de_de.md)
+* [葡萄牙语 (pt_BR)](./README_pt_br.md)
+* [简体中文 (zh_CN)](./README_zh_CN.md)
+* [繁體中文 (zh_tw)](./README_zh_tw.md)
+* [日本語 (ja_JP)](./README_ja_JP.md)
+* [法语 (fr_FR)](./README_fr_FR.md)
 
 ## 入门指导
 
