@@ -32,10 +32,21 @@ func (h HandlerFunc) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 type middleware struct {
 	handler Handler
 	next    *middleware
+
+	// nextfn stores the next.ServeHTTP to reduce memory allocate
+	nextfn func(rw http.ResponseWriter, r *http.Request)
+}
+
+func newMiddleware(handler Handler, next *middleware) middleware {
+	return middleware{
+		handler: handler,
+		next:    next,
+		nextfn:  next.ServeHTTP,
+	}
 }
 
 func (m middleware) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	m.handler.ServeHTTP(rw, r, m.next.ServeHTTP)
+	m.handler.ServeHTTP(rw, r, m.nextfn)
 }
 
 // Wrap converts a http.Handler into a negroni.Handler so it can be used as a Negroni
@@ -161,12 +172,12 @@ func build(handlers []Handler) middleware {
 		next = voidMiddleware()
 	}
 
-	return middleware{handlers[0], &next}
+	return newMiddleware(handlers[0], &next)
 }
 
 func voidMiddleware() middleware {
-	return middleware{
+	return newMiddleware(
 		HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {}),
 		&middleware{},
-	}
+	)
 }
