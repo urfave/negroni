@@ -31,7 +31,6 @@ func (h HandlerFunc) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 
 type middleware struct {
 	handler Handler
-	next    *middleware
 
 	// nextfn stores the next.ServeHTTP to reduce memory allocate
 	nextfn func(rw http.ResponseWriter, r *http.Request)
@@ -40,7 +39,6 @@ type middleware struct {
 func newMiddleware(handler Handler, next *middleware) middleware {
 	return middleware{
 		handler: handler,
-		next:    next,
 		nextfn:  next.ServeHTTP,
 	}
 }
