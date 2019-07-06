@@ -73,7 +73,7 @@ l'utilisation de *middleware* développés pour fonctionner directement avec la 
 ## Redirection (*Routing*) ?
 
 Negroni est *BYOR* (*Bring your own Router*, Apporter votre propre routeur).
-La communauté Go offre un nombre importants de routeur et Negroni met tout en oeuvre
+La communauté Go offre un nombre important de routeurs et Negroni met tout en oeuvre
 pour fonctionner avec chacun d'entre eux en assurant un support complet de la librairie `net/http`.
 Par exemple, une utilisation avec [Gorilla Mux] se présente sous la forme:
 
@@ -97,9 +97,9 @@ des applications:
 
 * [`negroni.Recovery`](#recovery) - Récupère des appels à `panic`.
 * [`negroni.Logger`](#logger) - Journalise les requêtes et les réponses.
-* [`negroni.Static`](#static) - Sers les fichiers statiques présent dans le dossier "public".
+* [`negroni.Static`](#static) - Sers les fichiers statiques présents dans le dossier "public".
 
-Elle offre un démarrage aisé sans recourir à la configuration pour utiliser quelques une des fonctions les plus utiles de Negroni.
+Elle offre un démarrage aisé sans recourir à la configuration pour utiliser quelques-unes des fonctions les plus utiles de Negroni.
 
 ## *Handlers*
 
@@ -162,7 +162,7 @@ specific := common.With(
 
 ## `Run()`
 
-Negroni peut-être démarrer en utilisant la méthode `Run()`. Cette dernière
+Negroni peut-être démarré en utilisant la méthode `Run()`. Cette dernière
 prend en paramètre l'adresse du serveur, à l'instar de la méthode [`http.ListenAndServe`](https://godoc.org/net/http#ListenAndServe).
 
 <!-- { "interrupt": true } -->
@@ -266,7 +266,7 @@ apiRoutes := mux.NewRouter()
 webRoutes := mux.NewRouter()
 // ajout des routes web ici
 
-// création un "middleware" commun pour faciliter le partage
+// création d'un "middleware" commun pour faciliter le partage
 common := negroni.New(
 	Middleware1,
 	Middleware2,
@@ -327,7 +327,7 @@ func main() {
 }
 ```
 
-Ce programme servira les fichiers depuis le dossier `/tmp` en premier lieu.
+Ce programme servira les fichiers depuis le répertoire `/tmp` en premier lieu.
 Si le fichier n'est pas trouvé, il transmet la requête au *middleware* suivant.
 
 ### Recupération (*Recovery*)
@@ -465,12 +465,14 @@ N'hésitez pas à créer une PR pour renseigner un middleware de votre cru:
 | [gorelic](https://github.com/jingweno/negroni-gorelic) | [Jingwen Owen Ou](https://github.com/jingweno) | Agent New Relic agent pour le runtime Go |
 | [Graceful](https://github.com/tylerb/graceful) | [Tyler Bunnell](https://github.com/tylerb) | Graceful HTTP Shutdown |
 | [gzip](https://github.com/phyber/negroni-gzip) | [phyber](https://github.com/phyber) | Compression GZIP des réponses |
-| [JWT Middleware](https://github.com/auth0/go-jwt-middleware) | [Auth0](https://github.com/auth0) | Middleware vérifiant la présence d'un JWT dans le *header* `Authorization` et le décode |
+| [JWT Middleware](https://github.com/auth0/go-jwt-middleware) | [Auth0](https://github.com/auth0) | Middleware qui vérifie la présence d'un JWT dans le *header* `Authorization` et le décode |
+| [JWT Middleware](https://github.com/mfuentesg/go-jwtmiddleware) | [Marcelo Fuentes](https://github.com/mfuentesg) | JWT middleware pour golang |
 | [logrus](https://github.com/meatballhat/negroni-logrus) | [Dan Buch](https://github.com/meatballhat) | *Logger* basé sur Logrus |
 | [oauth2](https://github.com/goincremental/negroni-oauth2) | [David Bochenski](https://github.com/bochenski) | Middleware oAuth2 |
 | [onthefly](https://github.com/xyproto/onthefly) | [Alexander Rødseth](https://github.com/xyproto) | Générer des éléments TinySVG, HTML et CSS à la volée |
 | [permissions2](https://github.com/xyproto/permissions2) | [Alexander Rødseth](https://github.com/xyproto) | Cookies, utilisateurs et permissions |
 | [prometheus](https://github.com/zbindenren/negroni-prometheus) | [Rene Zbinden](https://github.com/zbindenren) | Créer des métriques facilement avec l'outil [prometheus](http://prometheus.io) |
+| [prometheus](https://github.com/slok/go-prometheus-middleware) | [Xabier Larrakoetxea](https://github.com/slok) | [Prometheus](http://prometheus.io) Créer des métriques, avec de nombreuses options, qui suivent les standards et sont mesurées de manière efficace |
 | [render](https://github.com/unrolled/render) | [Cory Jacobsen](https://github.com/unrolled) | Rendre des templates JSON, XML et HTML |
 | [RestGate](https://github.com/pjebs/restgate) | [Prasanga Siripala](https://github.com/pjebs) | Authentification sécurisée pour les APIs REST |
 | [secure](https://github.com/unrolled/secure) | [Cory Jacobsen](https://github.com/unrolled) | Middleware implémentant des basiques de sécurité |
@@ -480,7 +482,8 @@ N'hésitez pas à créer une PR pour renseigner un middleware de votre cru:
 | [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | Un *middleware* qui assigne un *header* `X-Request-Id` à chaque requête |
 | [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | Un *middleware* qui gère les sessions mgo pour chaque requête (ouverture, fermeture) |
 | [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | Un *middleware* qui gère l'authentification via [Twitter Digits](https://get.digits.com/) |
-| [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) | Middleware qui gère les statistiques qps et latence pour vos points de terminaison et les envoie de manière asynchrone à influx db |
+| [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) | Middleware qui gère les statistiques qps et la latence pour vos points de terminaison et les envoie de manière asynchrone à influx db |
+| [Chaos](https://github.com/falzm/chaos) | [Marc Falzon](https://github.com/falzm) | Middleware pour injecter programmatiquement du comportement chaotique dans une application |
 
 ## Exemples
 
