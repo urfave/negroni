@@ -104,6 +104,10 @@ func (rw *responseWriter) Flush() {
 	}
 }
 
+// Deprecated: the CloseNotifier interface predates Go's context package.
+// New code should use Request.Context instead.
+//
+// We still implement it for backwards compatibliity with older versions of Go
 type responseWriterCloseNotifer struct {
 	*responseWriter
 }
