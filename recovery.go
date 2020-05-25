@@ -168,7 +168,9 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			// If set to false it will respond with the standard response documented here https://httpstat.us/500
 			if rec.PrintStack {
 				infos.Stack = stack
-				rec.Formatter.FormatPanicError(rw, r, infos)
+				if rec.Formatter != nil {
+					rec.Formatter.FormatPanicError(rw, r, infos)
+				}
 			} else {
 				if rw.Header().Get("Content-Type") == "" {
 					rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
