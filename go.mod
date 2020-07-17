@@ -1,1 +1,1 @@
-module github.com/urfave/negroni
+module github.com/urfave/negroni/v2
