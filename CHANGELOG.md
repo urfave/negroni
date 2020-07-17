@@ -4,6 +4,12 @@
 
 ## [Unreleased] -
 
+## [2.0.2] - 2020-07-17
+
+### Fixed
+
+- Fixed Go module name for v2
+
 ## [2.0.1] - 2020-05-25
 
 ### Fixed
