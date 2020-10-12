@@ -2,7 +2,10 @@ language: go
 
 sudo: false
 dist: trusty
-
+arch:
+  - AMD64
+  - ppc64le
+  
 go:
 - 1.x
 - 1.2.x
