@@ -27,7 +27,7 @@ Language Translations:
 
 After installing Go and setting up your
 [GOPATH](http://golang.org/doc/code.html#GOPATH), create your first `.go` file.
-We'll call it `server.go`.
+We will call it `server.go`.
 
 <!-- { "interrupt": true } -->
 ``` go
