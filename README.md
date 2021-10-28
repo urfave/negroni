@@ -1,6 +1,8 @@
 # Negroni
 [![GoDoc](https://godoc.org/github.com/evergreen-ci/negroni?status.svg)](http://godoc.org/github.com/evergreen-ci/negroni)
 
+This was forked from `github.com/urfave/negroni` because it was not being maintained actively enough for our purposes.
+
 **Notice:** This is the library formerly known as
 `github.com/codegangsta/negroni` -- Github will automatically redirect requests
 to this repository, but we recommend updating your references for clarity.
