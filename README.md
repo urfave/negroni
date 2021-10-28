@@ -1,8 +1,7 @@
 # Negroni
-[![GoDoc](https://godoc.org/github.com/urfave/negroni?status.svg)](http://godoc.org/github.com/urfave/negroni)
-[![Build Status](https://travis-ci.org/urfave/negroni.svg?branch=master)](https://travis-ci.org/urfave/negroni)
-[![codebeat](https://codebeat.co/badges/47d320b1-209e-45e8-bd99-9094bc5111e2)](https://codebeat.co/projects/github-com-urfave-negroni)
-[![codecov](https://codecov.io/gh/urfave/negroni/branch/master/graph/badge.svg)](https://codecov.io/gh/urfave/negroni)
+[![GoDoc](https://godoc.org/github.com/evergreen-ci/negroni?status.svg)](http://godoc.org/github.com/evergreen-ci/negroni)
+
+This was forked from `github.com/urfave/negroni` because it was not being maintained actively enough for our purposes.
 
 **Notice:** This is the library formerly known as
 `github.com/codegangsta/negroni` -- Github will automatically redirect requests
@@ -37,7 +36,7 @@ import (
   "fmt"
   "net/http"
 
-  "github.com/urfave/negroni"
+  "github.com/evergreen-ci/negroni"
 )
 
 func main() {
@@ -56,7 +55,7 @@ func main() {
 Then install the Negroni package (**NOTE**: &gt;= **go 1.1** is required):
 
 ```
-go get github.com/urfave/negroni
+go get github.com/evergreen-ci/negroni
 ```
 
 Then run your server:
@@ -66,13 +65,6 @@ go run server.go
 ```
 
 You will now have a Go `net/http` webserver running on `localhost:3000`.
-
-### Packaging
-
-If you are on Debian, `negroni` is also available as [a
-package](https://packages.debian.org/sid/golang-github-urfave-negroni-dev) that
-you can install via `apt install golang-github-urfave-negroni-dev` (at the time
-of writing, it is in the `sid` repositories).
 
 ## Is Negroni a Framework?
 
@@ -184,7 +176,7 @@ identical to [`http.ListenAndServe`](https://godoc.org/net/http#ListenAndServe).
 package main
 
 import (
-  "github.com/urfave/negroni"
+  "github.com/evergreen-ci/negroni"
 )
 
 func main() {
@@ -194,7 +186,7 @@ func main() {
 ```
 If no address is provided, the `PORT` environment variable is used instead.
 If the `PORT` environment variable is not defined, the default address will be used. 
-See [Run](https://godoc.org/github.com/urfave/negroni#Negroni.Run) for a complete description.
+See [Run](https://godoc.org/github.com/evergreen-ci/negroni#Negroni.Run) for a complete description.
 
 In general, you will want to use `net/http` methods and pass `negroni` as a
 `Handler`, as this is more flexible, e.g.:
@@ -209,7 +201,7 @@ import (
   "net/http"
   "time"
 
-  "github.com/urfave/negroni"
+  "github.com/evergreen-ci/negroni"
 )
 
 func main() {
@@ -317,7 +309,7 @@ import (
   "fmt"
   "net/http"
 
-  "github.com/urfave/negroni"
+  "github.com/evergreen-ci/negroni"
 )
 
 func main() {
@@ -357,7 +349,7 @@ package main
 import (
   "net/http"
 
-  "github.com/urfave/negroni"
+  "github.com/evergreen-ci/negroni"
 )
 
 func main() {
@@ -386,7 +378,7 @@ package main
 import (
   "net/http"
 
-  "github.com/urfave/negroni"
+  "github.com/evergreen-ci/negroni"
 )
 
 func main() {
@@ -421,7 +413,7 @@ package main
 import (
   "net/http"
 
-  "github.com/urfave/negroni"
+  "github.com/evergreen-ci/negroni"
 )
 
 func main() {
@@ -454,7 +446,7 @@ import (
   "fmt"
   "net/http"
 
-  "github.com/urfave/negroni"
+  "github.com/evergreen-ci/negroni"
 )
 
 func main() {

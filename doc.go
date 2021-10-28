@@ -2,12 +2,12 @@
 //
 // If you like the idea of Martini, but you think it contains too much magic, then Negroni is a great fit.
 //
-// For a full guide visit http://github.com/urfave/negroni
+// For a full guide visit http://github.com/evergreen-ci/negroni
 //
 //  package main
 //
 //  import (
-//    "github.com/urfave/negroni"
+//    "github.com/everreen-ci/negroni"
 //    "net/http"
 //    "fmt"
 //  )
