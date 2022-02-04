@@ -106,6 +106,19 @@ func TestResponseWriterWritingHeader(t *testing.T) {
 	expect(t, rw.Size(), 0)
 }
 
+func TestResponseWriterWritingHeaderTwice(t *testing.T) {
+	rec := httptest.NewRecorder()
+	rw := NewResponseWriter(rec)
+
+	rw.WriteHeader(http.StatusNotFound)
+	rw.WriteHeader(http.StatusInternalServerError)
+
+	expect(t, rec.Code, rw.Status())
+	expect(t, rec.Body.String(), "")
+	expect(t, rw.Status(), http.StatusNotFound)
+	expect(t, rw.Size(), 0)
+}
+
 func TestResponseWriterBefore(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)

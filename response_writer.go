@@ -48,6 +48,9 @@ type responseWriter struct {
 }
 
 func (rw *responseWriter) WriteHeader(s int) {
+	if rw.Written() {
+		return
+	}
 	rw.status = s
 	rw.callBefore()
 	rw.ResponseWriter.WriteHeader(s)
