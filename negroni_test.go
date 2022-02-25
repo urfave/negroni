@@ -196,7 +196,7 @@ func TestWrap(t *testing.T) {
 func TestWrapFunc(t *testing.T) {
 	response := httptest.NewRecorder()
 
-	// WrapFunc(f) equals Wrap(http.HandlerFunc(f)), it's simpler and usefull.
+	// WrapFunc(f) equals Wrap(http.HandlerFunc(f)), it's simpler and useful.
 	handler := WrapFunc(func(rw http.ResponseWriter, r *http.Request) {
 		rw.WriteHeader(http.StatusOK)
 	})
