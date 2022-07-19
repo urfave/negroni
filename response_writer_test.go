@@ -2,6 +2,7 @@ package negroni
 
 import (
 	"bufio"
+	"io"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -197,4 +198,63 @@ func TestResponseWriter_Flush_marksWritten(t *testing.T) {
 	rw.Flush()
 	expect(t, rw.Status(), http.StatusOK)
 	expect(t, rw.Written(), true)
+}
+
+// mockReader only implements io.Reader without other methods like WriterTo
+type mockReader struct {
+	readStr string
+	eof     bool
+}
+
+func (r *mockReader) Read(p []byte) (n int, err error) {
+	if r.eof {
+		return 0, io.EOF
+	}
+	copy(p, []byte(r.readStr))
+	r.eof = true
+	return len(r.readStr), nil
+}
+
+func TestResponseWriterWithoutReadFrom(t *testing.T) {
+	writeString := "Hello world"
+
+	rec := httptest.NewRecorder()
+	rw := NewResponseWriter(rec)
+
+	n, err := io.Copy(rw, &mockReader{readStr: writeString})
+	expect(t, err, nil)
+	expect(t, rw.Status(), http.StatusOK)
+	expect(t, rw.Written(), true)
+	expect(t, rw.Size(), len(writeString))
+	expect(t, int(n), len(writeString))
+	expect(t, rec.Body.String(), writeString)
+}
+
+type mockResponseWriterWithReadFrom struct {
+	*httptest.ResponseRecorder
+	writtenStr string
+}
+
+func (rw *mockResponseWriterWithReadFrom) ReadFrom(r io.Reader) (n int64, err error) {
+	bytes, err := io.ReadAll(r)
+	if err != nil {
+		return 0, err
+	}
+	rw.writtenStr = string(bytes)
+	rw.ResponseRecorder.Write(bytes)
+	return int64(len(bytes)), nil
+}
+
+func TestResponseWriterWithReadFrom(t *testing.T) {
+	writeString := "Hello world"
+	mrw := &mockResponseWriterWithReadFrom{ResponseRecorder: httptest.NewRecorder()}
+	rw := NewResponseWriter(mrw)
+	n, err := io.Copy(rw, &mockReader{readStr: writeString})
+	expect(t, err, nil)
+	expect(t, rw.Status(), http.StatusOK)
+	expect(t, rw.Written(), true)
+	expect(t, rw.Size(), len(writeString))
+	expect(t, int(n), len(writeString))
+	expect(t, mrw.Body.String(), writeString)
+	expect(t, mrw.writtenStr, writeString)
 }

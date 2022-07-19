@@ -3,6 +3,7 @@ package negroni
 import (
 	"bufio"
 	"errors"
+	"io"
 	"net"
 	"net/http"
 )
@@ -64,6 +65,19 @@ func (rw *responseWriter) Write(b []byte) (int, error) {
 	size, err := rw.ResponseWriter.Write(b)
 	rw.size += size
 	return size, err
+}
+
+// ReadFrom exposes underlying http.ResponseWriter to io.Copy and if it implements
+// io.ReaderFrom, it can take advantage of optimizations such as sendfile, io.Copy
+// with sync.Pool's buffer which is in http.(*response).ReadFrom and so on.
+func (rw *responseWriter) ReadFrom(r io.Reader) (n int64, err error) {
+	if !rw.Written() {
+		// The status will be StatusOK if WriteHeader has not been called yet
+		rw.WriteHeader(http.StatusOK)
+	}
+	n, err = io.Copy(rw.ResponseWriter, r)
+	rw.size += int(n)
+	return
 }
 
 func (rw *responseWriter) Status() int {
