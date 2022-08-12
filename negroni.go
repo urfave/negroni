@@ -11,6 +11,10 @@ const (
 	DefaultAddress = ":8080"
 )
 
+func init() {
+	initFeaturePicker()
+}
+
 // Handler handler is an interface that objects can implement to be registered to serve as middleware
 // in the Negroni middleware stack.
 // ServeHTTP should yield to the next middleware in the chain by invoking the next http.HandlerFunc

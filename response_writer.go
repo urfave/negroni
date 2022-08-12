@@ -1,10 +1,7 @@
 package negroni
 
 import (
-	"bufio"
-	"errors"
 	"io"
-	"net"
 	"net/http"
 )
 
@@ -13,7 +10,7 @@ import (
 // if the functionality calls for it.
 type ResponseWriter interface {
 	http.ResponseWriter
-	http.Flusher
+
 	// Status returns the status code of the response or 0 if the response has
 	// not been written
 	Status() int
@@ -28,17 +25,13 @@ type ResponseWriter interface {
 
 type beforeFunc func(ResponseWriter)
 
-// NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
+// NewResponseWriter creates a ResponseWriter that wraps a http.ResponseWriter
 func NewResponseWriter(rw http.ResponseWriter) ResponseWriter {
 	nrw := &responseWriter{
 		ResponseWriter: rw,
 	}
 
-	if _, ok := rw.(http.CloseNotifier); ok {
-		return &responseWriterCloseNotifer{nrw}
-	}
-
-	return nrw
+	return wrapFeature(nrw)
 }
 
 type responseWriter struct {
@@ -96,39 +89,8 @@ func (rw *responseWriter) Before(before func(ResponseWriter)) {
 	rw.beforeFuncs = append(rw.beforeFuncs, before)
 }
 
-func (rw *responseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
-	hijacker, ok := rw.ResponseWriter.(http.Hijacker)
-	if !ok {
-		return nil, nil, errors.New("the ResponseWriter doesn't support the Hijacker interface")
-	}
-	return hijacker.Hijack()
-}
-
 func (rw *responseWriter) callBefore() {
 	for i := len(rw.beforeFuncs) - 1; i >= 0; i-- {
 		rw.beforeFuncs[i](rw)
 	}
-}
-
-func (rw *responseWriter) Flush() {
-	flusher, ok := rw.ResponseWriter.(http.Flusher)
-	if ok {
-		if !rw.Written() {
-			// The status will be StatusOK if WriteHeader has not been called yet
-			rw.WriteHeader(http.StatusOK)
-		}
-		flusher.Flush()
-	}
-}
-
-// Deprecated: the CloseNotifier interface predates Go's context package.
-// New code should use Request.Context instead.
-//
-// We still implement it for backwards compatibliity with older versions of Go
-type responseWriterCloseNotifer struct {
-	*responseWriter
-}
-
-func (rw *responseWriterCloseNotifer) CloseNotify() <-chan bool {
-	return rw.ResponseWriter.(http.CloseNotifier).CloseNotify()
 }
