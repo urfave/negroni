@@ -156,11 +156,8 @@ func TestResponseWriterHijack(t *testing.T) {
 func TestResponseWriteHijackNotOK(t *testing.T) {
 	hijackable := new(http.ResponseWriter)
 	rw := NewResponseWriter(*hijackable)
-	hijacker, ok := rw.(http.Hijacker)
-	expect(t, ok, true)
-	_, _, err := hijacker.Hijack()
-
-	refute(t, err, nil)
+	_, ok := rw.(http.Hijacker)
+	expect(t, ok, false)
 }
 
 func TestResponseWriterCloseNotify(t *testing.T) {
@@ -195,7 +192,7 @@ func TestResponseWriter_Flush_marksWritten(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
 
-	rw.Flush()
+	rw.(http.Flusher).Flush()
 	expect(t, rw.Status(), http.StatusOK)
 	expect(t, rw.Written(), true)
 }
