@@ -2,7 +2,7 @@
 
 **ATTN**: This project uses [semantic versioning](http://semver.org/).
 
-## [3.0.0] - [2022-08-25]
+## [3.0.0] - [2022-09-18]
 
 ### Fixed
 
