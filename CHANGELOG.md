@@ -2,7 +2,25 @@
 
 **ATTN**: This project uses [semantic versioning](http://semver.org/).
 
-## [Unreleased] -
+## [3.0.0] - [2022-09-18]
+
+### Fixed
+
+- Replace multiple slashes at the beginning of a path with a single one to avoid
+  open redirects
+- Avoid updating `ResponseWriter.Status()` if the status has already been
+  written when `ResponseWriter.WriteHeader()` is called twice
+
+### Changed
+
+- `ResponseWriter` now only implements `http` interfaces (`Flusher`, `Hijacker`,
+  `CloseNotifier`) if the wrapped `http.ResponseWriter` does. This is a breaking
+  change to make `ResponseWriter`'s interface support more accurate
+
+### Added
+
+- `ResponseWriter` now implements `io.ReaderFrom` to more efficiently send
+  responses via `io.Copy`
 
 ## [2.0.2] - 2020-07-17
 
