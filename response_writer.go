@@ -36,17 +36,28 @@ func NewResponseWriter(rw http.ResponseWriter) ResponseWriter {
 
 type responseWriter struct {
 	http.ResponseWriter
-	status      int
-	size        int
-	beforeFuncs []beforeFunc
+	pendingStatus  int
+	status         int
+	size           int
+	beforeFuncs    []beforeFunc
+	callingBefores bool
 }
 
 func (rw *responseWriter) WriteHeader(s int) {
 	if rw.Written() {
 		return
 	}
-	rw.status = s
+
+	rw.pendingStatus = s
 	rw.callBefore()
+
+	// Any of the rw.beforeFuncs may have written a header,
+	// so check again to see if any work is necessary.
+	if rw.Written() {
+		return
+	}
+
+	rw.status = s
 	rw.ResponseWriter.WriteHeader(s)
 }
 
@@ -74,7 +85,11 @@ func (rw *responseWriter) ReadFrom(r io.Reader) (n int64, err error) {
 }
 
 func (rw *responseWriter) Status() int {
-	return rw.status
+	if rw.Written() {
+		return rw.status
+	}
+
+	return rw.pendingStatus
 }
 
 func (rw *responseWriter) Size() int {
@@ -90,6 +105,15 @@ func (rw *responseWriter) Before(before func(ResponseWriter)) {
 }
 
 func (rw *responseWriter) callBefore() {
+	// Don't recursively call before() functions, to avoid infinite looping if
+	// one of them calls rw.WriteHeader again.
+	if rw.callingBefores {
+		return
+	}
+
+	rw.callingBefores = true
+	defer func() { rw.callingBefores = false }()
+
 	for i := len(rw.beforeFuncs) - 1; i >= 0; i-- {
 		rw.beforeFuncs[i](rw)
 	}
