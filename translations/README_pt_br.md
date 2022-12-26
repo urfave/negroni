@@ -5,10 +5,10 @@
 [![codecov](https://codecov.io/gh/urfave/negroni/branch/master/graph/badge.svg)](https://codecov.io/gh/urfave/negroni)
 
 **Notice:** Esta é uma biblioteca conhecida anteriormente como
-`github.com/codegangsta/negroni` -- Github irá redirecionar automaticamente os pedidos
-para este repositório, mas recomendas atualizar suas referências por clareza.
+`github.com/codegangsta/negroni` -- Github irá redirecionar automaticamente as requisições
+para este repositório, mas recomendamos atualizar suas referências por clareza.
 
-Negroni é uma abordagem idiomática para middleware web em Go. É pequeno, não intrusivo, e incentiva uso da biblioteca `net/http`.
+O Negroni é uma abordagem idiomática para middlewares web em Go. É pequeno, não intrusivo, e incentiva o uso da biblioteca `net/http`.
 
 Se gosta da idéia do [Martini](http://github.com/go-martini/martini), mas acha que contém muita mágica, então Negroni é ideal.
 
@@ -21,7 +21,8 @@ Idiomas traduzidos:
 
 ## Começando
 
-Depois de instalar Go e definir seu [GOPATH](http://golang.org/doc/code.html#GOPATH), criar seu primeiro arquivo `.go`. Iremos chamá-lo `server.go`.
+Depois de instalar a linguagem Go e definir seu [GOPATH](http://golang.org/doc/code.html#GOPATH), crie seu primeiro arquivo `.go`.
+Chamaremos ele de `server.go`.
 
 <!-- { "interrupt": true } -->
 ``` go
@@ -53,16 +54,16 @@ Depois instale o pacote Negroni (**go 1.1** ou superior)
 go get github.com/urfave/negroni
 ```
 
-Depois execute seu servidor:
+Em seguida, execute seu servidor:
 ```
 go run server.go
 ```
 
-Agora terá um servidor web Go net/http rodando em `localhost:3000`.
+Agora você tem um servidor web Go net/http rodando em `localhost:3000`.
 
 ## Empacotamento
-Se você está no Debian, `negroni` também está disponível como  [um pacote](https://packages.debian.org/sid/golang-github-urfave-negroni-dev) que
-você podee instalar via `apt install golang-github-urfave-negroni-dev` (no momento queisto for escrito, ele estava em repositórios do `sid`).
+Se você está no Debian, `negroni` também está disponível como [um pacote](https://packages.debian.org/sid/golang-github-urfave-negroni-dev) que
+você pode instalar via `apt install golang-github-urfave-negroni-dev` (no momento que isto foi escrito, ele estava em repositórios do `sid`).
 
 ## Negroni é um Framework?
 Negroni **não** é a framework. É uma biblioteca que é desenhada para trabalhar diretamente com net/http.
