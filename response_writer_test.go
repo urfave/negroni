@@ -69,6 +69,34 @@ func TestResponseWriterBeforeFuncHasAccessToStatus(t *testing.T) {
 	expect(t, status, http.StatusCreated)
 }
 
+func TestResponseWriterBeforeFuncCanChangeStatus(t *testing.T) {
+	rec := httptest.NewRecorder()
+	rw := NewResponseWriter(rec)
+
+	// Always respond with 200.
+	rw.Before(func(w ResponseWriter) {
+		w.WriteHeader(http.StatusOK)
+	})
+
+	rw.WriteHeader(http.StatusBadRequest)
+	expect(t, rec.Code, http.StatusOK)
+}
+
+func TestResponseWriterBeforeFuncChangesStatusMultipleTimes(t *testing.T) {
+	rec := httptest.NewRecorder()
+	rw := NewResponseWriter(rec)
+
+	rw.Before(func(w ResponseWriter) {
+		w.WriteHeader(http.StatusInternalServerError)
+	})
+	rw.Before(func(w ResponseWriter) {
+		w.WriteHeader(http.StatusNotFound)
+	})
+
+	rw.WriteHeader(http.StatusOK)
+	expect(t, rec.Code, http.StatusNotFound)
+}
+
 func TestResponseWriterWritingString(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
