@@ -84,6 +84,11 @@ func (rw *responseWriter) ReadFrom(r io.Reader) (n int64, err error) {
 	return
 }
 
+// Satisfy http.ResponseController support (Go 1.20+)
+func (rw *responseWriter) Unwrap() http.ResponseWriter {
+	return rw.ResponseWriter
+}
+
 func (rw *responseWriter) Status() int {
 	if rw.Written() {
 		return rw.status

@@ -169,6 +169,17 @@ func TestResponseWriterBefore(t *testing.T) {
 	expect(t, result, "barfoo")
 }
 
+func TestResponseWriterUnwrap(t *testing.T) {
+	rec := httptest.NewRecorder()
+	rw := NewResponseWriter(rec)
+	switch v := rw.(type) {
+	case interface{ Unwrap() http.ResponseWriter }:
+		expect(t, v.Unwrap(), rec)
+	default:
+		t.Error("Does not implement Unwrap()")
+	}
+}
+
 func TestResponseWriterHijack(t *testing.T) {
 	hijackable := newHijackableResponse()
 	rw := NewResponseWriter(hijackable)
