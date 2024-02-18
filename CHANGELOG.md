@@ -2,6 +2,17 @@
 
 **ATTN**: This project uses [semantic versioning](http://semver.org/).
 
+## [3.1.0] - [2023-10-07]
+
+### Fixed
+
+- `WriteHeader` can again be used in the `ResponseWriter.Before` callback to
+  set HTTP status codes
+
+### Added
+
+- Satisfy `http.ResponseController` (Go 1.20+)
+
 ## [3.0.0] - [2022-09-18]
 
 ### Fixed
