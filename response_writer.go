@@ -102,7 +102,7 @@ func (rw *responseWriter) Size() int {
 }
 
 func (rw *responseWriter) Written() bool {
-	return rw.status != 0
+	return rw.status >= http.StatusOK || rw.status == http.StatusSwitchingProtocols // treat all 1xx codes aside from SwitchingProtocols as non-terminal
 }
 
 func (rw *responseWriter) Before(before func(ResponseWriter)) {
