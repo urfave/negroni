@@ -2,6 +2,15 @@
 
 **ATTN**: This project uses [semantic versioning](http://semver.org/).
 
+## [3.1.1] - [2024-06-04]
+
+### Fixed
+
+- Writing an HTTP 1xx status codes no longer results in a 200 being sent in
+  addition given the expectation is that a follow-up status code will be written
+  later. The exception is `101 Switching Protocols` since this is terminal. This
+  matches `net/http` behavior.
+
 ## [3.1.0] - [2023-10-07]
 
 ### Fixed
