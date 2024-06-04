@@ -110,6 +110,29 @@ func TestResponseWriterWritingString(t *testing.T) {
 	expect(t, rw.Written(), true)
 }
 
+func TestResponseWriterWrittenStatusCode(t *testing.T) {
+	rec := httptest.NewRecorder()
+	rw := NewResponseWriter(rec)
+
+	expect(t, rw.Written(), false)
+	for status := http.StatusContinue; status <= http.StatusEarlyHints; status++ {
+		if status == http.StatusSwitchingProtocols {
+			continue
+		}
+		rw.WriteHeader(status)
+		expected := false
+		expect(t, rw.Written(), expected)
+	}
+	rw.WriteHeader(http.StatusCreated)
+	expect(t, rw.Written(), true)
+
+	rw2 := NewResponseWriter(rec)
+	expect(t, rw2.Written(), false)
+	rw2.WriteHeader(http.StatusSwitchingProtocols)
+	expect(t, rw2.Written(), true)
+
+}
+
 func TestResponseWriterWritingStrings(t *testing.T) {
 	rec := httptest.NewRecorder()
 	rw := NewResponseWriter(rec)
