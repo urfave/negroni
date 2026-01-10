@@ -106,7 +106,7 @@ func newTestOutput() *testOutput {
 }
 
 func (t *testOutput) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformation) {
-	fmt.Fprintf(t, formatInfos(infos))
+	fmt.Fprint(t, formatInfos(infos))
 }
 
 func formatInfos(infos *PanicInformation) string {
