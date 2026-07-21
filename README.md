@@ -8,6 +8,10 @@
 `github.com/codegangsta/negroni` -- Github will automatically redirect requests
 to this repository, but we recommend updating your references for clarity.
 
+**Import path:** use the current major module path
+`github.com/urfave/negroni/v3` (v3 is the latest release). Older docs and
+copy-pasted snippets may still show `github.com/urfave/negroni` without `/v3`.
+
 Negroni is an idiomatic approach to web middleware in Go. It is tiny,
 non-intrusive, and encourages use of `net/http` Handlers.
 

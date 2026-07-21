@@ -4,12 +4,15 @@
 //
 // For a full guide visit http://github.com/urfave/negroni
 //
+// The module path for the current major version is github.com/urfave/negroni/v3.
+//
 //  package main
 //
 //  import (
-//    "github.com/urfave/negroni"
-//    "net/http"
 //    "fmt"
+//    "net/http"
+//
+//    "github.com/urfave/negroni/v3"
 //  )
 //
 //  func main() {
