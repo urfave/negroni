@@ -155,11 +155,33 @@ func NewRecovery() *Recovery {
 	}
 }
 
+// recoveryWriter forces HTTP 500 on first write while still allowing
+// PanicFormatter implementations to set headers (e.g. Content-Type) first.
+// Calling WriteHeader before FormatPanicError made those header updates a no-op (#241).
+type recoveryWriter struct {
+	http.ResponseWriter
+	wroteHeader bool
+}
+
+func (w *recoveryWriter) WriteHeader(code int) {
+	if w.wroteHeader {
+		return
+	}
+	w.wroteHeader = true
+	// Panic recovery always answers 500, regardless of what the formatter passes.
+	w.ResponseWriter.WriteHeader(http.StatusInternalServerError)
+}
+
+func (w *recoveryWriter) Write(b []byte) (int, error) {
+	if !w.wroteHeader {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	return w.ResponseWriter.Write(b)
+}
+
 func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	defer func() {
 		if err := recover(); err != nil {
-			rw.WriteHeader(http.StatusInternalServerError)
-
 			infos := &PanicInformation{
 				RecoveredPanic: err,
 				Request:        r,
@@ -167,15 +189,22 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			}
 			infos.Stack = infos.Stack[:runtime.Stack(infos.Stack, rec.StackAll)]
 
+			out := &recoveryWriter{ResponseWriter: rw}
+
 			// PrintStack will write stack trace info to the ResponseWriter if set to true!
 			// If set to false it will respond with the standard response documented here https://httpstat.us/500
+			// Headers must be set before WriteHeader/Write so custom formatters can control Content-Type (#241).
 			if rec.PrintStack && rec.Formatter != nil {
-				rec.Formatter.FormatPanicError(rw, r, infos)
-			} else {
-				if rw.Header().Get("Content-Type") == "" {
-					rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
+				rec.Formatter.FormatPanicError(out, r, infos)
+				if !out.wroteHeader {
+					out.WriteHeader(http.StatusInternalServerError)
 				}
-				fmt.Fprint(rw, NoPrintStackBodyString)
+			} else {
+				if out.Header().Get("Content-Type") == "" {
+					out.Header().Set("Content-Type", "text/plain; charset=utf-8")
+				}
+				out.WriteHeader(http.StatusInternalServerError)
+				fmt.Fprint(out, NoPrintStackBodyString)
 			}
 
 			if rec.LogStack {
