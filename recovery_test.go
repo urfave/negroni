@@ -199,3 +199,29 @@ func TestRecovery_customFormatterHeaders(t *testing.T) {
 	expect(t, recorder.Header().Get("Content-Type"), "application/json")
 	expect(t, strings.Contains(recorder.Body.String(), "boom"), true)
 }
+
+type negroniWriterCheckFormatter struct {
+	sawNegroniWriter bool
+}
+
+func (f *negroniWriterCheckFormatter) FormatPanicError(rw http.ResponseWriter, r *http.Request, infos *PanicInformation) {
+	_, f.sawNegroniWriter = rw.(ResponseWriter)
+}
+
+func TestRecovery_formatterReceivesNegroniResponseWriter(t *testing.T) {
+	recorder := httptest.NewRecorder()
+	formatter := &negroniWriterCheckFormatter{}
+
+	rec := NewRecovery()
+	rec.Logger = log.New(bytes.NewBuffer([]byte{}), "[negroni] ", 0)
+	rec.Formatter = formatter
+
+	n := New()
+	n.Use(rec)
+	n.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+		panic("boom")
+	}))
+	n.ServeHTTP(recorder, httptest.NewRequest("GET", "/", nil))
+
+	expect(t, formatter.sawNegroniWriter, true)
+}

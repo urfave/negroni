@@ -159,7 +159,7 @@ func NewRecovery() *Recovery {
 // PanicFormatter implementations to set headers (e.g. Content-Type) first.
 // Calling WriteHeader before FormatPanicError made those header updates a no-op (#241).
 type recoveryWriter struct {
-	http.ResponseWriter
+	ResponseWriter
 	wroteHeader bool
 }
 
@@ -189,7 +189,11 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			}
 			infos.Stack = infos.Stack[:runtime.Stack(infos.Stack, rec.StackAll)]
 
-			out := &recoveryWriter{ResponseWriter: rw}
+			responseWriter, ok := rw.(ResponseWriter)
+			if !ok {
+				responseWriter = NewResponseWriter(rw)
+			}
+			out := &recoveryWriter{ResponseWriter: responseWriter}
 
 			// PrintStack will write stack trace info to the ResponseWriter if set to true!
 			// If set to false it will respond with the standard response documented here https://httpstat.us/500
