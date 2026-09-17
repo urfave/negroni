@@ -7,7 +7,7 @@ import (
 	"os"
 	"runtime"
 	"runtime/debug"
-	"text/template"
+	"html/template"
 )
 
 const (
