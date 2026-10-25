@@ -2,6 +2,13 @@
 
 **ATTN**: This project uses [semantic versioning](http://semver.org/).
 
+## [3.1.2] - [2026-10-25]
+
+### Fixed
+
+- The recovery handler now uses html/template to render to avoid potential CORS
+  vulnerability by escaping responses.
+
 ## [3.1.1] - [2024-06-04]
 
 ### Fixed
