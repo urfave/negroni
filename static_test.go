@@ -111,3 +111,20 @@ func TestStaticOptionsPrefix(t *testing.T) {
 	n.ServeHTTP(response, req)
 	expect(t, response.Code, http.StatusOK)
 }
+
+func TestStaticRedirectPreservesQuery(t *testing.T) {
+	response := httptest.NewRecorder()
+
+	n := New()
+	s := NewStatic(http.Dir("."))
+	n.Use(s)
+
+	req, err := http.NewRequest("GET", "http://localhost:3000/translations?lang=id", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	n.ServeHTTP(response, req)
+	expect(t, response.Code, http.StatusFound)
+	expect(t, response.Header().Get("Location"), "/translations/?lang=id")
+}

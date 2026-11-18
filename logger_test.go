@@ -84,3 +84,38 @@ func Test_LoggerCustomFormat(t *testing.T) {
 	n.ServeHTTP(recorder, req)
 	expect(t, strings.TrimSpace(buff.String()), "[negroni] bar "+userAgent+" - 200")
 }
+
+func Test_LoggerUnwrappedResponseWriter(t *testing.T) {
+	var buff bytes.Buffer
+	recorder := httptest.NewRecorder()
+
+	l := NewLogger()
+	l.ALogger = log.New(&buff, "[negroni] ", 0)
+	l.SetFormat("{{.Status}}")
+
+	// Call ServeHTTP directly with a standard http.ResponseWriter (not pre-wrapped in ResponseWriter)
+	req, _ := http.NewRequest("GET", "http://localhost:3000/test", nil)
+	l.ServeHTTP(recorder, req, func(rw http.ResponseWriter, r *http.Request) {
+		rw.WriteHeader(http.StatusTeapot)
+	})
+
+	expect(t, recorder.Code, http.StatusTeapot)
+	expect(t, strings.TrimSpace(buff.String()), "[negroni] 418")
+}
+
+func Test_LoggerNilSafety(t *testing.T) {
+	// Logger without initialized template, dateFormat, or ALogger
+	l := &Logger{}
+	recorder := httptest.NewRecorder()
+	req := &http.Request{
+		Method: "GET",
+		Host:   "example.com",
+		URL:    nil, // nil URL
+	}
+
+	// Should not panic
+	l.ServeHTTP(recorder, req, func(rw http.ResponseWriter, r *http.Request) {
+		rw.WriteHeader(http.StatusOK)
+	})
+	expect(t, recorder.Code, http.StatusOK)
+}

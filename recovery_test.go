@@ -225,3 +225,44 @@ func TestRecovery_formatterReceivesNegroniResponseWriter(t *testing.T) {
 
 	expect(t, formatter.sawNegroniWriter, true)
 }
+
+func TestRecovery_NilLoggerAndZeroStackSize(t *testing.T) {
+	recorder := httptest.NewRecorder()
+	rec := &Recovery{
+		Logger:     nil, // nil logger should not panic
+		PrintStack: true,
+		LogStack:   true,
+		StackSize:  0, // should default safely
+		Formatter:  &TextPanicFormatter{},
+		ErrorHandlerFunc: func(err interface{}) {
+			// test error handler panic recovery with nil logger
+			panic("error handler panic")
+		},
+		PanicHandlerFunc: func(info *PanicInformation) {
+			// test panic handler panic recovery with nil logger
+			panic("panic handler panic")
+		},
+	}
+
+	n := New(rec)
+	n.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+		panic("initial panic")
+	}))
+
+	// Should not crash even with nil logger and panicking handlers
+	n.ServeHTTP(recorder, httptest.NewRequest("GET", "/", nil))
+	expect(t, recorder.Code, http.StatusInternalServerError)
+}
+
+func TestPanicInformation_NilURL(t *testing.T) {
+	req := &http.Request{
+		Method: "GET",
+		URL:    nil,
+	}
+	info := &PanicInformation{
+		RecoveredPanic: "oops",
+		Request:        req,
+	}
+	desc := info.RequestDescription()
+	expect(t, desc, "GET")
+}

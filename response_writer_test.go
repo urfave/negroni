@@ -236,6 +236,54 @@ func TestResponseWriterCloseNotify(t *testing.T) {
 	expect(t, closed, true)
 }
 
+type onlyCloseNotifier struct {
+	header http.Header
+	closed chan bool
+}
+
+func (c *onlyCloseNotifier) Header() http.Header         { return c.header }
+func (c *onlyCloseNotifier) Write(b []byte) (int, error) { return len(b), nil }
+func (c *onlyCloseNotifier) WriteHeader(code int)        {}
+func (c *onlyCloseNotifier) CloseNotify() <-chan bool    { return c.closed }
+
+func TestResponseWriterCloseNotifierOnly(t *testing.T) {
+	raw := &onlyCloseNotifier{
+		header: make(http.Header),
+		closed: make(chan bool, 1),
+	}
+	rw := NewResponseWriter(raw)
+
+	cn, ok := rw.(http.CloseNotifier)
+	expect(t, ok, true)
+	if !ok {
+		t.Fatal("expected rw to implement http.CloseNotifier")
+	}
+
+	_, isFlusher := rw.(http.Flusher)
+	expect(t, isFlusher, false)
+
+	_, isHijacker := rw.(http.Hijacker)
+	expect(t, isHijacker, false)
+
+	closed := false
+	raw.closed <- true
+	select {
+	case <-cn.CloseNotify():
+		closed = true
+	case <-time.After(time.Second):
+	}
+	expect(t, closed, true)
+}
+
+func TestResponseWriterBeforeNilSafety(t *testing.T) {
+	rec := httptest.NewRecorder()
+	rw := NewResponseWriter(rec)
+
+	rw.Before(nil)
+	rw.WriteHeader(http.StatusOK)
+	expect(t, rw.Status(), http.StatusOK)
+}
+
 func TestResponseWriterNonCloseNotify(t *testing.T) {
 	rw := NewResponseWriter(httptest.NewRecorder())
 	_, ok := rw.(http.CloseNotifier)
