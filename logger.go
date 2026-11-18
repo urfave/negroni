@@ -58,20 +58,48 @@ func (l *Logger) SetDateFormat(format string) {
 func (l *Logger) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	start := time.Now()
 
+	res, ok := rw.(ResponseWriter)
+	if !ok {
+		res = NewResponseWriter(rw)
+		rw = res
+	}
+
 	next(rw, r)
 
-	res := rw.(ResponseWriter)
+	dateFormat := l.dateFormat
+	if dateFormat == "" {
+		dateFormat = LoggerDefaultDateFormat
+	}
+
+	path := ""
+	host := ""
+	method := ""
+	if r != nil {
+		host = r.Host
+		method = r.Method
+		if r.URL != nil {
+			path = r.URL.Path
+		}
+	}
+
 	log := LoggerEntry{
-		StartTime: start.Format(l.dateFormat),
+		StartTime: start.Format(dateFormat),
 		Status:    res.Status(),
 		Duration:  time.Since(start),
-		Hostname:  r.Host,
-		Method:    r.Method,
-		Path:      r.URL.Path,
+		Hostname:  host,
+		Method:    method,
+		Path:      path,
 		Request:   r,
 	}
 
+	tmpl := l.template
+	if tmpl == nil {
+		tmpl = template.Must(template.New("negroni_parser").Parse(LoggerDefaultFormat))
+	}
+
 	buff := &bytes.Buffer{}
-	l.template.Execute(buff, log)
-	l.Println(buff.String())
+	tmpl.Execute(buff, log)
+	if l.ALogger != nil {
+		l.Println(buff.String())
+	}
 }

@@ -106,7 +106,9 @@ func (rw *responseWriter) Written() bool {
 }
 
 func (rw *responseWriter) Before(before func(ResponseWriter)) {
-	rw.beforeFuncs = append(rw.beforeFuncs, before)
+	if before != nil {
+		rw.beforeFuncs = append(rw.beforeFuncs, before)
+	}
 }
 
 func (rw *responseWriter) callBefore() {
@@ -120,6 +122,8 @@ func (rw *responseWriter) callBefore() {
 	defer func() { rw.callingBefores = false }()
 
 	for i := len(rw.beforeFuncs) - 1; i >= 0; i-- {
-		rw.beforeFuncs[i](rw)
+		if rw.beforeFuncs[i] != nil {
+			rw.beforeFuncs[i](rw)
+		}
 	}
 }
