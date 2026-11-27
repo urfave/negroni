@@ -198,17 +198,27 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 			// PrintStack will write stack trace info to the ResponseWriter if set to true!
 			// If set to false it will respond with the standard response documented here https://httpstat.us/500
 			// Headers must be set before WriteHeader/Write so custom formatters can control Content-Type (#241).
+			// If the response has already been committed, the 500 status can no
+			// longer be sent and nothing may be written anymore: appending panic
+			// details would only corrupt the in-flight response and leak internals
+			// into what still looks like a successful answer to the client (#269).
+			// The panic is still logged and the handler callbacks still run.
+			committed := responseWriter.Written()
 			if rec.PrintStack && rec.Formatter != nil {
-				rec.Formatter.FormatPanicError(out, r, infos)
-				if !out.wroteHeader {
-					out.WriteHeader(http.StatusInternalServerError)
+				if !committed {
+					rec.Formatter.FormatPanicError(out, r, infos)
+					if !out.wroteHeader {
+						out.WriteHeader(http.StatusInternalServerError)
+					}
 				}
 			} else {
-				if out.Header().Get("Content-Type") == "" {
-					out.Header().Set("Content-Type", "text/plain; charset=utf-8")
+				if !committed {
+					if out.Header().Get("Content-Type") == "" {
+						out.Header().Set("Content-Type", "text/plain; charset=utf-8")
+					}
+					out.WriteHeader(http.StatusInternalServerError)
+					fmt.Fprint(out, NoPrintStackBodyString)
 				}
-				out.WriteHeader(http.StatusInternalServerError)
-				fmt.Fprint(out, NoPrintStackBodyString)
 			}
 
 			if rec.LogStack {
