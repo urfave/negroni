@@ -68,7 +68,11 @@ func (s *Static) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.Ha
 			if strings.HasPrefix(r.URL.Path, "//") {
 				r.URL.Path = "/" + strings.TrimLeft(r.URL.Path, "/")
 			}
-			http.Redirect(rw, r, r.URL.Path+"/", http.StatusFound)
+			redirectURL := r.URL.Path + "/"
+			if r.URL.RawQuery != "" {
+				redirectURL += "?" + r.URL.RawQuery
+			}
+			http.Redirect(rw, r, redirectURL, http.StatusFound)
 			return
 		}
 
