@@ -55,8 +55,8 @@ func initFeaturePicker() {
 	featurePicker[closeNotifier] = func(w *responseWriter) ResponseWriter {
 		return struct {
 			*responseWriter
-			http.Flusher
-		}{w, flusherFeature{w}}
+			http.CloseNotifier
+		}{w, closeNotifierFeature{w}}
 	}
 	featurePicker[flusher|hijacker] = func(w *responseWriter) ResponseWriter {
 		return struct {
