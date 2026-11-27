@@ -81,6 +81,11 @@ type Negroni struct {
 
 // New returns a new Negroni instance with no middleware preconfigured.
 func New(handlers ...Handler) *Negroni {
+	for _, h := range handlers {
+		if h == nil {
+			panic("handler cannot be nil")
+		}
+	}
 	return &Negroni{
 		handlers:   handlers,
 		middleware: build(handlers),
