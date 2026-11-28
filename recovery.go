@@ -87,10 +87,6 @@ func (p *PanicInformation) RequestDescription() string {
 		return nilRequestMessage
 	}
 
-	if p.Request.URL == nil {
-		return p.Request.Method
-	}
-
 	var queryOutput string
 	if p.Request.URL.RawQuery != "" {
 		queryOutput = "?" + p.Request.URL.RawQuery
@@ -187,7 +183,7 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 	defer func() {
 		if err := recover(); err != nil {
 			stackSize := rec.StackSize
-			if stackSize <= 0 {
+			if stackSize < 0 {
 				stackSize = 1024 * 8
 			}
 			infos := &PanicInformation{

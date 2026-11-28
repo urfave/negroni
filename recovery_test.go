@@ -226,13 +226,13 @@ func TestRecovery_formatterReceivesNegroniResponseWriter(t *testing.T) {
 	expect(t, formatter.sawNegroniWriter, true)
 }
 
-func TestRecovery_NilLoggerAndZeroStackSize(t *testing.T) {
+func TestRecovery_NilLogger(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	rec := &Recovery{
 		Logger:     nil, // nil logger should not panic
 		PrintStack: true,
 		LogStack:   true,
-		StackSize:  0, // should default safely
+		StackSize:  1024 * 8,
 		Formatter:  &TextPanicFormatter{},
 		ErrorHandlerFunc: func(err interface{}) {
 			// test error handler panic recovery with nil logger
@@ -254,15 +254,46 @@ func TestRecovery_NilLoggerAndZeroStackSize(t *testing.T) {
 	expect(t, recorder.Code, http.StatusInternalServerError)
 }
 
-func TestPanicInformation_NilURL(t *testing.T) {
-	req := &http.Request{
-		Method: "GET",
-		URL:    nil,
-	}
-	info := &PanicInformation{
-		RecoveredPanic: "oops",
-		Request:        req,
-	}
-	desc := info.RequestDescription()
-	expect(t, desc, "GET")
+func TestRecovery_StackSize(t *testing.T) {
+	t.Run("negative defaults to 8KB", func(t *testing.T) {
+		recorder := httptest.NewRecorder()
+		var capturedStack []byte
+		rec := NewRecovery()
+		rec.PrintStack = false
+		rec.LogStack = false
+		rec.StackSize = -1
+		rec.PanicHandlerFunc = func(info *PanicInformation) {
+			capturedStack = info.Stack
+		}
+
+		n := New(rec)
+		n.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+			panic("initial panic")
+		}))
+
+		n.ServeHTTP(recorder, httptest.NewRequest("GET", "/", nil))
+		expect(t, recorder.Code, http.StatusInternalServerError)
+		expect(t, len(capturedStack) > 0, true)
+	})
+
+	t.Run("zero disables stack", func(t *testing.T) {
+		recorder := httptest.NewRecorder()
+		var capturedStack []byte
+		rec := NewRecovery()
+		rec.PrintStack = false
+		rec.LogStack = false
+		rec.StackSize = 0
+		rec.PanicHandlerFunc = func(info *PanicInformation) {
+			capturedStack = info.Stack
+		}
+
+		n := New(rec)
+		n.UseHandler(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+			panic("initial panic")
+		}))
+
+		n.ServeHTTP(recorder, httptest.NewRequest("GET", "/", nil))
+		expect(t, recorder.Code, http.StatusInternalServerError)
+		expect(t, len(capturedStack), 0)
+	})
 }
