@@ -160,6 +160,17 @@ func TestNegroni_Use_Nil(t *testing.T) {
 	n.Use(nil)
 }
 
+func TestNegroni_New_Nil(t *testing.T) {
+	defer func() {
+		err := recover()
+		if err == nil {
+			t.Errorf("Expected negroni.New(nil) to panic, but it did not")
+		}
+	}()
+
+	New(nil)
+}
+
 func TestDetectAddress(t *testing.T) {
 	if detectAddress() != DefaultAddress {
 		t.Error("Expected the DefaultAddress")
