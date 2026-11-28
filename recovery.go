@@ -182,10 +182,14 @@ func (w *recoveryWriter) Write(b []byte) (int, error) {
 func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	defer func() {
 		if err := recover(); err != nil {
+			stackSize := rec.StackSize
+			if stackSize < 0 {
+				stackSize = 1024 * 8
+			}
 			infos := &PanicInformation{
 				RecoveredPanic: err,
 				Request:        r,
-				Stack:          make([]byte, rec.StackSize),
+				Stack:          make([]byte, stackSize),
 			}
 			infos.Stack = infos.Stack[:runtime.Stack(infos.Stack, rec.StackAll)]
 
@@ -221,7 +225,7 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 				}
 			}
 
-			if rec.LogStack {
+			if rec.LogStack && rec.Logger != nil {
 				rec.Logger.Printf(panicText, err, infos.Stack)
 			}
 
@@ -229,8 +233,10 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 				func() {
 					defer func() {
 						if err := recover(); err != nil {
-							rec.Logger.Printf("provided ErrorHandlerFunc panic'd: %s, trace:\n%s", err, debug.Stack())
-							rec.Logger.Printf("%s\n", debug.Stack())
+							if rec.Logger != nil {
+								rec.Logger.Printf("provided ErrorHandlerFunc panic'd: %s, trace:\n%s", err, debug.Stack())
+								rec.Logger.Printf("%s\n", debug.Stack())
+							}
 						}
 					}()
 					rec.ErrorHandlerFunc(err)
@@ -240,8 +246,10 @@ func (rec *Recovery) ServeHTTP(rw http.ResponseWriter, r *http.Request, next htt
 				func() {
 					defer func() {
 						if err := recover(); err != nil {
-							rec.Logger.Printf("provided PanicHandlerFunc panic'd: %s, trace:\n%s", err, debug.Stack())
-							rec.Logger.Printf("%s\n", debug.Stack())
+							if rec.Logger != nil {
+								rec.Logger.Printf("provided PanicHandlerFunc panic'd: %s, trace:\n%s", err, debug.Stack())
+								rec.Logger.Printf("%s\n", debug.Stack())
+							}
 						}
 					}()
 					rec.PanicHandlerFunc(infos)
